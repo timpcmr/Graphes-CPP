@@ -154,10 +154,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CException.cpp" />
+    <ClCompile Include="CFichier.cpp" />
     <ClCompile Include="mainGraphes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CArc.h" />
+    <ClInclude Include="CException.h" />
+    <ClInclude Include="CFichier.h" />
     <ClInclude Include="CGraphe.h" />
     <ClInclude Include="CSommet.h" />
   </ItemGroup>
