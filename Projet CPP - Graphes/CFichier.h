@@ -15,8 +15,8 @@
 #define EXCCheminNul 1
 #define EXCFichierNonOuvert 2
 #define EXCErrTypeMat 3
-#define EXCDimLigneNeg 4
-#define EXCDimColonneNeg 5
+#define EXCNbSommetsNeg 4
+#define EXCNbArcsNeg 5
 #define EXCParserPointeurNul 6
 #define EXCTokenNulMinuscule 7
 #define EXCTokenNulSuppEspace 8
@@ -24,8 +24,9 @@
 #define EXCColonneDimInf 10
 #define EXCLigneDimSup 11
 #define EXCLigneDimInf 12
-#define EXCBoucleInfinie 21
-#define EXCLigneNulle 22
+#define EXCBoucleInfinie 13
+#define EXCLigneNulle 14
+#define EXCBaliseIncorrecte 15
 
 
 class Cfichier {
@@ -65,6 +66,8 @@ public:
 	**** Entraîne : Supprime un charactère c d'une chaine de caractère pcChaine passée en paramètre				   ****
 	******************************************************************************************************************/
 	static void FICSupp_char(char* pcChaine, const char cCharactere);
+
+	static bool FICVerifBalise(char* pcToken, const char* pcNomBalise);
 };
 
 #endif

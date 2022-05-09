@@ -10,24 +10,30 @@ using namespace std;
 **** Sorties :	CMatrice MATretour																   ****
 **** Entraîne : Renvoie la matrice du fichier texte dont le chemin pcChemin est passé en paramètre ****
 ******************************************************************************************************/
-CMatrices<double> Cfichier::FICLireFichier(const char* pcChemin)
+CGraphe Cfichier::FICLireFichier(const char* pcChemin)
 {
 	if (pcChemin == nullptr) {
 		throw CException(EXCCheminNul);
 	}
 	ifstream fichier(pcChemin);
 
-	unsigned int uiparsedLignes, uiparsedColonnes, uiboucle1, uiboucle2;
+	unsigned int uiNbSommets, uiNbArcs, uiboucle1, uiboucle2;
 
 	if (fichier.is_open()) {
 
 		char* pcLigne = new char[STR_LENGTH];
 
-		//On récupère le type de données
+		//On récupère le nombre de sommets
 
 		FICLigneSuivante(pcLigne, fichier);
 
 		char *pcToken = strtok(pcLigne, "=");
+		
+		if (!FICVerifBalise(pcToken, "sommet")) {
+			delete[] pcLigne;
+			throw CException(EXCBaliseIncorrecte);
+		}
+		
 		pcToken = strtok(NULL, "=");
 
 		if (pcToken == nullptr) {
@@ -35,112 +41,38 @@ CMatrices<double> Cfichier::FICLireFichier(const char* pcChemin)
 			delete[] pcLigne;
 			throw CException(EXCParserPointeurNul);
 		}
-
-		if (strcmp(FICMinuscule(pcToken), "double") == 0) {
-
-			//On récupère le nombre de lignes
-			FICLigneSuivante(pcLigne, fichier);
-
-			pcToken = strtok(pcLigne, "=");
-			pcToken = strtok(NULL, "=");
-
-			if (pcToken == nullptr) {
-				delete[] pcLigne;
-				throw CException(EXCParserPointeurNul);
-			}
-			//On veut une dimension minimum égale à 1
-			else if (atoi(pcToken) <= 0) {
-				delete[] pcLigne;
-				throw CException(EXCDimLigneNeg);
-			}
-
-			uiparsedLignes = (unsigned int)(atoi(pcToken));
-
-			//On récupère le nombre de colonnes
-			FICLigneSuivante(pcLigne, fichier);
-
-			pcToken = strtok(pcLigne, "=");
-			pcToken = strtok(NULL, "=");
-
-			if (pcToken == nullptr) {
-				delete[] pcLigne;
-				throw CException(EXCParserPointeurNul);
-			}
-			//On veut une dimension minimum égale à 1
-			else if (atoi(pcToken) <= 0) {
-				delete[] pcLigne;
-				throw CException(EXCDimColonneNeg);
-			}
-
-			uiparsedColonnes = (unsigned int)(atoi(pcToken));
-
-			//Instanciation de la matrice de retour aux bonnes dimensions
-
-			CMatrices<double> MATretour(uiparsedLignes, uiparsedColonnes);
-
-			//On saute la ligne Matrice=[
-			FICLigneSuivante(pcLigne, fichier);
-
-			//Et on commence à récupérer les valeurs
-			
-			for (uiboucle1 = 0; uiboucle1 < uiparsedLignes; uiboucle1++) {
-				//On cherche la première/suivante ligne de valeurs non nulle
-
-				unsigned int uiCompteur = 0;
-				do {
-					fichier.getline(pcLigne, STR_LENGTH);
-					uiCompteur++;
-					if (uiCompteur == MAX_LOOPING) throw CException(EXCBoucleInfinie);
-				} while (pcLigne[0] == '\n' || pcLigne[0] == '\0' || pcLigne[0] == '\r');
-				
-				//On teste si il y a un tab en début de ligne, si oui on le supprime et ceux 
-				//dans la ligne, cette fois on ne supprime pas les espaces vu que ce sont les séparateurs de valeurs
-				
-				if (pcLigne[0] == '\t') {
-					FICSupp_char(pcLigne, '\t');
-				}
-								
-				pcToken = strtok(pcLigne, " ");
-
-				if (pcToken[0] == ']') {
-					delete[] pcLigne;
-					throw CException(EXCLigneDimSup);
-				}
-
-				MATretour.MATModifierCase(uiboucle1, 0, atof(pcToken));
-
-				for (uiboucle2 = 1; uiboucle2 < uiparsedColonnes; uiboucle2++) {
-					pcToken = strtok(NULL, " ");
-
-					if (pcToken == nullptr) {
-						delete[] pcLigne;
-						throw CException(EXCColonneDimSup);
-					}
-
-					MATretour.MATModifierCase(uiboucle1, uiboucle2, atof(pcToken));
-				}
-				pcToken = strtok(NULL, " ");
-
-				if (pcToken != nullptr) {
-					delete[] pcLigne;
-					throw CException(EXCColonneDimInf);
-				}
-
-			}
-
-			FICLigneSuivante(pcLigne, fichier);
-
-			if (pcLigne[0] != ']') {
-				delete[] pcLigne;
-				throw CException(EXCLigneDimInf);
-			}
-
-			return MATretour;
-		}
-		else {
+		//On veut une dimension minimum égale à 1
+		else if (atoi(pcToken) <= 0) {
 			delete[] pcLigne;
-			throw CException(EXCErrTypeMat);
+			throw CException(EXCNbSommetsNeg);
 		}
+		
+		uiNbSommets = (unsigned int)(atoi(pcToken));
+
+		//On récupère le nombre d'arcs
+
+		FICLigneSuivante(pcLigne, fichier);
+
+		char* pcToken = strtok(pcLigne, "=");
+
+		if (!FICVerifBalise(pcToken, "arc")) {
+			delete[] pcLigne;
+			throw CException(EXCBaliseIncorrecte);
+		}
+
+		pcToken = strtok(NULL, "=");
+
+		if (pcToken == nullptr) {//Toutes les exceptions gerent la libération de la mémoire occupée par pcLigne
+			delete[] pcLigne;
+			throw CException(EXCParserPointeurNul);
+		}
+		//On veut une dimension minimum égale à 1
+		else if (atoi(pcToken) <= 0) {
+			delete[] pcLigne;
+			throw CException(EXCNbArcsNeg);
+		}
+
+		uiNbArcs = (unsigned int)(atoi(pcToken));
 
 		delete[] pcLigne;
 	}
@@ -226,4 +158,14 @@ void Cfichier::FICSupp_char(char* pcChaine, const char cCharactere)
 		}
 	}
 	pcChaine[uiboucle1] = '\0';
+}
+
+bool Cfichier::FICVerifBalise(char* pcToken,const char* pcNomBalise)
+{
+	if (strstr(FICMinuscule(pcToken), pcNomBalise) == nullptr) {
+		return false;
+	}
+	else {
+		return true;
+	}
 }

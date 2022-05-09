@@ -6,7 +6,8 @@ private :
 
 	//Attributs
 	int iSOMNumero;
-	unsigned int uiSOMNbArcsSommet;
+	unsigned int uiSOMNbArcsSommetSortants;
+	unsigned int uiSOMNbArcsSommetEntrants;
 	CArc** ppARCSOMEntrant;
 	CArc** ppARCSOMSortant;
 public :
@@ -14,12 +15,13 @@ public :
 	//Constructeurs & Destructeurs
 	CSommet();
 	CSommet(CSommet &SOMParam);
-	CSommet(int iNumero, unsigned int uiNbArcSommet);
+	CSommet(int iNumero, unsigned int uiNbArcSommetEntrants, unsigned int uiNbArcSommetSortants);
 	~CSommet();
 
 	//Accesseurs
 	int SOMLireNumero();
-	unsigned int SOMLireNbArcs();
+	unsigned int SOMLireNbArcsEntrants();
+	unsigned int SOMLireNbArcsSortants();
 	CArc ** SOMLireArcsSortants();
 	CArc ** SOMLireArcsEntrants();
 
@@ -29,5 +31,9 @@ public :
 	void SOMSupprimerArcEntrant(CArc* pARCArc);
 	void SOMAjouterArcSortant(CArc* pARCArc);
 	void SOMSupprimerArcSortant(CArc* pARCArc);
+
+	//Surcharges
+
+
 
 };

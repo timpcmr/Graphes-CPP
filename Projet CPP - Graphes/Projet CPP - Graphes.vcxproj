@@ -154,8 +154,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CArc.cpp" />
     <ClCompile Include="CException.cpp" />
     <ClCompile Include="CFichier.cpp" />
+    <ClCompile Include="CGraphe.cpp" />
+    <ClCompile Include="CSommet.cpp" />
     <ClCompile Include="mainGraphes.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -15,8 +15,7 @@ public :
 
 	//Constructeur & Destructeur
 	CGraphe();
-	CGraphe(CGraphe &GRAParam);
-	CGraphe(CSommet SOMSommet, bool bOriente);
+	CGraphe(unsigned int uiNbSommet);
 	~CGraphe();
 
 	//Accesseurs
