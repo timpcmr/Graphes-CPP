@@ -10,8 +10,8 @@ public :
 
 	//Constructeurs & Destructeurs
 	CArc();
-	CArc(CArc &ARCParam);
-	CArc(CSommet& pSOMParam);
+	CArc(CArc& ARCParam);
+	CArc(CSommet& SOMParam);
 	~CArc();
 
 	//Accesseur
