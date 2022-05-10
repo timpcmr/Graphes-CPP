@@ -2,6 +2,11 @@
 #include "CSommet.h"
 #include "CArc.h"
 #include "CException.h"
+
+#define entrant 0
+#define sortant 1
+#define EXCAucunParamRecherche 20
+
 class CGraphe {
 private :
 
@@ -25,12 +30,14 @@ public :
 	bool GRALireType();
 
 	//Modifieurs
-	void GRAModifierNbArcs(unsigned int uiNombre);
+	void GRAAjouterArc(CSommet& SOMDepart, CSommet& SOMArrivee);
+	void GRASupprimerArc(CArc* pARCParam);
 	void GRAModifierType(bool bType);
 	void GRAAjouterSommet(CSommet SOMSommet);
 	void GRASupprimerSommet(CSommet SOMSommet);
 
 	//Méthodes
+	CSommet& GRARechercheArc(CArc * pARCParam, int iParam);
 	void GRAAffichage();
 	void GRAInversion();
 	

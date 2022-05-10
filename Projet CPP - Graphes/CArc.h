@@ -11,7 +11,7 @@ public :
 	//Constructeurs & Destructeurs
 	CArc();
 	CArc(CArc &ARCParam);
-	CArc(CSommet* pSOMParam);
+	CArc(CSommet& pSOMParam);
 	~CArc();
 
 	//Accesseur
