@@ -32,13 +32,13 @@ public :
 	//Modifieurs
 	void GRAAjouterArc(CSommet& SOMDepart, CSommet& SOMArrivee);
 	void GRASupprimerArc(CArc* pARCParam);
-	void GRAModifierType(bool bType);
-	void GRAAjouterSommet(CSommet SOMSommet);
-	void GRASupprimerSommet(CSommet SOMSommet);
+	void GRAAjouterSommet(CSommet& SOMSommet);
+	void GRASupprimerSommet(CSommet& SOMSommet);
 
 	//Méthodes
 	CSommet& GRARechercheArc(CArc * pARCParam, int iParam);
 	void GRAAffichage();
 	void GRAInversion();
+	void GRANonOriente();
 	
 };
