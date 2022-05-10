@@ -112,3 +112,14 @@ CSommet& CGraphe::GRARechercheArc(CArc* pARCParam, int iParam)
 		throw CException(EXCAucunParamRecherche);
 	}
 }
+
+CSommet& CGraphe::GRARechercheSommet(int iVal)
+{
+	unsigned int uiboucle;
+	for (uiboucle = 0; uiboucle < GRALireNbSommet(); uiboucle++) {
+		if (GRALireSommets()[uiboucle].SOMLireNumero() == iVal) {
+			return GRALireSommets()[uiboucle];
+		}
+	}
+	throw CException(EXCValeurSommetIntrouvable);
+}

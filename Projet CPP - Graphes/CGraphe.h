@@ -6,6 +6,7 @@
 #define entrant 0
 #define sortant 1
 #define EXCAucunParamRecherche 20
+#define EXCValeurSommetIntrouvable 21
 
 class CGraphe {
 private :
@@ -37,6 +38,7 @@ public :
 
 	//Méthodes
 	CSommet& GRARechercheArc(CArc * pARCParam, int iParam);
+	CSommet& GRARechercheSommet(int iVal);
 	void GRAAffichage();
 	void GRAInversion();
 	void GRANonOriente();
