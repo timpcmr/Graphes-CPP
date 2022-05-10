@@ -40,10 +40,10 @@ CSommet::CSommet(int iNumero, unsigned int uiNbArcSommetEntrants, unsigned int u
     ppARCSOMSortant = new CArc * [uiSOMNbArcsSommetSortants];
 
     for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetEntrants; uiboucle1++) {
-        ppARCSOMEntrant[uiboucle1] = new CArc();
+        ppARCSOMEntrant[uiboucle1] = new CArc;
     }
     for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetSortants; uiboucle1++) {
-        ppARCSOMSortant[uiboucle1] = new CArc();
+        ppARCSOMSortant[uiboucle1] = new CArc;
     }
 }
 
@@ -75,4 +75,37 @@ CArc** CSommet::SOMLireArcsEntrants()
 void CSommet::SOMModifierNumero(int iNumero)
 {
     iSOMNumero = iNumero;
+}
+
+void CSommet::SOMAjouterArcEntrant(CArc* pARCArc)
+{
+    unsigned int uiboucle;
+
+    CArc** ppARCTemp = new CArc * [SOMLireNbArcsEntrants() + 1];
+    for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants() + 1; uiboucle++) {
+        ppARCTemp[uiboucle] = new CArc;
+    }
+
+    //Copie des Arcs + affectation du nouvel arc
+
+    for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants() + 1; uiboucle++) {
+        if (uiboucle == SOMLireNbArcsEntrants()) {
+            ppARCTemp[uiboucle] = pARCArc;
+        }
+        else {
+            ppARCTemp[uiboucle] = SOMLireArcsEntrants()[uiboucle];
+        }
+    }
+    
+    //Deletion de l'ancien tableau
+
+    for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants(); uiboucle++) {
+        delete[] ppARCSOMEntrant[uiboucle];
+    }
+    delete[] ppARCSOMEntrant;
+
+    //Affectation des nouvelles valeurs
+
+    ppARCSOMEntrant = ppARCTemp;
+    uiSOMNbArcsSommetEntrants += 1;
 }
