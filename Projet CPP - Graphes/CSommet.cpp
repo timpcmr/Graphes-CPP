@@ -51,6 +51,17 @@ CSommet::CSommet(int iNumero, unsigned int uiNbArcSommetEntrants, unsigned int u
 
 CSommet::~CSommet()
 {
+    unsigned int uiboucle;
+
+    for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants(); uiboucle++) {
+        delete[] ppARCSOMEntrant[uiboucle];
+    }
+    delete[] ppARCSOMEntrant;
+
+    for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants(); uiboucle++) {
+        delete[] ppARCSOMSortant[uiboucle];
+    }
+    delete[] ppARCSOMSortant;
 }
 
 

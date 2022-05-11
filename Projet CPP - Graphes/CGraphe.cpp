@@ -66,6 +66,28 @@ void CGraphe::GRAAjouterSommet(CSommet& SOMSommet)
 	uiGRANbSommet++;
 }
 
+void CGraphe::GRASupprimerSommet(CSommet& SOMSommet)
+{
+	unsigned int uiboucle1, uiboucle2;
+
+	//Suppression des arcs sortants du tableau des arcs entrants des sommets pointes
+	for (uiboucle1 = 0; uiboucle1 < SOMSommet.SOMLireNbArcsSortants(); uiboucle1++) {
+		SOMSommet.SOMLireArcsSortants()[uiboucle1]->ARCLireDestination()->SOMSupprimerArcEntrant(SOMSommet.SOMLireArcsSortants()[uiboucle1]);
+	}
+
+	//Suppression des arcs entrants des tableaux des encrs sortants qui pointent sur SOMSommet
+	for (uiboucle1 = 0; uiboucle1 < GRALireNbSommet(); uiboucle1++) {
+		for (uiboucle2 = 0; uiboucle2 < GRALireSommets()[uiboucle1].SOMLireNbArcsSortants(); uiboucle2++) {
+			if (GRALireSommets()[uiboucle1].SOMLireArcsSortants()[uiboucle2]->ARCLireDestination() == &SOMSommet) {
+				GRALireSommets()[uiboucle1].SOMSupprimerArcSortant(GRALireSommets()[uiboucle1].SOMLireArcsSortants()[uiboucle2]);
+			}
+		}
+	}
+
+	//Suppression du sommet
+	SOMSommet.~CSommet();
+}
+
 CSommet& CGraphe::GRARechercheArc(CArc* pARCParam, int iParam)
 {
 	unsigned int uiboucle, uiboucle2;
