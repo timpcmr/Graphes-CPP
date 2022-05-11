@@ -13,15 +13,9 @@ CGraphe::CGraphe()
 	bGRAOriente = true;
 }
 
-CGraphe::CGraphe(unsigned int uiNbSommet)
+CGraphe::~CGraphe()
 {
-	uiGRANbArcs = uiNbSommet;
-	uiGRANbSommet = 0;
-	bGRAOriente = true;
-
-	pSOMGRAListeSommet = new CSommet[uiGRANbSommet];
 }
-
 
 CSommet* CGraphe::GRALireSommets()
 {

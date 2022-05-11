@@ -1,8 +1,6 @@
 #include "CFichier.h"
 #pragma warning(disable : 4996)
 
-using namespace std;
-
 
 /******************************************************************************************************
 **** Entrées : char* pcChemin																	   ****

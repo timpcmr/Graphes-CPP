@@ -1,7 +1,6 @@
 #ifndef FIC
 #define FIC
 #include "CGraphe.h"
-#include "CException.h"
 #include <iostream>
 #include <cstring>
 #include <cstdio>
@@ -28,8 +27,9 @@
 #define EXCLigneNulle 14
 #define EXCBaliseIncorrecte 15
 
+using namespace std;
+
 class CGraphe;
-class CException;
 
 class Cfichier {
 public:

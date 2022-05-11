@@ -49,6 +49,10 @@ CSommet::CSommet(int iNumero, unsigned int uiNbArcSommetEntrants, unsigned int u
     }
 }
 
+CSommet::~CSommet()
+{
+}
+
 
 int CSommet::SOMLireNumero()
 {
