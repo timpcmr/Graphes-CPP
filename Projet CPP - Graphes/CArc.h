@@ -1,8 +1,8 @@
-#pragma once
-#include "CGraphe.h"
-#include "CException.h"
-#include "CSommet.h"
+#ifndef ARC
+#define ARC
+
 class CSommet;
+
 class CArc {
 private :
 
@@ -24,3 +24,5 @@ public :
 
 	//Méthodes
 };
+
+#endif

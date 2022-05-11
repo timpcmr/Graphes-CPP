@@ -1,4 +1,3 @@
-#pragma once
 #ifndef EXCEPTION
 #define EXCEPTION
 

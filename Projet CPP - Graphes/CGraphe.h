@@ -1,6 +1,8 @@
-#pragma once
+#ifndef GRAPHE
+#define GRAPHE
+
+
 #include "CSommet.h"
-#include "CArc.h"
 #include "CException.h"
 
 #include <cstdio>
@@ -50,3 +52,5 @@ public :
 	void GRANonOriente();
 	
 };
+
+#endif

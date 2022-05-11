@@ -1,9 +1,9 @@
-#pragma once
+#ifndef SOMMET
+#define SOMMET
 #include "CArc.h"
-#include "CException.h"
 #include <cstdlib>
 
-class CArc;
+//class CArc;
 
 class CSommet {
 private :
@@ -41,3 +41,5 @@ public :
 
 
 };
+
+#endif

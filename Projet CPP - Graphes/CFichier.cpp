@@ -87,14 +87,8 @@ CGraphe Cfichier::FICLireFichier(const char* pcChemin)
 	return CGraphe();
 }
 
-/***********************************************************************************************************************
-**** Entrées : char* pcChaine, ifstream& fichier																    ****
-**** Nécessite : Un fichier ouvert et une chaine non nulle								  							****
-**** Sorties :																										****
-**** Entraîne : Renvoie la chaine pcChaine passée en paramètre et dont tous les tabh et espaces sont supprimés	    ****
-***********************************************************************************************************************/
-void Cfichier::FICLigneSuivante(char* pcLigne, ifstream& fichier) {
-
+void Cfichier::FICLigneSuivante(char* pcLigne, ifstream& fichier)
+{
 	unsigned int uiBoucle = 0;
 
 	if (pcLigne == nullptr) {
@@ -115,6 +109,7 @@ void Cfichier::FICLigneSuivante(char* pcLigne, ifstream& fichier) {
 		}
 	} while (pcLigne[0] == '\n' || pcLigne[0] == '\0' || pcLigne[0] == '\r');
 }
+
 
 
 /***********************************************************************************************************************

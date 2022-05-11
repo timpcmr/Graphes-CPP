@@ -1,5 +1,6 @@
 #include "CGraphe.h"
 #include "CException.h"
+#include "CFichier.h"
 #include <cstdio>
 #include <cstdlib>
 

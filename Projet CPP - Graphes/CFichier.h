@@ -28,6 +28,8 @@
 #define EXCLigneNulle 14
 #define EXCBaliseIncorrecte 15
 
+class CGraphe;
+class CException;
 
 class Cfichier {
 public:
@@ -69,5 +71,6 @@ public:
 
 	static bool FICVerifBalise(char* pcToken, const char* pcNomBalise);
 };
+
 
 #endif
