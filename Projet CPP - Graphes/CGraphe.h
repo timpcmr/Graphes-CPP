@@ -2,11 +2,14 @@
 #include "CSommet.h"
 #include "CArc.h"
 #include "CException.h"
+#include <cstdio>
+#include <iostream>
 
 #define entrant 0
 #define sortant 1
 #define EXCAucunParamRecherche 20
 #define EXCValeurSommetIntrouvable 21
+#define EXCListeSommetInexistante 22
 
 class CGraphe {
 private :

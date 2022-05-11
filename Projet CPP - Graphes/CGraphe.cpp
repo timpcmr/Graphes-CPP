@@ -3,6 +3,8 @@
 #include "CGraphe.h"
 #include "CSommet.h"
 
+using namespace std;
+
 CGraphe::CGraphe()
 {
 	pSOMGRAListeSommet = new CSommet();
@@ -122,4 +124,22 @@ CSommet& CGraphe::GRARechercheSommet(int iVal)
 		}
 	}
 	throw CException(EXCValeurSommetIntrouvable);
+}
+
+void CGraphe::GRAAffichage()
+{
+	if (pSOMGRAListeSommet == nullptr) {
+		throw CException(EXCListeSommetInexistante);
+	}
+	unsigned int uiboucleSommet = 0;
+	unsigned int uiboucleArc = 0;
+	if (bGRAOriente == true) {
+		for (uiboucleSommet; uiboucleSommet < uiGRANbSommet; uiboucleSommet++) {
+			cout << "Sommet " << uiboucleSommet << " : " << endl;
+			for (uiboucleArc; uiboucleArc < GRALireSommets()[uiboucleSommet].SOMLireNbArcsSortants(); uiboucleArc++) {
+				cout << "--> " << GRALireSommets()[uiboucleSommet].SOMLireArcsSortants()[uiboucleArc]->ARCLireDestination()->SOMLireNumero() << endl;
+			}
+			cout << "\n";
+		}
+	}
 }
