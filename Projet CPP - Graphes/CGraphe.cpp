@@ -131,13 +131,22 @@ void CGraphe::GRAAffichage()
 	if (pSOMGRAListeSommet == nullptr) {
 		throw CException(EXCListeSommetInexistante);
 	}
-	unsigned int uiboucleSommet = 0;
-	unsigned int uiboucleArc = 0;
+	unsigned int uiboucleSommet;
+	unsigned int uiboucleArc;
 	if (bGRAOriente == true) {
-		for (uiboucleSommet; uiboucleSommet < uiGRANbSommet; uiboucleSommet++) {
+		for (uiboucleSommet = 0; uiboucleSommet < uiGRANbSommet; uiboucleSommet++) {
 			cout << "Sommet " << uiboucleSommet << " : " << endl;
-			for (uiboucleArc; uiboucleArc < GRALireSommets()[uiboucleSommet].SOMLireNbArcsSortants(); uiboucleArc++) {
+			for (uiboucleArc = 0; uiboucleArc < GRALireSommets()[uiboucleSommet].SOMLireNbArcsSortants(); uiboucleArc++) {
 				cout << "--> " << GRALireSommets()[uiboucleSommet].SOMLireArcsSortants()[uiboucleArc]->ARCLireDestination()->SOMLireNumero() << endl;
+			}
+			cout << "\n";
+		}
+	}
+	else {
+		for (uiboucleSommet = 0; uiboucleSommet < uiGRANbSommet; uiboucleSommet++) {
+			cout << "Sommet " << uiboucleSommet << " : " << endl;
+			for (uiboucleArc = 0; uiboucleArc < GRALireSommets()[uiboucleSommet].SOMLireNbArcsSortants(); uiboucleArc++) {
+				cout << "<--> " << GRALireSommets()[uiboucleSommet].SOMLireArcsSortants()[uiboucleArc]->ARCLireDestination()->SOMLireNumero() << endl;
 			}
 			cout << "\n";
 		}

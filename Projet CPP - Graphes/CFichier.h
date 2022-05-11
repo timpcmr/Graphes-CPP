@@ -28,7 +28,6 @@
 #define EXCLigneNulle 14
 #define EXCBaliseIncorrecte 15
 
-
 class Cfichier {
 public:
 	//Parseur

@@ -10,7 +10,8 @@
 #define EXCAucunParamRecherche 20
 #define EXCValeurSommetIntrouvable 21
 #define EXCListeSommetInexistante 22
-
+class CSommet;
+class CArc;
 class CGraphe {
 private :
 

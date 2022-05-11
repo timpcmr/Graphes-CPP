@@ -1,6 +1,8 @@
 #pragma once
 #include "CGraphe.h"
 #include "CException.h"
+#include "CSommet.h"
+class CSommet;
 class CArc {
 private :
 
