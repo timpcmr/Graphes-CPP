@@ -1,7 +1,10 @@
 #pragma once
 #include "CArc.h"
 #include "CException.h"
+#include <cstdlib>
+
 class CArc;
+
 class CSommet {
 private :
 

@@ -45,7 +45,7 @@ bool CGraphe::GRALireType()
 
 void CGraphe::GRAAjouterArc(CSommet& SOMDepart, CSommet& SOMArrivee)
 {
-	CArc * pARCNouvelArc = new CArc(SOMArrivee);
+	CArc * pARCNouvelArc = new CArc(&SOMArrivee);
 	SOMDepart.SOMAjouterArcSortant(pARCNouvelArc);
 	SOMArrivee.SOMAjouterArcEntrant(pARCNouvelArc);
 	uiGRANbArcs++;
@@ -65,28 +65,10 @@ void CGraphe::GRASupprimerArc(CArc* pARCParam)
 
 void CGraphe::GRAAjouterSommet(CSommet& SOMSommet)
 {
-	unsigned int uiboucle;
+	pSOMGRAListeSommet = (CSommet *)realloc(pSOMGRAListeSommet, (GRALireNbSommet() + 1) * sizeof(CSommet));
+	pSOMGRAListeSommet[GRALireNbSommet()] = SOMSommet;
 
-	//Initialisation du nouveau tableau de sommets
-	CSommet* pSOMTemp = new CSommet[GRALireNbSommet() + 1];
-
-	//Copie des sommets dans le nouveu tableau + ajout du sommet a ajouter
-	for (uiboucle = 0; uiboucle < GRALireNbSommet() + 1; uiboucle++) {
-		if (uiboucle == GRALireNbSommet()) {
-			pSOMTemp[uiboucle] = SOMSommet;
-		}
-		else {
-			pSOMTemp[uiboucle] = GRALireSommets()[uiboucle];
-		}
-	}
-
-	//Deletion de l'ancien tableau de sommets
-	delete[] pSOMGRAListeSommet;
-
-	//Affectation de nouvelles valeurs
 	uiGRANbSommet++;
-	pSOMGRAListeSommet = pSOMTemp;
-
 }
 
 CSommet& CGraphe::GRARechercheArc(CArc* pARCParam, int iParam)
