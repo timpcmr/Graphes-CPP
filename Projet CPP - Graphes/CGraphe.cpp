@@ -15,6 +15,7 @@ CGraphe::CGraphe()
 
 CGraphe::~CGraphe()
 {
+	delete[] pSOMGRAListeSommet;
 }
 
 CSommet* CGraphe::GRALireSommets()
