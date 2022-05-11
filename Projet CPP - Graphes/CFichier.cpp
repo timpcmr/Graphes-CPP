@@ -10,8 +10,8 @@ using namespace std;
 **** Sorties :	CMatrice MATretour																   ****
 **** Entraîne : Renvoie la matrice du fichier texte dont le chemin pcChemin est passé en paramètre ****
 ******************************************************************************************************/
-/*CGraphe Cfichier::FICLireFichier(const char* pcChemin)
-{
+CGraphe Cfichier::FICLireFichier(const char* pcChemin)
+{/*
 	if (pcChemin == nullptr) {
 		throw CException(EXCCheminNul);
 	}
@@ -83,8 +83,9 @@ using namespace std;
 
 	CMatrices<double> MATretour;
 
-	return MATretour;
-}*/
+	return MATretour;*/
+	return CGraphe();
+}
 
 /***********************************************************************************************************************
 **** Entrées : char* pcChaine, ifstream& fichier																    ****

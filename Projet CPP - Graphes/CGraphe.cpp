@@ -94,7 +94,9 @@ CSommet& CGraphe::GRARechercheArc(CArc* pARCParam, int iParam)
 	}
 	else {
 		throw CException(EXCAucunParamRecherche);
+		 
 	}
+	return GRALireSommets()[0];
 }
 
 CSommet& CGraphe::GRARechercheSommet(int iVal)
