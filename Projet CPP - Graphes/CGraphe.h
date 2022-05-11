@@ -2,6 +2,7 @@
 #include "CSommet.h"
 #include "CArc.h"
 #include "CException.h"
+#include <cstdlib>
 
 #define entrant 0
 #define sortant 1

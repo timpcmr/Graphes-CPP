@@ -1,5 +1,7 @@
 #include "CSommet.h"
 
+using namespace std;
+
 CSommet::CSommet()
 {
     iSOMNumero = 0;
@@ -80,35 +82,10 @@ void CSommet::SOMModifierNumero(int iNumero)
 
 void CSommet::SOMAjouterArcEntrant(CArc* pARCArc)
 {
-    unsigned int uiboucle;
+	ppARCSOMEntrant = (CArc**)realloc(ppARCSOMEntrant, (SOMLireNbArcsEntrants() + 1) * sizeof(CArc *));
+	ppARCSOMEntrant[SOMLireNbArcsEntrants()] = pARCArc;
+	uiSOMNbArcsSommetEntrants++;
 
-    CArc** ppARCTemp = new CArc * [SOMLireNbArcsEntrants() + 1];
-    for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants() + 1; uiboucle++) {
-        ppARCTemp[uiboucle] = new CArc;
-    }
-
-    //Copie des Arcs + affectation du nouvel arc
-
-    for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants() + 1; uiboucle++) {
-        if (uiboucle == SOMLireNbArcsEntrants()) {
-            ppARCTemp[uiboucle] = pARCArc;
-        }
-        else {
-            ppARCTemp[uiboucle] = SOMLireArcsEntrants()[uiboucle];
-        }
-    }
-    
-    //Deletion de l'ancien tableau
-
-    for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants(); uiboucle++) {
-        delete[] ppARCSOMEntrant[uiboucle];
-    }
-    delete[] ppARCSOMEntrant;
-
-    //Affectation des nouvelles valeurs
-
-    ppARCSOMEntrant = ppARCTemp;
-    uiSOMNbArcsSommetEntrants += 1;
 }
 
 void CSommet::SOMSupprimerArcEntrant(CArc* pARCArc)
@@ -144,35 +121,9 @@ void CSommet::SOMSupprimerArcEntrant(CArc* pARCArc)
 
 void CSommet::SOMAjouterArcSortant(CArc* pARCArc)
 {
-    unsigned int uiboucle;
-
-    CArc** ppARCTemp = new CArc * [SOMLireNbArcsSortants() + 1];
-    for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants() + 1; uiboucle++) {
-        ppARCTemp[uiboucle] = new CArc;
-    }
-
-    //Copie des Arcs + affectation du nouvel arc
-
-    for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants() + 1; uiboucle++) {
-        if (uiboucle == SOMLireNbArcsSortants()) {
-            ppARCTemp[uiboucle] = pARCArc;
-        }
-        else {
-            ppARCTemp[uiboucle] = SOMLireArcsSortants()[uiboucle];
-        }
-    }
-
-    //Deletion de l'ancien tableau
-
-    for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants(); uiboucle++) {
-        delete[] ppARCSOMSortant[uiboucle];
-    }
-    delete[] ppARCSOMSortant;
-
-    //Affectation des nouvelles valeurs
-
-    ppARCSOMSortant = ppARCTemp;
-    uiSOMNbArcsSommetSortants += 1;
+	ppARCSOMSortant = (CArc**)realloc(ppARCSOMSortant, (SOMLireNbArcsSortants() + 1) * sizeof(CArc *));
+	ppARCSOMSortant[SOMLireNbArcsSortants()] = pARCArc;
+	uiSOMNbArcsSommetSortants++;
 }
 
 void CSommet::SOMSupprimerArcSortant(CArc* pARCArc)
