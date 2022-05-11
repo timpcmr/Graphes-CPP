@@ -92,31 +92,16 @@ void CSommet::SOMSupprimerArcEntrant(CArc* pARCArc)
 {
     unsigned int uiboucle, uiArcTrouve = 0;
 
-    CArc** ppARCTemp = new CArc * [SOMLireNbArcsEntrants() - 1];
-    for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants() - 1; uiboucle++) {
-        ppARCTemp[uiboucle] = new CArc;
-    }
+	for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants() - 1; uiboucle++) {
+		if (SOMLireArcsEntrants()[uiboucle] == pARCArc) {
+			uiArcTrouve = 1;
+		}
+		ppARCSOMEntrant[uiboucle] = ppARCSOMEntrant[uiboucle + uiArcTrouve];
+	}
 
-    //Copie des Arcs restants
-
-    for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants() - 1; uiboucle++) {
-        if (SOMLireArcsEntrants()[uiboucle] == pARCArc) {
-            uiArcTrouve = 1;
-        }
-        ppARCTemp[uiboucle] = SOMLireArcsEntrants()[uiboucle + uiArcTrouve];
-    }
-
-    //Deletion de l'ancien tableau
-
-    for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants(); uiboucle++) {
-        delete[] ppARCSOMEntrant[uiboucle];
-    }
-    delete[] ppARCSOMEntrant;
-
-    //Affectation des nouvelles valeurs
-
-    ppARCSOMEntrant = ppARCTemp;
-    uiSOMNbArcsSommetEntrants -= 1;
+	ppARCSOMEntrant = (CArc **)realloc(ppARCSOMEntrant, (SOMLireNbArcsEntrants() - 1) * sizeof(CArc*));
+	uiSOMNbArcsSommetEntrants--;
+    
 }
 
 void CSommet::SOMAjouterArcSortant(CArc* pARCArc)
@@ -128,31 +113,15 @@ void CSommet::SOMAjouterArcSortant(CArc* pARCArc)
 
 void CSommet::SOMSupprimerArcSortant(CArc* pARCArc)
 {
-    unsigned int uiboucle, uiArcTrouve = 0;
+	unsigned int uiboucle, uiArcTrouve = 0;
 
-    CArc** ppARCTemp = new CArc * [SOMLireNbArcsSortants() - 1];
-    for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants() - 1; uiboucle++) {
-        ppARCTemp[uiboucle] = new CArc;
-    }
+	for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants() - 1; uiboucle++) {
+		if (SOMLireArcsSortants()[uiboucle] == pARCArc) {
+			uiArcTrouve = 1;
+		}
+		ppARCSOMSortant[uiboucle] = ppARCSOMSortant[uiboucle + uiArcTrouve];
+	}
 
-    //Copie des Arcs restants
-
-    for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants() - 1; uiboucle++) {
-        if (SOMLireArcsSortants()[uiboucle] == pARCArc) {
-            uiArcTrouve = 1;
-        }
-        ppARCTemp[uiboucle] = SOMLireArcsSortants()[uiboucle + uiArcTrouve];
-    }
-
-    //Deletion de l'ancien tableau
-
-    for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants(); uiboucle++) {
-        delete[] ppARCSOMSortant[uiboucle];
-    }
-    delete[] ppARCSOMSortant;
-
-    //Affectation des nouvelles valeurs
-
-    ppARCSOMSortant = ppARCTemp;
-    uiSOMNbArcsSommetSortants -= 1;
+	ppARCSOMSortant = (CArc **)realloc(ppARCSOMSortant, (SOMLireNbArcsSortants() - 1) * sizeof(CArc*));
+	uiSOMNbArcsSommetSortants--;
 }
