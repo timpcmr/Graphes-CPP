@@ -1,26 +1,24 @@
 #ifndef ARC
 #define ARC
 
-class CSommet;
-
 class CArc {
 private :
 
 	//Attribut
-	CSommet* pSOMARCDestination;
+	int iARCNumeroSommet;
 public :
 
 	//Constructeurs & Destructeurs
 	CArc();
 	CArc(CArc& ARCParam);
-	CArc(CSommet* pSOMParam);
+	CArc(int iParam);
 	~CArc();
 
 	//Accesseur
-	CSommet* ARCLireDestination();
+	int ARCLireDestination();
 
 	//Modifieur
-	void ARCChangerDestination(CSommet* pSOMDestination);
+	void ARCChangerDestination(int iDestination);
 
 	//Méthodes
 };

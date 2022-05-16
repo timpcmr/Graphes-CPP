@@ -2,14 +2,6 @@
 
 using namespace std;
 
-CSommet::CSommet()
-{
-    iSOMNumero = 0;
-    uiSOMNbArcsSommetEntrants = 0;
-    uiSOMNbArcsSommetSortants = 0;
-    ppARCSOMEntrant = nullptr;
-    ppARCSOMSortant = nullptr;
-}
 
 CSommet::CSommet(CSommet& SOMParam)
 {

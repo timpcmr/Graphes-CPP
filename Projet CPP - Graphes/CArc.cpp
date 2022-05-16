@@ -2,30 +2,30 @@
 
 CArc::CArc()
 {
-	pSOMARCDestination = nullptr;
+	iARCNumeroSommet = -1;
 }
 
 CArc::CArc(CArc& ARCParam)
 {
-	pSOMARCDestination = ARCParam.ARCLireDestination();
+	iARCNumeroSommet = ARCParam.iARCNumeroSommet;
 }
 
-CArc::CArc(CSommet* pSOMParam)
+CArc::CArc(int iParam)
 {
-	pSOMARCDestination = pSOMParam;
+	iARCNumeroSommet = iParam;
 }
 
 CArc::~CArc()
 {
-	pSOMARCDestination = nullptr;
+	
 }
 
-CSommet* CArc::ARCLireDestination()
+int CArc::ARCLireDestination()
 {
-	return pSOMARCDestination;
+	return iARCNumeroSommet;
 }
 
-void CArc::ARCChangerDestination(CSommet* pSOMDestination)
+void CArc::ARCChangerDestination(int iDestination)
 {
-	pSOMARCDestination = pSOMDestination;
+	iARCNumeroSommet= iDestination;
 }

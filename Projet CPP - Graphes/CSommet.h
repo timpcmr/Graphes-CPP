@@ -17,7 +17,7 @@ private :
 public :
 
 	//Constructeurs & Destructeurs
-	CSommet();
+	CSommet() = delete;
 	CSommet(CSommet &SOMParam);
 	CSommet(int iNumero, unsigned int uiNbArcSommetEntrants, unsigned int uiNbArcSommetSortants);
 	~CSommet();

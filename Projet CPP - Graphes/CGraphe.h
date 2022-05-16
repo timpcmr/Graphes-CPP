@@ -48,6 +48,7 @@ public :
 	//Méthodes
 	CSommet& GRARechercheArc(CArc * pARCParam, int iParam);
 	CSommet& GRARechercheSommet(int iVal);
+	bool GRANumeroSommetUnique(int iVal);
 	void GRAAffichage();
 	void GRAInversion();
 	void GRANonOriente();
