@@ -2,103 +2,170 @@
 #pragma warning(disable : 4996)
 
 
+Cfichier::Cfichier()
+{
+	pcFICLigne = new char[STR_LENGTH];
+}
+
+Cfichier::Cfichier(char * pcChemin)
+{
+	pcFICLigne = new char[STR_LENGTH];
+	IFSFICFichier = ifstream(pcChemin);
+	if (!IFSFICFichier.is_open()) {
+		throw CException(EXCFichierNonOuvert);
+	}
+}
+
+Cfichier::~Cfichier()
+{
+	delete[] pcFICLigne;
+	IFSFICFichier.close();
+}
+
+void Cfichier::FICInitialiserFlot(char * pcChemin)
+{
+	IFSFICFichier = ifstream(pcChemin);
+}
+
 /******************************************************************************************************
 **** Entrées : char* pcChemin																	   ****
 **** Nécessite :																		  	       ****
 **** Sorties :	CMatrice MATretour																   ****
 **** Entraîne : Renvoie la matrice du fichier texte dont le chemin pcChemin est passé en paramètre ****
 ******************************************************************************************************/
-CGraphe Cfichier::FICLireFichier(const char* pcChemin)
-{/*
-	if (pcChemin == nullptr) {
-		throw CException(EXCCheminNul);
-	}
-	ifstream fichier(pcChemin);
+int Cfichier::FICLireChiffre(char* pcTag)
+{
+	int iValeurRetournee = 0;
 
-	unsigned int uiNbSommets, uiNbArcs, uiboucle1, uiboucle2;
+	if (IFSFICFichier.is_open()){
+		FICLigneSuivante(pcFICLigne);
+		char * pcToken = strtok(pcFICLigne, "=");
 
-	if (fichier.is_open()) {
-
-		char* pcLigne = new char[STR_LENGTH];
-
-		//On récupère le nombre de sommets
-
-		FICLigneSuivante(pcLigne, fichier);
-
-		char *pcToken = strtok(pcLigne, "=");
-		
-		if (!FICVerifBalise(pcToken, "sommet")) {
-			delete[] pcLigne;
-			throw CException(EXCBaliseIncorrecte);
+		while (FICVerifBalise(FICMinuscule(pcToken), FICMinuscule(pcTag)) == false) {
+			FICLigneSuivante(pcFICLigne);
+			pcToken = strtok(pcFICLigne, "=");
 		}
 		
 		pcToken = strtok(NULL, "=");
+		iValeurRetournee = atoi(pcToken);
 
-		if (pcToken == nullptr) {
-			//Toutes les exceptions gerent la libération de la mémoire occupée par pcLigne
-			delete[] pcLigne;
-			throw CException(EXCParserPointeurNul);
-		}
-		//On veut une dimension minimum égale à 1
-		else if (atoi(pcToken) <= 0) {
-			delete[] pcLigne;
-			throw CException(EXCNbSommetsNeg);
-		}
-		
-		uiNbSommets = (unsigned int)(atoi(pcToken));
-
-		//On récupère le nombre d'arcs
-
-		FICLigneSuivante(pcLigne, fichier);
-
-		char* pcToken = strtok(pcLigne, "=");
-
-		if (!FICVerifBalise(pcToken, "arc")) {
-			delete[] pcLigne;
-			throw CException(EXCBaliseIncorrecte);
-		}
-
-		pcToken = strtok(NULL, "=");
-
-		if (pcToken == nullptr) {//Toutes les exceptions gerent la libération de la mémoire occupée par pcLigne
-			delete[] pcLigne;
-			throw CException(EXCParserPointeurNul);
-		}
-		//On veut une dimension minimum égale à 1
-		else if (atoi(pcToken) <= 0) {
-			delete[] pcLigne;
-			throw CException(EXCNbArcsNeg);
-		}
-
-		uiNbArcs = (unsigned int)(atoi(pcToken));
-
-		delete[] pcLigne;
+		//Retour en haut du fichier pour les prochaines utilisations du flot
+		IFSFICFichier.clear();
+		IFSFICFichier.seekg(IFSFICFichier.beg);
 	}
 	else {
 		throw CException(EXCFichierNonOuvert);
 	}
-	//Cas impossible mais nécéssaire à la compilation
-
-	CMatrices<double> MATretour;
-
-	return MATretour;*/
-	return CGraphe();
+	return iValeurRetournee;
 }
 
-void Cfichier::FICLigneSuivante(char* pcLigne, ifstream& fichier)
+int* Cfichier::FICLireTabSansVirgule(const int iNbLignes, char* pcTag1, char* pcTag2)
+{
+	int* piValeursRetour = new int[iNbLignes];
+	unsigned int uiBoucle;
+
+	if (IFSFICFichier.is_open()) {
+		FICLigneSuivante(pcFICLigne);
+		char* pcToken = strtok(pcFICLigne, "=");
+
+		while (FICVerifBalise(FICMinuscule(pcToken), FICMinuscule(pcTag1)) == false) {
+			FICLigneSuivante(pcFICLigne);
+			pcToken = strtok(pcFICLigne, "=");
+		}
+
+		for (uiBoucle = 0; uiBoucle < iNbLignes; uiBoucle++) {
+			FICLigneSuivante(pcFICLigne);
+			pcToken = strtok(pcFICLigne, "=");
+			if (FICVerifBalise(FICMinuscule(pcToken), FICMinuscule(pcTag2)) == true) {
+				pcToken = strtok(NULL, "=");
+				piValeursRetour[uiBoucle] = atoi(pcToken);
+			}
+			else {
+				throw CException(EXCBaliseIncorrecte);
+			}
+		}
+
+		//Retour en haut du fichier pour les prochaines utilisations du flot
+		IFSFICFichier.clear();
+		IFSFICFichier.seekg(IFSFICFichier.beg);
+	}
+	else {
+		throw CException(EXCFichierNonOuvert);
+	}
+	return piValeursRetour;
+}
+
+int** Cfichier::FICLireTabAvecVirgule(const int iNbLignes, char* pcTag1, char* pcTag2, char* pcTag3)
+{
+	unsigned int uiBoucle1, uiBoucle2;
+
+	int** ppiValeursRetour = new int * [iNbLignes];
+	for (uiBoucle1 = 0; uiBoucle1 < iNbLignes; uiBoucle1++) {
+		ppiValeursRetour[uiBoucle1] = new int[2];
+	}
+	
+	if (IFSFICFichier.is_open()) {
+		FICLigneSuivante(pcFICLigne);
+		char* pcToken = strtok(pcFICLigne, "=");
+
+		while (FICVerifBalise(FICMinuscule(pcToken), FICMinuscule(pcTag1)) == false) {
+			FICLigneSuivante(pcFICLigne);
+			pcToken = strtok(pcFICLigne, "=");
+		}
+
+		for (uiBoucle1 = 0; uiBoucle1 < iNbLignes; uiBoucle1++) {
+			FICLigneSuivante(pcFICLigne);
+
+			//Récupération des 2 elements de la ligne
+			pcToken = strtok(pcFICLigne, ",");
+			char* pcToken2 = strtok(NULL, ",");
+
+			//Recuperation du numero de debut
+			char* pcToken3 = strtok(pcToken, "=");
+			if (FICVerifBalise(FICMinuscule(pcToken3), FICMinuscule(pcTag2)) == true) {
+				pcToken3 = strtok(NULL, "=");
+				ppiValeursRetour[uiBoucle1][0] = atoi(pcToken3);
+			}
+			else {
+				throw CException(EXCBaliseIncorrecte);
+			}
+
+			//Recuperation numero de fin
+			pcToken3 = strtok(pcToken2, "=");
+			if (FICVerifBalise(FICMinuscule(pcToken3), FICMinuscule(pcTag3)) == true) {
+				pcToken3 = strtok(NULL, "=");
+				ppiValeursRetour[uiBoucle1][1] = atoi(pcToken3);
+			}
+			else {
+				throw CException(EXCBaliseIncorrecte);
+			}
+			
+		}
+
+		//Retour en haut du fichier pour les prochaines utilisations du flot
+		IFSFICFichier.clear();
+		IFSFICFichier.seekg(IFSFICFichier.beg);
+	}
+	else {
+		throw CException(EXCFichierNonOuvert);
+	}
+	return ppiValeursRetour;
+}
+
+void Cfichier::FICLigneSuivante(char* pcLigne)
 {
 	unsigned int uiBoucle = 0;
 
 	if (pcLigne == nullptr) {
 		throw CException(EXCLigneNulle);
 	}
-	if (!fichier) {
+	if (!IFSFICFichier) {
 		throw CException(EXCFichierNonOuvert);
 	}
 
 	do
 	{
-		fichier.getline(pcLigne, STR_LENGTH);
+		IFSFICFichier.getline(pcLigne, STR_LENGTH);
 		FICSupp_char(pcLigne, ' ');
 		FICSupp_char(pcLigne, '\t');
 		uiBoucle++;

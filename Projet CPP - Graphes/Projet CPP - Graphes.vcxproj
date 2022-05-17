@@ -155,6 +155,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CArc.cpp" />
+    <ClCompile Include="CControleurParseur.cpp" />
     <ClCompile Include="CException.cpp" />
     <ClCompile Include="CFichier.cpp" />
     <ClCompile Include="CGraphe.cpp" />
@@ -163,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CArc.h" />
+    <ClInclude Include="CControleurParseur.h" />
     <ClInclude Include="CException.h" />
     <ClInclude Include="CFichier.h" />
     <ClInclude Include="CGraphe.h" />
