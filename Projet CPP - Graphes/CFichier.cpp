@@ -4,27 +4,27 @@
 
 Cfichier::Cfichier()
 {
-	pcLigne = new char[STR_LENGTH];
+	pcFICLigne = new char[STR_LENGTH];
 }
 
 Cfichier::Cfichier(char * pcChemin)
 {
-	pcLigne = new char[STR_LENGTH];
-	IFSFichier = ifstream(pcChemin);
-	if (!IFSFichier.is_open()) {
+	pcFICLigne = new char[STR_LENGTH];
+	IFSFICFichier = ifstream(pcChemin);
+	if (!IFSFICFichier.is_open()) {
 		throw CException(EXCFichierNonOuvert);
 	}
 }
 
 Cfichier::~Cfichier()
 {
-	delete[] pcLigne;
-	IFSFichier.close();
+	delete[] pcFICLigne;
+	IFSFICFichier.close();
 }
 
 void Cfichier::FICInitialiserFlot(char * pcChemin)
 {
-	IFSFichier = ifstream(pcChemin);
+	IFSFICFichier = ifstream(pcChemin);
 }
 
 /******************************************************************************************************
@@ -37,26 +37,119 @@ int Cfichier::FICLireChiffre(char* pcTag)
 {
 	int iValeurRetournee = 0;
 
-	if (IFSFichier.is_open()){
-		FICLigneSuivante(pcLigne);
-		char * pcToken = strtok(pcLigne, "=");
+	if (IFSFICFichier.is_open()){
+		FICLigneSuivante(pcFICLigne);
+		char * pcToken = strtok(pcFICLigne, "=");
 
 		while (FICVerifBalise(FICMinuscule(pcToken), FICMinuscule(pcTag)) == false) {
-			FICLigneSuivante(pcLigne);
-			pcToken = strtok(pcLigne, "=");
+			FICLigneSuivante(pcFICLigne);
+			pcToken = strtok(pcFICLigne, "=");
 		}
 		
 		pcToken = strtok(NULL, "=");
 		iValeurRetournee = atoi(pcToken);
 
 		//Retour en haut du fichier pour les prochaines utilisations du flot
-		IFSFichier.clear();
-		IFSFichier.seekg(IFSFichier.beg);
+		IFSFICFichier.clear();
+		IFSFICFichier.seekg(IFSFICFichier.beg);
 	}
 	else {
 		throw CException(EXCFichierNonOuvert);
 	}
 	return iValeurRetournee;
+}
+
+int* Cfichier::FICLireTabSansVirgule(const int iNbLignes, char* pcTag1, char* pcTag2)
+{
+	int* piValeursRetour = new int[iNbLignes];
+	unsigned int uiBoucle;
+
+	if (IFSFICFichier.is_open()) {
+		FICLigneSuivante(pcFICLigne);
+		char* pcToken = strtok(pcFICLigne, "=");
+
+		while (FICVerifBalise(FICMinuscule(pcToken), FICMinuscule(pcTag1)) == false) {
+			FICLigneSuivante(pcFICLigne);
+			pcToken = strtok(pcFICLigne, "=");
+		}
+
+		for (uiBoucle = 0; uiBoucle < iNbLignes; uiBoucle++) {
+			FICLigneSuivante(pcFICLigne);
+			pcToken = strtok(pcFICLigne, "=");
+			if (FICVerifBalise(FICMinuscule(pcToken), FICMinuscule(pcTag2)) == true) {
+				pcToken = strtok(NULL, "=");
+				piValeursRetour[uiBoucle] = atoi(pcToken);
+			}
+			else {
+				throw CException(EXCBaliseIncorrecte);
+			}
+		}
+
+		//Retour en haut du fichier pour les prochaines utilisations du flot
+		IFSFICFichier.clear();
+		IFSFICFichier.seekg(IFSFICFichier.beg);
+	}
+	else {
+		throw CException(EXCFichierNonOuvert);
+	}
+	return piValeursRetour;
+}
+
+int** Cfichier::FICLireTabAvecVirgule(const int iNbLignes, char* pcTag1, char* pcTag2, char* pcTag3)
+{
+	unsigned int uiBoucle1, uiBoucle2;
+
+	int** ppiValeursRetour = new int * [iNbLignes];
+	for (uiBoucle1 = 0; uiBoucle1 < iNbLignes; uiBoucle1++) {
+		ppiValeursRetour[uiBoucle1] = new int[2];
+	}
+	
+	if (IFSFICFichier.is_open()) {
+		FICLigneSuivante(pcFICLigne);
+		char* pcToken = strtok(pcFICLigne, "=");
+
+		while (FICVerifBalise(FICMinuscule(pcToken), FICMinuscule(pcTag1)) == false) {
+			FICLigneSuivante(pcFICLigne);
+			pcToken = strtok(pcFICLigne, "=");
+		}
+
+		for (uiBoucle1 = 0; uiBoucle1 < iNbLignes; uiBoucle1++) {
+			FICLigneSuivante(pcFICLigne);
+
+			//Récupération des 2 elements de la ligne
+			pcToken = strtok(pcFICLigne, ",");
+			char* pcToken2 = strtok(NULL, ",");
+
+			//Recuperation du numero de debut
+			char* pcToken3 = strtok(pcToken, "=");
+			if (FICVerifBalise(FICMinuscule(pcToken3), FICMinuscule(pcTag2)) == true) {
+				pcToken3 = strtok(NULL, "=");
+				ppiValeursRetour[uiBoucle1][0] = atoi(pcToken3);
+			}
+			else {
+				throw CException(EXCBaliseIncorrecte);
+			}
+
+			//Recuperation numero de fin
+			pcToken3 = strtok(pcToken2, "=");
+			if (FICVerifBalise(FICMinuscule(pcToken3), FICMinuscule(pcTag3)) == true) {
+				pcToken3 = strtok(NULL, "=");
+				ppiValeursRetour[uiBoucle1][1] = atoi(pcToken3);
+			}
+			else {
+				throw CException(EXCBaliseIncorrecte);
+			}
+			
+		}
+
+		//Retour en haut du fichier pour les prochaines utilisations du flot
+		IFSFICFichier.clear();
+		IFSFICFichier.seekg(IFSFICFichier.beg);
+	}
+	else {
+		throw CException(EXCFichierNonOuvert);
+	}
+	return ppiValeursRetour;
 }
 
 void Cfichier::FICLigneSuivante(char* pcLigne)
@@ -66,13 +159,13 @@ void Cfichier::FICLigneSuivante(char* pcLigne)
 	if (pcLigne == nullptr) {
 		throw CException(EXCLigneNulle);
 	}
-	if (!IFSFichier) {
+	if (!IFSFICFichier) {
 		throw CException(EXCFichierNonOuvert);
 	}
 
 	do
 	{
-		IFSFichier.getline(pcLigne, STR_LENGTH);
+		IFSFICFichier.getline(pcLigne, STR_LENGTH);
 		FICSupp_char(pcLigne, ' ');
 		FICSupp_char(pcLigne, '\t');
 		uiBoucle++;
