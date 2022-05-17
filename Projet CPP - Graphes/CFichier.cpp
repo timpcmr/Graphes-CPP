@@ -2,103 +2,77 @@
 #pragma warning(disable : 4996)
 
 
+Cfichier::Cfichier()
+{
+	pcLigne = new char[STR_LENGTH];
+}
+
+Cfichier::Cfichier(char * pcChemin)
+{
+	pcLigne = new char[STR_LENGTH];
+	IFSFichier = ifstream(pcChemin);
+	if (!IFSFichier.is_open()) {
+		throw CException(EXCFichierNonOuvert);
+	}
+}
+
+Cfichier::~Cfichier()
+{
+	delete[] pcLigne;
+	IFSFichier.close();
+}
+
+void Cfichier::FICInitialiserFlot(char * pcChemin)
+{
+	IFSFichier = ifstream(pcChemin);
+}
+
 /******************************************************************************************************
 **** Entrées : char* pcChemin																	   ****
 **** Nécessite :																		  	       ****
 **** Sorties :	CMatrice MATretour																   ****
 **** Entraîne : Renvoie la matrice du fichier texte dont le chemin pcChemin est passé en paramètre ****
 ******************************************************************************************************/
-CGraphe Cfichier::FICLireFichier(const char* pcChemin)
-{/*
-	if (pcChemin == nullptr) {
-		throw CException(EXCCheminNul);
-	}
-	ifstream fichier(pcChemin);
+int Cfichier::FICLireChiffre(char* pcTag)
+{
+	int iValeurRetournee = 0;
 
-	unsigned int uiNbSommets, uiNbArcs, uiboucle1, uiboucle2;
+	if (IFSFichier.is_open()){
+		FICLigneSuivante(pcLigne);
+		char * pcToken = strtok(pcLigne, "=");
 
-	if (fichier.is_open()) {
-
-		char* pcLigne = new char[STR_LENGTH];
-
-		//On récupère le nombre de sommets
-
-		FICLigneSuivante(pcLigne, fichier);
-
-		char *pcToken = strtok(pcLigne, "=");
-		
-		if (!FICVerifBalise(pcToken, "sommet")) {
-			delete[] pcLigne;
-			throw CException(EXCBaliseIncorrecte);
+		while (FICVerifBalise(FICMinuscule(pcToken), FICMinuscule(pcTag)) == false) {
+			FICLigneSuivante(pcLigne);
+			pcToken = strtok(pcLigne, "=");
 		}
 		
 		pcToken = strtok(NULL, "=");
+		iValeurRetournee = atoi(pcToken);
 
-		if (pcToken == nullptr) {
-			//Toutes les exceptions gerent la libération de la mémoire occupée par pcLigne
-			delete[] pcLigne;
-			throw CException(EXCParserPointeurNul);
-		}
-		//On veut une dimension minimum égale à 1
-		else if (atoi(pcToken) <= 0) {
-			delete[] pcLigne;
-			throw CException(EXCNbSommetsNeg);
-		}
-		
-		uiNbSommets = (unsigned int)(atoi(pcToken));
-
-		//On récupère le nombre d'arcs
-
-		FICLigneSuivante(pcLigne, fichier);
-
-		char* pcToken = strtok(pcLigne, "=");
-
-		if (!FICVerifBalise(pcToken, "arc")) {
-			delete[] pcLigne;
-			throw CException(EXCBaliseIncorrecte);
-		}
-
-		pcToken = strtok(NULL, "=");
-
-		if (pcToken == nullptr) {//Toutes les exceptions gerent la libération de la mémoire occupée par pcLigne
-			delete[] pcLigne;
-			throw CException(EXCParserPointeurNul);
-		}
-		//On veut une dimension minimum égale à 1
-		else if (atoi(pcToken) <= 0) {
-			delete[] pcLigne;
-			throw CException(EXCNbArcsNeg);
-		}
-
-		uiNbArcs = (unsigned int)(atoi(pcToken));
-
-		delete[] pcLigne;
+		//Retour en haut du fichier pour les prochaines utilisations du flot
+		IFSFichier.clear();
+		IFSFichier.seekg(IFSFichier.beg);
 	}
 	else {
 		throw CException(EXCFichierNonOuvert);
 	}
-	//Cas impossible mais nécéssaire à la compilation
-
-	CMatrices<double> MATretour;
-
-	return MATretour;*/
-	return CGraphe();
+	return iValeurRetournee;
 }
 
-void Cfichier::FICLigneSuivante(char* pcLigne, ifstream& fichier)
+void Cfichier::FICLigneSuivante(char* pcLigne)
 {
 	unsigned int uiBoucle = 0;
 
 	if (pcLigne == nullptr) {
 		throw CException(EXCLigneNulle);
 	}
-	if (!fichier) {
+	if (!IFSFichier) {
 		throw CException(EXCFichierNonOuvert);
 	}
 
 	do
 	{
-		fichier.getline(pcLigne, STR_LENGTH);
+		IFSFichier.getline(pcLigne, STR_LENGTH);
 		FICSupp_char(pcLigne, ' ');
 		FICSupp_char(pcLigne, '\t');
 		uiBoucle++;

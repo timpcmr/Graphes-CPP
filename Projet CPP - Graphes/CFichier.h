@@ -29,10 +29,23 @@
 
 using namespace std;
 
-class CGraphe;
-
 class Cfichier {
+private:
+	char * pcLigne;
+	ifstream IFSFichier;
+
 public:
+	//Constructeurs et Destructeur
+	Cfichier();
+
+	Cfichier(char* pcChemin);
+
+	~Cfichier();
+
+	//Modifieur
+
+	void FICInitialiserFlot(char* pcChemin);
+
 	//Parseur
 
 	/******************************************************************************************************
@@ -41,15 +54,18 @@ public:
 	**** Sorties :	CMatrice MATretour																   ****
 	**** Entraîne : Renvoie la matrice du fichier texte dont le chemin pcChemin est passé en paramètre ****
 	******************************************************************************************************/
-	static CGraphe FICLireFichier(const char* pcChemin);
+	int FICLireChiffre(char* pcTag);
 
+	int* FICLireTabSansVirgule(char* pcTag1, char* pcTag2);
+
+	int** FICLireTabAvecVirgule(char* pcTag1, char* pcTag2, char* pcTag3);
 	/***********************************************************************************************************************
 	**** Entrées : char* pcChaine, ifstream& fichier																    ****
 	**** Nécessite : Un fichier ouvert et une chaine non nulle								  							****
 	**** Sorties :																										****
 	**** Entraîne : Renvoie la chaine pcChaine passée en paramètre et dont tous les tabh et espaces sont supprimés	    ****
 	***********************************************************************************************************************/
-	static void FICLigneSuivante(char* pcLigne, ifstream& fichier);
+	void FICLigneSuivante(char* pcLigne);
 
 	//Fonctions de handle mauvaise mise en forme
 
@@ -59,7 +75,7 @@ public:
 	**** Sorties :	char* pcChaine																						****
 	**** Entraîne : Renvoie la chaine pcChaine passée en paramètre et dont toutes les lettres sont passées en minuscule ****
 	***********************************************************************************************************************/
-	static char * FICMinuscule(char* pcChaine);
+	char * FICMinuscule(char* pcChaine);
 
 	/******************************************************************************************************************
 	**** Entrées : char* pcChaine																				   ****
@@ -67,9 +83,9 @@ public:
 	**** Sorties :																								   ****
 	**** Entraîne : Supprime un charactère c d'une chaine de caractère pcChaine passée en paramètre				   ****
 	******************************************************************************************************************/
-	static void FICSupp_char(char* pcChaine, const char cCharactere);
+	void FICSupp_char(char* pcChaine, const char cCharactere);
 
-	static bool FICVerifBalise(char* pcToken, const char* pcNomBalise);
+	bool FICVerifBalise(char* pcToken, const char* pcNomBalise);
 };
 
 
