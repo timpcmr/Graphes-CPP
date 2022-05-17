@@ -39,10 +39,7 @@ void CControleurParseur::CONLireGraphe()
 
 	unsigned int* piSommets = FICParseur.FICLireTabSansVirgule(uiNbSommets, (char*)"Sommets", (char*)"Numero");
 	unsigned int** ppiArcs = FICParseur.FICLireTabAvecVirgule(uiNbSommets, (char*)"Arcs", (char*)"Debut", (char*)"Fin");
-	/*
-	for (uiBoucle1 = 0; uiBoucle1 < iNbSommets; uiBoucle1++) {
-		GRACONGraphe.GRAAjouterSommet()
-	}
-	*/
+	
+	//Affectation Graphe
 	//TBC
 }
