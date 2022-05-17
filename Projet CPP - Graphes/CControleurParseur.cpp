@@ -31,14 +31,14 @@ void CControleurParseur::CONModifierChemin(char* pcChemin)
 void CControleurParseur::CONLireGraphe()
 {
 	Cfichier FICParseur(pcCONChemin);
-	int iNbArcs, iNbSommets;
+	unsigned int uiNbArcs, uiNbSommets;
 	unsigned int uiBoucle1, uiBoucle2;
 
-	iNbArcs = FICParseur.FICLireChiffre((char*)"NBArcs");
-	iNbSommets = FICParseur.FICLireChiffre((char*)"NBSommets");
+	uiNbArcs = FICParseur.FICLireChiffre((char*)"NBArcs");
+	uiNbSommets = FICParseur.FICLireChiffre((char*)"NBSommets");
 
-	int* piSommets = FICParseur.FICLireTabSansVirgule(iNbSommets, (char*)"Sommets", (char*)"Numero");
-	int** ppiArcs = FICParseur.FICLireTabAvecVirgule(iNbSommets, (char*)"Arcs", (char*)"Debut", (char*)"Fin");
+	unsigned int* piSommets = FICParseur.FICLireTabSansVirgule(uiNbSommets, (char*)"Sommets", (char*)"Numero");
+	unsigned int** ppiArcs = FICParseur.FICLireTabAvecVirgule(uiNbSommets, (char*)"Arcs", (char*)"Debut", (char*)"Fin");
 	/*
 	for (uiBoucle1 = 0; uiBoucle1 < iNbSommets; uiBoucle1++) {
 		GRACONGraphe.GRAAjouterSommet()
