@@ -10,6 +10,7 @@ CGraphe::CGraphe()
 	uiGRANbArcs = 0;
 	uiGRANbSommet = 0;
 	bGRAOriente = true;
+	pSOMGRAListeSommet = nullptr;
 }
 
 CGraphe::~CGraphe()
@@ -59,7 +60,9 @@ void CGraphe::GRASupprimerArc(CArc* pARCParam)
 
 void CGraphe::GRAAjouterSommet(CSommet& SOMSommet)
 {
-	int iNum, char* pcEntree, unsigned int uiBoucle;
+	int iNum;
+	unsigned int uiBoucle;
+	char pcEntree[1024];
 	pSOMGRAListeSommet = (CSommet *)realloc(pSOMGRAListeSommet, (GRALireNbSommet() + 1) * sizeof(CSommet));
 	while (!GRANumeroSommetUnique(SOMSommet.SOMLireNumero())) {
 		cout << "Les numeros de sommets utilises sont :" << endl;
@@ -78,17 +81,19 @@ void CGraphe::GRAAjouterSommet(CSommet& SOMSommet)
 
 void CGraphe::GRASupprimerSommet(CSommet& SOMSommet)
 {
-	unsigned int uiboucle1, uiboucle2, uiSommetTrouve;
+	int NumeroSommetDestination;
+	unsigned int uiboucle1, uiboucle2, uiSommetTrouve = 0;
 
 	//Suppression des arcs sortants du tableau des arcs entrants des sommets pointes
 	for (uiboucle1 = 0; uiboucle1 < SOMSommet.SOMLireNbArcsSortants(); uiboucle1++) {
-		SOMSommet.SOMLireArcsSortants()[uiboucle1]->ARCLireDestination()->SOMSupprimerArcEntrant(SOMSommet.SOMLireArcsSortants()[uiboucle1]);
+		NumeroSommetDestination = SOMSommet.SOMLireArcsSortants()[uiboucle1]->ARCLireDestination();
+		GRARechercheSommet(NumeroSommetDestination).SOMSupprimerArcEntrant(SOMSommet.SOMLireArcsSortants()[uiboucle1]);
 	}
 
 	//Suppression des arcs entrants des tableaux des arcs sortants qui pointent sur SOMSommet
 	for (uiboucle1 = 0; uiboucle1 < GRALireNbSommet(); uiboucle1++) {
 		for (uiboucle2 = 0; uiboucle2 < GRALireSommets()[uiboucle1].SOMLireNbArcsSortants(); uiboucle2++) {
-			if (GRALireSommets()[uiboucle1].SOMLireArcsSortants()[uiboucle2]->ARCLireDestination() == &SOMSommet) {
+			if (GRALireSommets()[uiboucle1].SOMLireArcsSortants()[uiboucle2]->ARCLireDestination() == SOMSommet.SOMLireNumero()) {
 				GRALireSommets()[uiboucle1].SOMSupprimerArcSortant(GRALireSommets()[uiboucle1].SOMLireArcsSortants()[uiboucle2]);
 			}
 		}
@@ -170,7 +175,7 @@ void CGraphe::GRAAffichage()
 		for (uiboucleSommet = 0; uiboucleSommet < uiGRANbSommet; uiboucleSommet++) {
 			cout << "Sommet " << uiboucleSommet << " : " << endl;
 			for (uiboucleArc = 0; uiboucleArc < GRALireSommets()[uiboucleSommet].SOMLireNbArcsSortants(); uiboucleArc++) {
-				cout << "--> " << GRALireSommets()[uiboucleSommet].SOMLireArcsSortants()[uiboucleArc]->ARCLireDestination()->SOMLireNumero() << endl;
+				cout << "--> " << GRALireSommets()[uiboucleSommet].SOMLireArcsSortants()[uiboucleArc]->ARCLireDestination() << endl;
 			}
 			cout << "\n";
 		}
@@ -179,7 +184,7 @@ void CGraphe::GRAAffichage()
 		for (uiboucleSommet = 0; uiboucleSommet < uiGRANbSommet; uiboucleSommet++) {
 			cout << "Sommet " << uiboucleSommet << " : " << endl;
 			for (uiboucleArc = 0; uiboucleArc < GRALireSommets()[uiboucleSommet].SOMLireNbArcsSortants(); uiboucleArc++) {
-				cout << "<--> " << GRALireSommets()[uiboucleSommet].SOMLireArcsSortants()[uiboucleArc]->ARCLireDestination()->SOMLireNumero() << endl;
+				cout << "<--> " << GRALireSommets()[uiboucleSommet].SOMLireArcsSortants()[uiboucleArc]->ARCLireDestination() << endl;
 			}
 			cout << "\n";
 		}
