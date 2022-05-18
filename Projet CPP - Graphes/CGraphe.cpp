@@ -17,6 +17,12 @@ CGraphe::CGraphe()
 
 CGraphe::~CGraphe()
 {
+	unsigned int uiboucle;
+	/*
+	for (uiboucle = 0; uiboucle < uiGRANbSommet; uiboucle++) {
+		delete pSOMGRAListeSommet[uiboucle];
+	}
+	*/
 	delete[] pSOMGRAListeSommet;
 }
 
@@ -202,9 +208,11 @@ void CGraphe::GRAAffichage()
 	}
 	unsigned int uiboucleSommet;
 	unsigned int uiboucleArc;
+
 	if (bGRAOriente == true) {
+		cout << "Type de Graphe : Oriente" << endl;
 		for (uiboucleSommet = 0; uiboucleSommet < uiGRANbSommet; uiboucleSommet++) {
-			cout << "Sommet " << uiboucleSommet << " : " << endl;
+			cout << "Sommet " << GRALireSommets()[uiboucleSommet].SOMLireNumero() << " : " << endl;
 			for (uiboucleArc = 0; uiboucleArc < GRALireSommets()[uiboucleSommet].SOMLireNbArcsSortants(); uiboucleArc++) {
 				cout << "--> " << GRALireSommets()[uiboucleSommet].SOMLireArcsSortants()[uiboucleArc]->ARCLireDestination() << endl;
 			}
@@ -212,12 +220,7 @@ void CGraphe::GRAAffichage()
 		}
 	}
 	else {
-		for (uiboucleSommet = 0; uiboucleSommet < uiGRANbSommet; uiboucleSommet++) {
-			cout << "Sommet " << uiboucleSommet << " : " << endl;
-			for (uiboucleArc = 0; uiboucleArc < GRALireSommets()[uiboucleSommet].SOMLireNbArcsSortants(); uiboucleArc++) {
-				cout << "<--> " << GRALireSommets()[uiboucleSommet].SOMLireArcsSortants()[uiboucleArc]->ARCLireDestination() << endl;
-			}
-			cout << "\n";
-		}
+		cout << "Type de Graphe : Non-Oriente" << endl;
+		cout << "Affichage a faire" << endl;
 	}
 }
