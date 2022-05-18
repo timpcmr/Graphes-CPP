@@ -39,11 +39,11 @@ void CControleurParseur::CONLireFichierGraphe()
 	unsigned int uiNbArcs, uiNbSommets;
 	unsigned int uiBoucle;
 
-	uiNbArcs = FICParseur.FICLireChiffre((char*)"NBArcs");
-	uiNbSommets = FICParseur.FICLireChiffre((char*)"NBSommets");
+	uiNbArcs = FICParseur.FICLireChiffre((char*)"nbarcs");
+	uiNbSommets = FICParseur.FICLireChiffre((char*)"nbsommets");
 
-	unsigned int* piSommets = FICParseur.FICLireTabSansVirgule(uiNbSommets, (char*)"Sommets", (char*)"Numero");
-	unsigned int** ppiArcs = FICParseur.FICLireTabAvecVirgule(uiNbSommets, (char*)"Arcs", (char*)"Debut", (char*)"Fin");
+	unsigned int* piSommets = FICParseur.FICLireTabSansVirgule(uiNbSommets, (char*)"sommets", (char*)"numero");
+	unsigned int** ppiArcs = FICParseur.FICLireTabAvecVirgule(uiNbSommets, (char*)"arcs", (char*)"debut", (char*)"fin");
 	
 	//Affectation Graphe
 		//Sommets
@@ -56,6 +56,9 @@ void CControleurParseur::CONLireFichierGraphe()
 		GRACONGraphe.GRAAjouterArc(ppiArcs[uiBoucle][0], ppiArcs[uiBoucle][1]);
 	}
 
-	GRACONGraphe.GRAAffichage();
-	//TBC
+	delete[] piSommets;
+	for (uiBoucle = 0; uiBoucle < uiNbArcs; uiBoucle++) {
+		delete[] ppiArcs[uiBoucle];
+	}
+	delete[] ppiArcs;
 }

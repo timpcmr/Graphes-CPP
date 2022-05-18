@@ -55,6 +55,7 @@ public :
 	void GRAInversion();
 	void GRANonOriente();
 	
+
 };
 
 #endif
