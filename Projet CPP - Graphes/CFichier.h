@@ -31,7 +31,6 @@ using namespace std;
 
 class Cfichier {
 private:
-	char * pcFICLigne;
 	ifstream IFSFICFichier;
 
 public:
@@ -75,7 +74,7 @@ public:
 	**** Sorties :	char* pcChaine																						****
 	**** Entraîne : Renvoie la chaine pcChaine passée en paramètre et dont toutes les lettres sont passées en minuscule ****
 	***********************************************************************************************************************/
-	char * FICMinuscule(char* pcChaine);
+	char * FICMinuscule(char* pcChaineMin);
 
 	/******************************************************************************************************************
 	**** Entrées : char* pcChaine																				   ****

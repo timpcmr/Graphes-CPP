@@ -4,12 +4,10 @@
 
 Cfichier::Cfichier()
 {
-	pcFICLigne = new char[STR_LENGTH];
 }
 
 Cfichier::Cfichier(char * pcChemin)
 {
-	pcFICLigne = new char[STR_LENGTH];
 	IFSFICFichier = ifstream(pcChemin);
 	if (!IFSFICFichier.is_open()) {
 		throw CException(EXCFichierNonOuvert);
@@ -18,7 +16,6 @@ Cfichier::Cfichier(char * pcChemin)
 
 Cfichier::~Cfichier()
 {
-	delete[] pcFICLigne;
 	IFSFICFichier.close();
 }
 
@@ -36,14 +33,21 @@ void Cfichier::FICInitialiserFlot(char * pcChemin)
 unsigned int Cfichier::FICLireChiffre(char* pcTag)
 {
 	unsigned int uiValeurRetournee = 0;
+	char* pcLigne = new char[STR_LENGTH];
 
 	if (IFSFICFichier.is_open()){
-		FICLigneSuivante(pcFICLigne);
-		char * pcToken = strtok(pcFICLigne, "=");
+		FICLigneSuivante(pcLigne);
+		char * pcToken = strtok(pcLigne, "=");
+
+		if (pcToken == nullptr) {
+			delete[] pcLigne;
+			throw CException(EXCParserPointeurNul);
+		}
 
 		while (FICVerifBalise(FICMinuscule(pcToken), FICMinuscule(pcTag)) == false) {
-			FICLigneSuivante(pcFICLigne);
-			pcToken = strtok(pcFICLigne, "=");
+		//while (FICVerifBalise(pcFICLigne, pcTag) == false) {
+			FICLigneSuivante(pcLigne);
+			pcToken = strtok(pcLigne, "=");
 		}
 		
 		pcToken = strtok(NULL, "=");
@@ -54,6 +58,7 @@ unsigned int Cfichier::FICLireChiffre(char* pcTag)
 		IFSFICFichier.seekg(IFSFICFichier.beg);
 	}
 	else {
+		delete[] pcLigne;
 		throw CException(EXCFichierNonOuvert);
 	}
 	return uiValeurRetournee;
@@ -61,26 +66,28 @@ unsigned int Cfichier::FICLireChiffre(char* pcTag)
 
 unsigned int* Cfichier::FICLireTabSansVirgule(const unsigned int iNbLignes, char* pcTag1, char* pcTag2)
 {
+	char* pcLigne = new char[STR_LENGTH];
 	unsigned int* puiValeursRetour = new unsigned int[iNbLignes];
 	unsigned int uiBoucle;
 
 	if (IFSFICFichier.is_open()) {
-		FICLigneSuivante(pcFICLigne);
-		char* pcToken = strtok(pcFICLigne, "=");
+		FICLigneSuivante(pcLigne);
+		char* pcToken = strtok(pcLigne, "=");
 
 		while (FICVerifBalise(FICMinuscule(pcToken), FICMinuscule(pcTag1)) == false) {
-			FICLigneSuivante(pcFICLigne);
-			pcToken = strtok(pcFICLigne, "=");
+			FICLigneSuivante(pcLigne);
+			pcToken = strtok(pcLigne, "=");
 		}
 
 		for (uiBoucle = 0; uiBoucle < iNbLignes; uiBoucle++) {
-			FICLigneSuivante(pcFICLigne);
-			pcToken = strtok(pcFICLigne, "=");
+			FICLigneSuivante(pcLigne);
+			pcToken = strtok(pcLigne, "=");
 			if (FICVerifBalise(FICMinuscule(pcToken), FICMinuscule(pcTag2)) == true) {
 				pcToken = strtok(NULL, "=");
 				puiValeursRetour[uiBoucle] = (unsigned int)atoi(pcToken);
 			}
 			else {
+				delete[] pcLigne;
 				throw CException(EXCBaliseIncorrecte);
 			}
 		}
@@ -90,6 +97,8 @@ unsigned int* Cfichier::FICLireTabSansVirgule(const unsigned int iNbLignes, char
 		IFSFICFichier.seekg(IFSFICFichier.beg);
 	}
 	else {
+		delete[] puiValeursRetour;
+		delete[] pcLigne;
 		throw CException(EXCFichierNonOuvert);
 	}
 	return puiValeursRetour;
@@ -97,27 +106,28 @@ unsigned int* Cfichier::FICLireTabSansVirgule(const unsigned int iNbLignes, char
 
 unsigned int** Cfichier::FICLireTabAvecVirgule(const unsigned int iNbLignes, char* pcTag1, char* pcTag2, char* pcTag3)
 {
-	unsigned int uiBoucle1, uiBoucle2;
+	unsigned int uiBoucle1;
 
+	char* pcLigne = new char[STR_LENGTH];
 	unsigned int** ppuiValeursRetour = new unsigned int* [iNbLignes];
 	for (uiBoucle1 = 0; uiBoucle1 < iNbLignes; uiBoucle1++) {
 		ppuiValeursRetour[uiBoucle1] = new unsigned int[2];
 	}
 	
 	if (IFSFICFichier.is_open()) {
-		FICLigneSuivante(pcFICLigne);
-		char* pcToken = strtok(pcFICLigne, "=");
+		FICLigneSuivante(pcLigne);
+		char* pcToken = strtok(pcLigne, "=");
 
 		while (FICVerifBalise(FICMinuscule(pcToken), FICMinuscule(pcTag1)) == false) {
-			FICLigneSuivante(pcFICLigne);
-			pcToken = strtok(pcFICLigne, "=");
+			FICLigneSuivante(pcLigne);
+			pcToken = strtok(pcLigne, "=");
 		}
 
 		for (uiBoucle1 = 0; uiBoucle1 < iNbLignes; uiBoucle1++) {
-			FICLigneSuivante(pcFICLigne);
+			FICLigneSuivante(pcLigne);
 
 			//Récupération des 2 elements de la ligne
-			pcToken = strtok(pcFICLigne, ",");
+			pcToken = strtok(pcLigne, ",");
 			char* pcToken2 = strtok(NULL, ",");
 
 			//Recuperation du numero de debut
@@ -127,6 +137,8 @@ unsigned int** Cfichier::FICLireTabAvecVirgule(const unsigned int iNbLignes, cha
 				ppuiValeursRetour[uiBoucle1][0] = (unsigned int)atoi(pcToken3);
 			}
 			else {
+				delete[] pcLigne;
+				delete[] ppuiValeursRetour;
 				throw CException(EXCBaliseIncorrecte);
 			}
 
@@ -137,6 +149,8 @@ unsigned int** Cfichier::FICLireTabAvecVirgule(const unsigned int iNbLignes, cha
 				ppuiValeursRetour[uiBoucle1][1] = (unsigned int)atoi(pcToken3);
 			}
 			else {
+				delete[] pcLigne;
+				delete[] ppuiValeursRetour;
 				throw CException(EXCBaliseIncorrecte);
 			}
 			
@@ -147,6 +161,8 @@ unsigned int** Cfichier::FICLireTabAvecVirgule(const unsigned int iNbLignes, cha
 		IFSFICFichier.seekg(IFSFICFichier.beg);
 	}
 	else {
+		delete[] pcLigne;
+		delete[] ppuiValeursRetour;
 		throw CException(EXCFichierNonOuvert);
 	}
 	return ppuiValeursRetour;
@@ -183,17 +199,17 @@ void Cfichier::FICLigneSuivante(char* pcLigne)
 **** Sorties :	char* pcChaine																						****
 **** Entraîne : Renvoie la chaine pcChaine passée en paramètre et dont toutes les lettres sont passées en minuscule ****
 ***********************************************************************************************************************/
-char * Cfichier::FICMinuscule(char* pcChaine)
+char * Cfichier::FICMinuscule(char* pcChaineMin)
 {
-	if (pcChaine == nullptr) {
+	if (pcChaineMin == nullptr) {
 		throw CException(EXCTokenNulMinuscule);
 	}
 	unsigned int uiboucle;
 
-	for (uiboucle = 0; pcChaine[uiboucle] != '\0'; uiboucle++) {
-		pcChaine[uiboucle] = tolower(pcChaine[uiboucle]);
+	for (uiboucle = 0; pcChaineMin[uiboucle] != '\0'; uiboucle++) {
+		pcChaineMin[uiboucle] = tolower(pcChaineMin[uiboucle]);
 	}
-	return pcChaine;
+	return pcChaineMin;
 }
 
 

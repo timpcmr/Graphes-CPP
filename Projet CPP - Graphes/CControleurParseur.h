@@ -16,7 +16,8 @@ public:
 	char* CONLireChemin();
 	void CONModifierChemin(char* pcChemin);
 
-	void CONLireGraphe();
+	CGraphe CONLireGraphe();
+	void CONLireFichierGraphe();
 };
 
 

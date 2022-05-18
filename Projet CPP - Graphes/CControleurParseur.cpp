@@ -28,11 +28,16 @@ void CControleurParseur::CONModifierChemin(char* pcChemin)
 	pcCONChemin = pcChemin;
 }
 
-void CControleurParseur::CONLireGraphe()
+CGraphe CControleurParseur::CONLireGraphe()
+{
+	return GRACONGraphe;
+}
+
+void CControleurParseur::CONLireFichierGraphe()
 {
 	Cfichier FICParseur(pcCONChemin);
 	unsigned int uiNbArcs, uiNbSommets;
-	unsigned int uiBoucle1, uiBoucle2;
+	unsigned int uiBoucle;
 
 	uiNbArcs = FICParseur.FICLireChiffre((char*)"NBArcs");
 	uiNbSommets = FICParseur.FICLireChiffre((char*)"NBSommets");
@@ -41,5 +46,16 @@ void CControleurParseur::CONLireGraphe()
 	unsigned int** ppiArcs = FICParseur.FICLireTabAvecVirgule(uiNbSommets, (char*)"Arcs", (char*)"Debut", (char*)"Fin");
 	
 	//Affectation Graphe
+		//Sommets
+	for (uiBoucle = 0; uiBoucle < uiNbSommets; uiBoucle++) {
+		GRACONGraphe.GRAAjouterSommet(piSommets[uiBoucle]);
+	}
+
+		//Arcs
+	for (uiBoucle = 0; uiBoucle < uiNbArcs; uiBoucle++) {
+		GRACONGraphe.GRAAjouterArc(ppiArcs[uiBoucle][0], ppiArcs[uiBoucle][1]);
+	}
+
+	GRACONGraphe.GRAAffichage();
 	//TBC
 }

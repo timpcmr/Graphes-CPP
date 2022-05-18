@@ -1,5 +1,7 @@
 #include "CSommet.h"
 
+#pragma warning(disable : 6308)
+
 using namespace std;
 
 
@@ -22,23 +24,15 @@ CSommet::CSommet(CSommet& SOMParam)
     }
 }
 
-CSommet::CSommet(int iNumero, unsigned int uiNbArcSommetEntrants, unsigned int uiNbArcSommetSortants)
+CSommet::CSommet(int iNumero)
 {
-    unsigned int uiboucle1;
-
     iSOMNumero = iNumero;
-    uiSOMNbArcsSommetEntrants = uiNbArcSommetEntrants;
-    uiSOMNbArcsSommetSortants = uiNbArcSommetSortants;
 
-    ppARCSOMEntrant = new CArc * [uiSOMNbArcsSommetEntrants];
-    ppARCSOMSortant = new CArc * [uiSOMNbArcsSommetSortants];
+    uiSOMNbArcsSommetEntrants = 0;
+    uiSOMNbArcsSommetSortants = 0;
 
-    for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetEntrants; uiboucle1++) {
-        ppARCSOMEntrant[uiboucle1] = new CArc;
-    }
-    for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetSortants; uiboucle1++) {
-        ppARCSOMSortant[uiboucle1] = new CArc;
-    }
+    ppARCSOMEntrant = nullptr;
+    ppARCSOMSortant = nullptr;
 }
 
 CSommet::~CSommet()

@@ -1,5 +1,7 @@
 #pragma once
 
+#pragma warning(disable : 6308)
+
 #include "CGraphe.h"
 #include "CSommet.h"
 
@@ -46,6 +48,14 @@ void CGraphe::GRAAjouterArc(CSommet& SOMDepart, CSommet& SOMArrivee)
 	uiGRANbArcs++;
 }
 
+void CGraphe::GRAAjouterArc(int iDepart, int iArrivee)
+{
+	CArc* pARCNouvelArc = new CArc(iArrivee);
+	GRARechercheSommet(iDepart).SOMAjouterArcSortant(pARCNouvelArc);
+	GRARechercheSommet(iArrivee).SOMAjouterArcEntrant(pARCNouvelArc);
+	uiGRANbArcs++;
+}
+
 void CGraphe::GRASupprimerArc(CArc* pARCParam)
 {
 	CSommet SOMEntrant = GRARechercheArc(pARCParam, entrant);
@@ -64,6 +74,27 @@ void CGraphe::GRAAjouterSommet(CSommet& SOMSommet)
 	unsigned int uiBoucle;
 	char pcEntree[1024];
 	pSOMGRAListeSommet = (CSommet *)realloc(pSOMGRAListeSommet, (GRALireNbSommet() + 1) * sizeof(CSommet));
+	while (!GRANumeroSommetUnique(SOMSommet.SOMLireNumero())) {
+		cout << "Les numeros de sommets utilises sont :" << endl;
+		for (uiBoucle = 0; uiBoucle < GRALireNbSommet(); uiBoucle++) {
+			cout << GRALireSommets()[uiBoucle].SOMLireNumero() << "  ";
+		}
+		cout << endl;
+		cin >> pcEntree;
+		iNum = atoi(pcEntree);
+		SOMSommet.SOMModifierNumero(iNum);
+	}
+	pSOMGRAListeSommet[GRALireNbSommet()] = SOMSommet;
+
+	uiGRANbSommet++;
+}
+
+void CGraphe::GRAAjouterSommet(int iNum)
+{
+	unsigned int uiBoucle;
+	char pcEntree[1024];
+	CSommet SOMSommet(iNum);
+	pSOMGRAListeSommet = (CSommet*)realloc(pSOMGRAListeSommet, (GRALireNbSommet() + 1) * sizeof(CSommet));
 	while (!GRANumeroSommetUnique(SOMSommet.SOMLireNumero())) {
 		cout << "Les numeros de sommets utilises sont :" << endl;
 		for (uiBoucle = 0; uiBoucle < GRALireNbSommet(); uiBoucle++) {

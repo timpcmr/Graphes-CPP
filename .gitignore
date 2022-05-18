@@ -14,6 +14,7 @@
 *.userprefs
 Aide/
 Docs/
+enc_temp_folder/
 
 # Mono auto generated files
 mono_crash.*
