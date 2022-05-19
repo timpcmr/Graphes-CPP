@@ -14,7 +14,6 @@ CControleurParseur::CControleurParseur(char* pcChemin)
 
 CControleurParseur::~CControleurParseur()
 {
-	delete pcCONChemin;
 	pcCONChemin = nullptr;
 }
 
@@ -55,10 +54,11 @@ void CControleurParseur::CONLireFichierGraphe()
 	for (uiBoucle = 0; uiBoucle < uiNbArcs; uiBoucle++) {
 		GRACONGraphe.GRAAjouterArc(ppiArcs[uiBoucle][0], ppiArcs[uiBoucle][1]);
 	}
-
+	
 	delete[] piSommets;
 	for (uiBoucle = 0; uiBoucle < uiNbArcs; uiBoucle++) {
 		delete[] ppiArcs[uiBoucle];
 	}
 	delete[] ppiArcs;
+	
 }

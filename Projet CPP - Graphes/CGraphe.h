@@ -45,14 +45,14 @@ public :
 	void GRASupprimerArc(CArc* pARCParam);
 	void GRAAjouterSommet(CSommet& SOMSommet);
 	void GRAAjouterSommet(int iNum);
-	void GRASupprimerSommet(CSommet& SOMSommet);
+	void GRASupprimerSommet(CSommet* SOMSommet);
 
 	//Méthodes
 	CSommet& GRARechercheArc(CArc * pARCParam, int iParam);
 	CSommet& GRARechercheSommet(int iVal);
 	bool GRANumeroSommetUnique(int iVal);
 	void GRAAffichage();
-	void GRAInversion();
+	CGraphe GRAInversion();
 	void GRANonOriente();
 	
 

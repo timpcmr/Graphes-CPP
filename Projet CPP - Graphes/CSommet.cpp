@@ -1,5 +1,6 @@
 #include "CSommet.h"
 
+
 #pragma warning(disable : 6308)
 
 using namespace std;
@@ -44,10 +45,14 @@ CSommet::~CSommet()
     }
     delete[] ppARCSOMEntrant;
 
+    cout << "Del entrant\n";
+
     for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants(); uiboucle++) {
         delete[] ppARCSOMSortant[uiboucle];
     }
     delete[] ppARCSOMSortant;
+
+    cout << "Del sortant\n";
 }
 
 

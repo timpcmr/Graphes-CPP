@@ -2,6 +2,8 @@
 #define SOMMET
 #include "CArc.h"
 #include <cstdlib>
+#include <cstdio>
+#include <iostream>
 
 //class CArc;
 
@@ -36,7 +38,6 @@ public :
 	void SOMAjouterArcSortant(CArc* pARCArc);
 	void SOMSupprimerArcSortant(CArc* pARCArc);
 
-	//Surcharges
 
 
 

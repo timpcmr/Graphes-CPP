@@ -19,9 +19,10 @@ CGraphe::~CGraphe()
 {
 	unsigned int uiboucle;
 	for (uiboucle = 0; uiboucle < uiGRANbSommet; uiboucle++) {
-		GRASupprimerSommet(pSOMGRAListeSommet[uiboucle]);
+		GRASupprimerSommet(&pSOMGRAListeSommet[uiboucle]);
 	}
 	
+	delete[] pSOMGRAListeSommet;
 	pSOMGRAListeSommet = nullptr;
 }
 
@@ -115,28 +116,29 @@ void CGraphe::GRAAjouterSommet(int iNum)
 	uiGRANbSommet++;
 }
 
-void CGraphe::GRASupprimerSommet(CSommet& SOMSommet)
+void CGraphe::GRASupprimerSommet(CSommet* SOMSommet)
 {
+	cout << "suppsommet\n";
 	int NumeroSommetDestination;
 	unsigned int uiboucle1, uiboucle2, uiSommetTrouve = 0;
 
 	//Suppression des arcs sortants du tableau des arcs entrants des sommets pointes
-	for (uiboucle1 = 0; uiboucle1 < SOMSommet.SOMLireNbArcsSortants(); uiboucle1++) {
-		NumeroSommetDestination = SOMSommet.SOMLireArcsSortants()[uiboucle1]->ARCLireDestination();
-		GRARechercheSommet(NumeroSommetDestination).SOMSupprimerArcEntrant(SOMSommet.SOMLireArcsSortants()[uiboucle1]);
+	for (uiboucle1 = 0; uiboucle1 < SOMSommet->SOMLireNbArcsSortants(); uiboucle1++) {
+		NumeroSommetDestination = SOMSommet->SOMLireArcsSortants()[uiboucle1]->ARCLireDestination();
+		GRARechercheSommet(NumeroSommetDestination).SOMSupprimerArcEntrant(SOMSommet->SOMLireArcsSortants()[uiboucle1]);
 	}
 
 	//Suppression des arcs entrants des tableaux des arcs sortants qui pointent sur SOMSommet
 	for (uiboucle1 = 0; uiboucle1 < GRALireNbSommet(); uiboucle1++) {
 		for (uiboucle2 = 0; uiboucle2 < GRALireSommets()[uiboucle1].SOMLireNbArcsSortants(); uiboucle2++) {
-			if (GRALireSommets()[uiboucle1].SOMLireArcsSortants()[uiboucle2]->ARCLireDestination() == SOMSommet.SOMLireNumero()) {
+			if (GRALireSommets()[uiboucle1].SOMLireArcsSortants()[uiboucle2]->ARCLireDestination() == SOMSommet->SOMLireNumero()) {
 				GRALireSommets()[uiboucle1].SOMSupprimerArcSortant(GRALireSommets()[uiboucle1].SOMLireArcsSortants()[uiboucle2]);
 			}
 		}
 	}
 
 	for (uiboucle1 = 0; uiboucle1 < GRALireNbSommet() - 1; uiboucle1++) {
-		if (GRALireSommets()[uiboucle1].SOMLireNumero() == SOMSommet.SOMLireNumero()) {
+		if (GRALireSommets()[uiboucle1].SOMLireNumero() == SOMSommet->SOMLireNumero()) {
 			uiSommetTrouve = 1;
 		}
 		pSOMGRAListeSommet[uiboucle1] = pSOMGRAListeSommet[uiboucle1 + uiSommetTrouve];
@@ -146,7 +148,8 @@ void CGraphe::GRASupprimerSommet(CSommet& SOMSommet)
 
 	uiGRANbSommet--;
 	//Suppression du sommet
-	SOMSommet.~CSommet();
+	delete SOMSommet;
+	//SOMSommet.~CSommet();
 }
 
 CSommet& CGraphe::GRARechercheArc(CArc* pARCParam, int iParam)
@@ -222,4 +225,20 @@ void CGraphe::GRAAffichage()
 		cout << "Type de Graphe : Non-Oriente" << endl;
 		cout << "Affichage a faire" << endl;
 	}
+}
+
+CGraphe CGraphe::GRAInversion()
+{
+	CGraphe GRARetour = CGraphe();
+	unsigned int uiboucle, uiboucle2;
+	for (uiboucle = 0; uiboucle < GRALireNbSommet(); uiboucle++) {
+		GRARetour.GRAAjouterSommet(GRALireSommets()[uiboucle].SOMLireNumero());
+	}
+
+	for (uiboucle = 0; uiboucle < GRALireNbSommet(); uiboucle++) {
+		for (uiboucle2 = 0; uiboucle2 < GRALireSommets()[uiboucle].SOMLireNbArcsSortants(); uiboucle2++) {
+			GRARetour.GRAAjouterArc(GRALireSommets()[uiboucle].SOMLireArcsSortants()[uiboucle2]->ARCLireDestination(), GRALireSommets()[uiboucle].SOMLireNumero());
+		}
+	}
+	return GRARetour;
 }
