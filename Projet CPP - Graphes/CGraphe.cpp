@@ -18,12 +18,11 @@ CGraphe::CGraphe()
 CGraphe::~CGraphe()
 {
 	unsigned int uiboucle;
-	/*
 	for (uiboucle = 0; uiboucle < uiGRANbSommet; uiboucle++) {
-		delete pSOMGRAListeSommet[uiboucle];
+		GRASupprimerSommet(pSOMGRAListeSommet[uiboucle]);
 	}
-	*/
-	delete[] pSOMGRAListeSommet;
+	
+	pSOMGRAListeSommet = nullptr;
 }
 
 CSommet* CGraphe::GRALireSommets()

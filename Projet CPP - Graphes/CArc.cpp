@@ -17,7 +17,7 @@ CArc::CArc(int iParam)
 
 CArc::~CArc()
 {
-	
+
 }
 
 int CArc::ARCLireDestination()
