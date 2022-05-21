@@ -7,7 +7,7 @@
 class CControleurParseur {
 private:
 	char* pcCONChemin;
-	CGraphe GRACONGraphe;
+	CGraphe* pGRACONGraphe;
 public:
 	CControleurParseur();
 	CControleurParseur(char* pcChemin);
@@ -16,7 +16,7 @@ public:
 	char* CONLireChemin();
 	void CONModifierChemin(char* pcChemin);
 
-	CGraphe CONLireGraphe();
+	CGraphe* CONLireGraphe();
 	void CONLireFichierGraphe();
 };
 

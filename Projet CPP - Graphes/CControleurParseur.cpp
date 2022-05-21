@@ -3,13 +3,13 @@
 CControleurParseur::CControleurParseur()
 {
 	pcCONChemin = nullptr;
-	GRACONGraphe = CGraphe();
+	pGRACONGraphe = new CGraphe();
 }
 
 CControleurParseur::CControleurParseur(char* pcChemin)
 {
 	pcCONChemin = pcChemin;
-	GRACONGraphe = CGraphe();
+	pGRACONGraphe = new CGraphe();
 }
 
 CControleurParseur::~CControleurParseur()
@@ -27,9 +27,9 @@ void CControleurParseur::CONModifierChemin(char* pcChemin)
 	pcCONChemin = pcChemin;
 }
 
-CGraphe CControleurParseur::CONLireGraphe()
+CGraphe* CControleurParseur::CONLireGraphe()
 {
-	return GRACONGraphe;
+	return pGRACONGraphe;
 }
 
 void CControleurParseur::CONLireFichierGraphe()
@@ -47,12 +47,12 @@ void CControleurParseur::CONLireFichierGraphe()
 	//Affectation Graphe
 		//Sommets
 	for (uiBoucle = 0; uiBoucle < uiNbSommets; uiBoucle++) {
-		GRACONGraphe.GRAAjouterSommet(piSommets[uiBoucle]);
+		pGRACONGraphe->GRAAjouterSommet(piSommets[uiBoucle]);
 	}
 
 		//Arcs
 	for (uiBoucle = 0; uiBoucle < uiNbArcs; uiBoucle++) {
-		GRACONGraphe.GRAAjouterArc(ppiArcs[uiBoucle][0], ppiArcs[uiBoucle][1]);
+		pGRACONGraphe->GRAAjouterArc(ppiArcs[uiBoucle][0], ppiArcs[uiBoucle][1]);
 	}
 	
 	delete[] piSommets;

@@ -1,6 +1,9 @@
 #ifndef ARC
 #define ARC
 
+#define entrant 0
+#define sortant 1
+
 class CArc {
 private :
 

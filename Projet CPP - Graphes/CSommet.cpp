@@ -38,21 +38,25 @@ CSommet::CSommet(int iNumero)
 
 CSommet::~CSommet()
 {
+    
     unsigned int uiboucle;
-
-    for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants(); uiboucle++) {
-        delete[] ppARCSOMEntrant[uiboucle];
+    if (ppARCSOMEntrant != nullptr) {
+        for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants(); uiboucle++) {
+            delete[] ppARCSOMEntrant[uiboucle];
+        }
+        delete ppARCSOMEntrant;
+        ppARCSOMEntrant = nullptr;
     }
-    delete[] ppARCSOMEntrant;
+        cout << "Del entrant\n";
 
-    cout << "Del entrant\n";
-
-    for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants(); uiboucle++) {
-        delete[] ppARCSOMSortant[uiboucle];
+    if (ppARCSOMSortant != nullptr) {
+        for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants(); uiboucle++) {
+            delete[] ppARCSOMSortant[uiboucle];
+        }
+        delete ppARCSOMSortant;
+        ppARCSOMSortant = nullptr;
+        cout << "Del sortant\n";
     }
-    delete[] ppARCSOMSortant;
-
-    cout << "Del sortant\n";
 }
 
 
@@ -130,4 +134,27 @@ void CSommet::SOMSupprimerArcSortant(CArc* pARCArc)
 
 	ppARCSOMSortant = (CArc **)realloc(ppARCSOMSortant, (SOMLireNbArcsSortants() - 1) * sizeof(CArc*));
 	uiSOMNbArcsSommetSortants--;
+}
+
+CArc* CSommet::SOMRechercheArc(int iDestination, int iParam)
+{
+    unsigned int uiboucle;
+
+    if (iParam == entrant) {
+        for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants(); uiboucle++) {
+            if (SOMLireArcsEntrants()[uiboucle]->ARCLireDestination() == iDestination) {
+                return SOMLireArcsEntrants()[uiboucle];
+            }
+        }
+    }
+    else if (iParam == sortant) {
+        for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants(); uiboucle++) {
+            if (SOMLireArcsSortants()[uiboucle]->ARCLireDestination() == iDestination) {
+                return SOMLireArcsSortants()[uiboucle];
+            }
+        }
+    }
+    else {
+        return nullptr;
+    }
 }

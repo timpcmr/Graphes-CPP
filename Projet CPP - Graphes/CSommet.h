@@ -38,6 +38,8 @@ public :
 	void SOMAjouterArcSortant(CArc* pARCArc);
 	void SOMSupprimerArcSortant(CArc* pARCArc);
 
+	//Méthodes
+	CArc* SOMRechercheArc(int iDestination, int iParam);
 
 
 

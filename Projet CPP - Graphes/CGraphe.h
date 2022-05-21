@@ -9,8 +9,6 @@
 #include <iostream>
 #include <cstdlib>
 
-#define entrant 0
-#define sortant 1
 #define EXCAucunParamRecherche 20
 #define EXCValeurSommetIntrouvable 21
 #define EXCListeSommetInexistante 22
@@ -22,7 +20,7 @@ class CGraphe {
 private :
 
 	//Attributs
-	CSommet* pSOMGRAListeSommet;
+	CSommet** ppSOMGRAListeSommet;
 	unsigned int uiGRANbSommet;
 	unsigned int uiGRANbArcs;
 	bool bGRAOriente;
@@ -34,26 +32,27 @@ public :
 	~CGraphe();
 
 	//Accesseurs
-	CSommet* GRALireSommets();
+	CSommet** GRALireSommets();
 	unsigned int GRALireNbSommet();
 	unsigned int GRALireNbArcs();
 	bool GRALireType();
 
 	//Modifieurs
-	void GRAAjouterArc(CSommet& SOMDepart, CSommet& SOMArrivee);
+	void GRAAjouterArc(CSommet* SOMDepart, CSommet* SOMArrivee);
 	void GRAAjouterArc(int iDepart, int iArrivee);
 	void GRASupprimerArc(CArc* pARCParam);
-	void GRAAjouterSommet(CSommet& SOMSommet);
+	void GRAAjouterSommet(CSommet* pSOMSommet);
 	void GRAAjouterSommet(int iNum);
-	void GRASupprimerSommet(CSommet* SOMSommet);
+	void GRASupprimerSommet(int iNumSommet);
 
 	//Méthodes
-	CSommet& GRARechercheArc(CArc * pARCParam, int iParam);
-	CSommet& GRARechercheSommet(int iVal);
+	CSommet* GRARechercheSommetAvecArc(CArc * pARCParam, int iParam);
+	CSommet* GRARechercheSommet(int iVal);
+	int GRARechercheIndexSommet(int iSommet);
 	bool GRANumeroSommetUnique(int iVal);
 	void GRAAffichage();
-	CGraphe GRAInversion();
-	void GRANonOriente();
+	CGraphe* GRAInversion();
+	CGraphe* GRANonOriente();
 	
 
 };

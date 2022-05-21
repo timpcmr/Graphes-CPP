@@ -13,12 +13,14 @@ int main(int argc, char* argv[]) {
 	cout << "2\n";
 	pFichierLu->CONLireFichierGraphe();
 	cout << "3\n";
-	CGraphe Graphe = pFichierLu->CONLireGraphe();
-	Graphe.GRAAffichage();
+	CGraphe* pGRAGraphe = pFichierLu->CONLireGraphe();
+	pGRAGraphe->GRAAffichage();
 	cout << "inversion" << endl;
-	CGraphe GrapheInverse = Graphe.GRAInversion();
-	GrapheInverse.GRAAffichage();
+	CGraphe* pGRAGrapheInverse = pGRAGraphe->GRAInversion();
+	pGRAGrapheInverse->GRAAffichage();
 	cout << "Avant destruct\n";
+	//delete pGRAGraphe;
+	//delete pGRAGrapheInverse;
 	delete pFichierLu;
 	cout << "Apres destruct\n";
 	return 0;
