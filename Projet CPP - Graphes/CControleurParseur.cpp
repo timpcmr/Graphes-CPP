@@ -15,6 +15,8 @@ CControleurParseur::CControleurParseur(char* pcChemin)
 CControleurParseur::~CControleurParseur()
 {
 	pcCONChemin = nullptr;
+	delete pGRACONGraphe;
+	pGRACONGraphe = nullptr;
 }
 
 char* CControleurParseur::CONLireChemin()

@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
 	CGraphe* pGRAGrapheNonOriente = pGRAGraphe->GRANonOriente();
 	pGRAGrapheNonOriente->GRAAffichage();
 	cout << "Avant destruct\n";
-	delete pGRAGraphe;
+	//delete pGRAGraphe;
 	//delete pGRAGrapheInverse;
 	delete pFichierLu;
 	cout << "Apres destruct\n";

@@ -21,6 +21,7 @@ CGraphe::~CGraphe()
 	if (ppSOMGRAListeSommet != nullptr) {
 		for (uiboucle = 0; uiboucle < uiGRANbSommet; uiboucle++) {
 			delete ppSOMGRAListeSommet[uiboucle];
+			ppSOMGRAListeSommet[uiboucle] = nullptr;
 			}
 		delete[] ppSOMGRAListeSommet;
 		ppSOMGRAListeSommet = nullptr;
