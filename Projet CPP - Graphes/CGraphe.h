@@ -44,6 +44,7 @@ public :
 	void GRAAjouterSommet(CSommet* pSOMSommet);
 	void GRAAjouterSommet(int iNum);
 	void GRASupprimerSommet(int iNumSommet);
+	void GRAModifierType(bool bParam);
 
 	//Méthodes
 	CSommet* GRARechercheSommetAvecArc(CArc * pARCParam, int iParam);

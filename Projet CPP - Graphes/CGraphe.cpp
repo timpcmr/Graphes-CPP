@@ -144,6 +144,11 @@ void CGraphe::GRASupprimerSommet(int iNumSommet)
 
 }
 
+void CGraphe::GRAModifierType(bool bParam)
+{
+	bGRAOriente = bParam;
+}
+
 CSommet* CGraphe::GRARechercheSommetAvecArc(CArc* pARCParam, int iParam)
 {
 	unsigned int uiboucle, uiboucle2;
@@ -222,12 +227,18 @@ void CGraphe::GRAAffichage()
 			for (uiboucleArc = 0; uiboucleArc < GRALireSommets()[uiboucleSommet]->SOMLireNbArcsSortants(); uiboucleArc++) {
 				cout << "--> " << GRALireSommets()[uiboucleSommet]->SOMLireArcsSortants()[uiboucleArc]->ARCLireDestination() << endl;
 			}
-			cout << "\n";
+			cout << endl;
 		}
 	}
 	else {
 		cout << "Type de Graphe : Non-Oriente" << endl;
-		cout << "Affichage a faire" << endl;
+		for (uiboucleSommet = 0; uiboucleSommet < uiGRANbSommet; uiboucleSommet++) {
+			cout << "Sommet " << GRALireSommets()[uiboucleSommet]->SOMLireNumero() << " : " << endl;
+			for (uiboucleArc = 0; uiboucleArc < GRALireSommets()[uiboucleSommet]->SOMLireNbArcsSortants(); uiboucleArc++) {
+				cout << "<--> " << GRALireSommets()[uiboucleSommet]->SOMLireArcsSortants()[uiboucleArc]->ARCLireDestination() << endl;
+			}
+			cout << endl;
+		}
 	}
 }
 
@@ -245,4 +256,23 @@ CGraphe* CGraphe::GRAInversion()
 		}
 	}
 	return pGRARetour;
+}
+
+CGraphe* CGraphe::GRANonOriente()
+{
+	CGraphe* pGRAGrapheRetour = new CGraphe();
+	unsigned int uiboucle, uiboucle2;
+	pGRAGrapheRetour->GRAModifierType(false);
+
+	for (uiboucle = 0; uiboucle < GRALireNbSommet(); uiboucle++) {
+		pGRAGrapheRetour->GRAAjouterSommet(GRALireSommets()[uiboucle]->SOMLireNumero());
+	}
+	for (uiboucle = 0; uiboucle < GRALireNbSommet(); uiboucle++) {
+		for (uiboucle2 = 0; uiboucle2 < GRALireSommets()[uiboucle]->SOMLireNbArcsSortants(); uiboucle2++) {
+			pGRAGrapheRetour->GRAAjouterArc(GRALireSommets()[uiboucle]->SOMLireNumero(), GRALireSommets()[uiboucle]->SOMLireArcsSortants()[uiboucle2]->ARCLireDestination());
+			pGRAGrapheRetour->GRAAjouterArc(GRALireSommets()[uiboucle]->SOMLireArcsSortants()[uiboucle2]->ARCLireDestination(), GRALireSommets()[uiboucle]->SOMLireNumero());
+		}
+	}
+	
+	return pGRAGrapheRetour;
 }

@@ -18,8 +18,11 @@ int main(int argc, char* argv[]) {
 	cout << "inversion" << endl;
 	CGraphe* pGRAGrapheInverse = pGRAGraphe->GRAInversion();
 	pGRAGrapheInverse->GRAAffichage();
+
+	CGraphe* pGRAGrapheNonOriente = pGRAGraphe->GRANonOriente();
+	pGRAGrapheNonOriente->GRAAffichage();
 	cout << "Avant destruct\n";
-	//delete pGRAGraphe;
+	delete pGRAGraphe;
 	//delete pGRAGrapheInverse;
 	delete pFichierLu;
 	cout << "Apres destruct\n";
