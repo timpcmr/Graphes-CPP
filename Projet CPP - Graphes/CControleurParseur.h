@@ -2,7 +2,7 @@
 #define CONTROL_PARSER
 
 #include "CGraphe.h"
-#include "Cfichier.h"
+#include "CFichier.h"
 
 class CControleurParseur {
 private:

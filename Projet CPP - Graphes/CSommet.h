@@ -5,7 +5,7 @@
 #include <cstdio>
 #include <iostream>
 
-//class CArc;
+class CArc;
 
 class CSommet {
 private :
