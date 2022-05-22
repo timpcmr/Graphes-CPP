@@ -18,7 +18,7 @@
 #define EXCNbArcsNeg 5
 #define EXCParserPointeurNul 6
 #define EXCTokenNulMinuscule 7
-#define EXCTokenNulSuppEspace 8
+#define EXCTokenNulSuppChar 8
 #define EXCColonneDimSup 9
 #define EXCColonneDimInf 10
 #define EXCLigneDimSup 11

@@ -4,6 +4,8 @@
 #include <cstdio>
 #include <cstdlib>
 
+#define EXCArretProgramme 50
+
 using namespace std;
 
 int main(int argc, char* argv[]) {

@@ -88,6 +88,7 @@ unsigned int* Cfichier::FICLireTabSansVirgule(const unsigned int iNbLignes, char
 			}
 			else {
 				delete[] pcLigne;
+				delete[] puiValeursRetour;
 				throw CException(EXCBaliseIncorrecte);
 			}
 		}
@@ -225,7 +226,7 @@ char * Cfichier::FICMinuscule(char* pcChaineMin)
 void Cfichier::FICSupp_char(char* pcChaine, const char cCharactere)
 {
 	if (pcChaine == nullptr) {
-		throw CException(EXCTokenNulSuppEspace);
+		throw CException(EXCTokenNulSuppChar);
 	}
 	unsigned int uiboucle1, uiboucle2;
 

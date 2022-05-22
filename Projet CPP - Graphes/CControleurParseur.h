@@ -4,6 +4,11 @@
 #include "CGraphe.h"
 #include "CFichier.h"
 
+#define EXCArretProgramme 50
+
+#define EXCCheminVideCtrlParseur 30
+
+
 class CControleurParseur {
 private:
 	char* pcCONChemin;

@@ -36,31 +36,144 @@ CGraphe* CControleurParseur::CONLireGraphe()
 
 void CControleurParseur::CONLireFichierGraphe()
 {
+	if (pcCONChemin == nullptr) {
+		throw CException(EXCCheminVideCtrlParseur);
+	}
 	Cfichier FICParseur(pcCONChemin);
-	unsigned int uiNbArcs, uiNbSommets;
+	unsigned int uiNbArcs = 0, uiNbSommets = 0;
 	unsigned int uiBoucle;
+	unsigned int* puiSommets;
+	unsigned int** ppuiArcs;
 
-	uiNbArcs = FICParseur.FICLireChiffre((char*)"nbarcs");
-	uiNbSommets = FICParseur.FICLireChiffre((char*)"nbsommets");
 
-	unsigned int* piSommets = FICParseur.FICLireTabSansVirgule(uiNbSommets, (char*)"sommets", (char*)"numero");
-	unsigned int** ppiArcs = FICParseur.FICLireTabAvecVirgule(uiNbSommets, (char*)"arcs", (char*)"debut", (char*)"fin");
+	try {
+		uiNbArcs = FICParseur.FICLireChiffre((char*)"nbarcs");
+	}
+	catch (CException EXCException) {
+
+		cout << "ERREUR INTERNE PARSEUR : FICLireChiffre (Nb Arcs)" << endl;
+
+		if (EXCException.EXCLireErreur() == EXCParserPointeurNul) {
+			cout << "Le pointeur pcToken est nul !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCFichierNonOuvert) {
+			cout << "Aucun chemin d'acces au fichier precise ou Flot non initialise !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCTokenNulSuppChar) {
+			cout << "Le pointeur passe en parametre de FICSuppChar est nul !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCTokenNulMinuscule) {
+			cout << "Le pointeur passe en parametre de FICMinuscule est nul !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCBoucleInfinie) {
+			cout << "Une boucle infinie a ete declenchee dans FICLigneSuivante !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCLigneNulle) {
+			cout << "Le pointeur passe en parametre de FICLigneSuivante est nul !" << endl;
+		}
+		throw CException(EXCArretProgramme);
+	}
 	
+	try {
+		uiNbSommets = FICParseur.FICLireChiffre((char*)"nbsommets");
+	}
+	catch (CException EXCException) {
+
+		cout << "ERREUR INTERNE PARSEUR : FICLireChiffre (Nb Sommets)" << endl;
+
+		if (EXCException.EXCLireErreur() == EXCParserPointeurNul) {
+			cout << "Le pointeur pcToken est nul !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCFichierNonOuvert) {
+			cout << "Aucun chemin d'acces au fichier precise ou Flot non initialise !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCTokenNulSuppChar) {
+			cout << "Le pointeur passe en parametre de FICSuppChar est nul !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCTokenNulMinuscule) {
+			cout << "Le pointeur passe en parametre de FICMinuscule est nul !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCBoucleInfinie) {
+			cout << "Une boucle infinie a ete declenchee dans FICLigneSuivante !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCLigneNulle) {
+			cout << "Le pointeur passe en parametre de FICLigneSuivante est nul !" << endl;
+		}
+		throw CException(EXCArretProgramme);
+	}
+
+	try
+	{
+		unsigned int* puiSommets = FICParseur.FICLireTabSansVirgule(uiNbSommets, (char*)"sommets", (char*)"numero");
+	}
+	catch (CException EXCException)
+	{
+		cout << "ERREUR INTERNE PARSEUR : FICLireTabSansVirgule" << endl;
+
+		if (EXCException.EXCLireErreur() == EXCParserPointeurNul) {
+			cout << "Le pointeur pcToken est nul !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCFichierNonOuvert) {
+			cout << "Aucun chemin d'acces au fichier precise ou Flot non initialise !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCTokenNulSuppChar) {
+			cout << "Le pointeur passe en parametre de FICSuppChar est nul !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCTokenNulMinuscule) {
+			cout << "Le pointeur passe en parametre de FICMinuscule est nul !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCBoucleInfinie) {
+			cout << "Une boucle infinie a ete declenchee dans FICLigneSuivante !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCLigneNulle) {
+			cout << "Le pointeur passe en parametre de FICLigneSuivante est nul !" << endl;
+		}
+		throw CException(EXCArretProgramme);
+	}
+	
+	try {
+		unsigned int** ppuiArcs = FICParseur.FICLireTabAvecVirgule(uiNbSommets, (char*)"arcs", (char*)"debut", (char*)"fin");
+	}
+	catch (CException EXCException)
+	{
+		cout << "ERREUR INTERNE PARSEUR : FICLireTabAvecVirgule" << endl;
+
+		if (EXCException.EXCLireErreur() == EXCParserPointeurNul) {
+			cout << "Le pointeur pcToken est nul !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCFichierNonOuvert) {
+			cout << "Aucun chemin d'acces au fichier precise ou Flot non initialise !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCTokenNulSuppChar) {
+			cout << "Le pointeur passe en parametre de FICSuppChar est nul !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCTokenNulMinuscule) {
+			cout << "Le pointeur passe en parametre de FICMinuscule est nul !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCBoucleInfinie) {
+			cout << "Une boucle infinie a ete declenchee dans FICLigneSuivante !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCLigneNulle) {
+			cout << "Le pointeur passe en parametre de FICLigneSuivante est nul !" << endl;
+		}
+		throw CException(EXCArretProgramme);
+	}
+
 	//Affectation Graphe
 		//Sommets
 	for (uiBoucle = 0; uiBoucle < uiNbSommets; uiBoucle++) {
-		pGRACONGraphe->GRAAjouterSommet(piSommets[uiBoucle]);
+		pGRACONGraphe->GRAAjouterSommet(puiSommets[uiBoucle]);
 	}
 
 		//Arcs
 	for (uiBoucle = 0; uiBoucle < uiNbArcs; uiBoucle++) {
-		pGRACONGraphe->GRAAjouterArc(ppiArcs[uiBoucle][0], ppiArcs[uiBoucle][1]);
+		pGRACONGraphe->GRAAjouterArc(ppuiArcs[uiBoucle][0], ppuiArcs[uiBoucle][1]);
 	}
 	
-	delete[] piSommets;
+	delete[] puiSommets;
 	for (uiBoucle = 0; uiBoucle < uiNbArcs; uiBoucle++) {
-		delete[] ppiArcs[uiBoucle];
+		delete[] ppuiArcs[uiBoucle];
 	}
-	delete[] ppiArcs;
+	delete[] ppuiArcs;
 	
 }
