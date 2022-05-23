@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
 	cout << "Avant destruct\n";
 	//delete pGRAGraphe;
 	//delete pGRAGrapheInverse;
-	delete pFichierLu;
+	//delete pFichierLu;
 	cout << "Apres destruct\n";
 	return 0;
 }

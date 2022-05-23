@@ -42,8 +42,8 @@ void CControleurParseur::CONLireFichierGraphe()
 	Cfichier FICParseur(pcCONChemin);
 	unsigned int uiNbArcs = 0, uiNbSommets = 0;
 	unsigned int uiBoucle;
-	unsigned int* puiSommets;
-	unsigned int** ppuiArcs;
+	unsigned int* puiSommets = nullptr;
+	unsigned int** ppuiArcs = nullptr;
 
 
 	try {
@@ -104,7 +104,7 @@ void CControleurParseur::CONLireFichierGraphe()
 
 	try
 	{
-		unsigned int* puiSommets = FICParseur.FICLireTabSansVirgule(uiNbSommets, (char*)"sommets", (char*)"numero");
+		puiSommets = FICParseur.FICLireTabSansVirgule(uiNbSommets, (char*)"sommets", (char*)"numero");
 	}
 	catch (CException EXCException)
 	{
@@ -132,7 +132,7 @@ void CControleurParseur::CONLireFichierGraphe()
 	}
 	
 	try {
-		unsigned int** ppuiArcs = FICParseur.FICLireTabAvecVirgule(uiNbSommets, (char*)"arcs", (char*)"debut", (char*)"fin");
+		ppuiArcs = FICParseur.FICLireTabAvecVirgule(uiNbSommets, (char*)"arcs", (char*)"debut", (char*)"fin");
 	}
 	catch (CException EXCException)
 	{
