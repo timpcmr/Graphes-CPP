@@ -51,10 +51,12 @@ unsigned int Cfichier::FICLireChiffre(char* pcTag)
 		
 		pcToken = strtok(NULL, "=");
 		if (pcToken == nullptr || pcToken[0] == '\0') {
+			delete[] pcLigne;
 			throw CException(EXCMiseEnFormeIncorecte);
 		}
 		int iValeurParsee = atoi(pcToken);
 		if (iValeurParsee <= 0) {
+			delete[] pcLigne;
 			throw CException(EXCValeurNeg);
 		}
 		uiValeurRetournee = (unsigned int)iValeurParsee;
@@ -92,10 +94,14 @@ unsigned int* Cfichier::FICLireTabSansVirgule(const unsigned int iNbLignes, char
 			if (FICVerifBalise(pcToken, pcTag2) == true) {
 				pcToken = strtok(NULL, "=");
 				if (pcToken == nullptr || pcToken[0] == '\0') {
+					delete[] puiValeursRetour;
+					delete[] pcLigne;
 					throw CException(EXCMiseEnFormeIncorecte);
 				}
 				int iValeurParsee = atoi(pcToken);
 				if (iValeurParsee <= 0) {
+					delete[] puiValeursRetour;
+					delete[] pcLigne;
 					throw CException(EXCValeurNeg);
 				}
 				puiValeursRetour[uiBoucle] = (unsigned int)iValeurParsee;
@@ -151,10 +157,14 @@ unsigned int** Cfichier::FICLireTabAvecVirgule(const unsigned int iNbLignes, cha
 			if (FICVerifBalise(pcToken3, pcTag2) == true) {
 				pcToken3 = strtok(NULL, "=");
 				if (pcToken3 == nullptr || pcToken3[0] == '\0') {
+					delete[] pcLigne;
+					delete[] ppuiValeursRetour;
 					throw CException(EXCMiseEnFormeIncorecte);
 				}
 				int iValeurParsee = atoi(pcToken3);
 				if (iValeurParsee <= 0) {
+					delete[] pcLigne;
+					delete[] ppuiValeursRetour;
 					throw CException(EXCValeurNeg);
 				}
 				ppuiValeursRetour[uiBoucle1][0] = (unsigned int)iValeurParsee;
@@ -170,10 +180,14 @@ unsigned int** Cfichier::FICLireTabAvecVirgule(const unsigned int iNbLignes, cha
 			if (FICVerifBalise(pcToken3, pcTag3) == true) {
 				pcToken3 = strtok(NULL, "=");
 				if (pcToken3 == nullptr || pcToken3[0] == '\0') {
+					delete[] pcLigne;
+					delete[] ppuiValeursRetour;
 					throw CException(EXCMiseEnFormeIncorecte);
 				}
 				int iValeurParsee = atoi(pcToken3);
 				if (iValeurParsee <= 0) {
+					delete[] pcLigne;
+					delete[] ppuiValeursRetour;
 					throw CException(EXCValeurNeg);
 				}
 				ppuiValeursRetour[uiBoucle1][1] = (unsigned int)iValeurParsee;
