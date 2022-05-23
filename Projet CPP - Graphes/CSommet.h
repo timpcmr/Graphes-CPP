@@ -1,11 +1,16 @@
 #ifndef SOMMET
 #define SOMMET
+
+#pragma warning(disable : 6385)
+#pragma warning(disable : 6386)
+
 #include "CArc.h"
+#include "CException.h"
 #include <cstdlib>
 #include <cstdio>
 #include <iostream>
 
-class CArc;
+#define EXCSuppImpossible 40
 
 class CSommet {
 private :
@@ -41,7 +46,8 @@ public :
 	//Méthodes
 	CArc* SOMRechercheArc(int iDestination, int iParam);
 
-
+	//Surcharge
+	CSommet& operator=(CSommet SOMSommet);
 
 };
 

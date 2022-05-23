@@ -38,24 +38,23 @@ CSommet::CSommet(int iNumero)
 
 CSommet::~CSommet()
 {
-    
     unsigned int uiboucle;
     if (ppARCSOMEntrant != nullptr) {
         for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants(); uiboucle++) {
-            delete[] ppARCSOMEntrant[uiboucle];
+            delete ppARCSOMEntrant[uiboucle];
+            ppARCSOMEntrant[uiboucle] = nullptr;
         }
-        delete ppARCSOMEntrant;
+        delete[] ppARCSOMEntrant;
         ppARCSOMEntrant = nullptr;
     }
-        cout << "Del entrant\n";
 
     if (ppARCSOMSortant != nullptr) {
         for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants(); uiboucle++) {
-            delete[] ppARCSOMSortant[uiboucle];
+            delete ppARCSOMSortant[uiboucle];
+            ppARCSOMSortant[uiboucle] = nullptr;
         }
-        delete ppARCSOMSortant;
+        delete[] ppARCSOMSortant;
         ppARCSOMSortant = nullptr;
-        cout << "Del sortant\n";
     }
 }
 
@@ -92,48 +91,123 @@ void CSommet::SOMModifierNumero(int iNumero)
 
 void CSommet::SOMAjouterArcEntrant(CArc* pARCArc)
 {
-	ppARCSOMEntrant = (CArc**)realloc(ppARCSOMEntrant, (SOMLireNbArcsEntrants() + 1) * sizeof(CArc *));
-	ppARCSOMEntrant[SOMLireNbArcsEntrants()] = pARCArc;
+    unsigned int uiboucle1;
+    CArc** ppARCSOMEntranttmp = new CArc * [uiSOMNbArcsSommetEntrants + 1];
+    for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetEntrants + 1; uiboucle1++) {
+        ppARCSOMEntranttmp[uiboucle1] = new CArc;
+    }
+
+    for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetEntrants + 1; uiboucle1++) {
+        if (uiboucle1 < uiSOMNbArcsSommetEntrants) {
+            *ppARCSOMEntranttmp[uiboucle1] = *ppARCSOMEntrant[uiboucle1];
+        }
+        else {
+            *ppARCSOMEntranttmp[uiboucle1] = *pARCArc;
+        }
+    }
+
+    for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetEntrants; uiboucle1++) {
+        delete ppARCSOMEntrant[uiboucle1];
+        ppARCSOMEntrant[uiboucle1] = nullptr;
+    }
+    delete[] ppARCSOMEntrant;
+    ppARCSOMEntrant = ppARCSOMEntranttmp;
+	
 	uiSOMNbArcsSommetEntrants++;
 
 }
 
 void CSommet::SOMSupprimerArcEntrant(CArc* pARCArc)
 {
+    if (uiSOMNbArcsSommetEntrants == 0) {
+        throw CException(EXCSuppImpossible);
+    }
     unsigned int uiboucle, uiArcTrouve = 0;
+    CArc** ppARCSOMEntranttmp = new CArc * [uiSOMNbArcsSommetEntrants - 1];
+    for (uiboucle = 0; uiboucle < uiSOMNbArcsSommetEntrants - 1; uiboucle++) {
+        ppARCSOMEntranttmp[uiboucle] = new CArc;
+    }
 
 	for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants() - 1; uiboucle++) {
 		if (SOMLireArcsEntrants()[uiboucle] == pARCArc) {
 			uiArcTrouve = 1;
+            delete ppARCSOMEntrant[uiboucle];
 		}
+
 		ppARCSOMEntrant[uiboucle] = ppARCSOMEntrant[uiboucle + uiArcTrouve];
 	}
 
-	ppARCSOMEntrant = (CArc **)realloc(ppARCSOMEntrant, (SOMLireNbArcsEntrants() - 1) * sizeof(CArc*));
+    for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants() - 1; uiboucle++) {
+        *ppARCSOMEntranttmp[uiboucle] = *ppARCSOMEntrant[uiboucle];
+    }
+
+    for (uiboucle = 0; uiboucle < uiSOMNbArcsSommetEntrants; uiboucle++) {
+        delete ppARCSOMEntrant[uiboucle];
+        ppARCSOMEntrant[uiboucle] = nullptr;
+    }
+    delete[] ppARCSOMEntrant;
+    ppARCSOMEntrant = ppARCSOMEntranttmp;
 	uiSOMNbArcsSommetEntrants--;
     
 }
 
 void CSommet::SOMAjouterArcSortant(CArc* pARCArc)
 {
-	ppARCSOMSortant = (CArc**)realloc(ppARCSOMSortant, (SOMLireNbArcsSortants() + 1) * sizeof(CArc *));
-	ppARCSOMSortant[SOMLireNbArcsSortants()] = pARCArc;
-	uiSOMNbArcsSommetSortants++;
+    unsigned int uiboucle1;
+    CArc** ppARCSOMSortanttmp = new CArc * [uiSOMNbArcsSommetSortants + 1];
+    for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetSortants + 1; uiboucle1++) {
+        ppARCSOMSortanttmp[uiboucle1] = new CArc;
+    }
+    for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetSortants + 1; uiboucle1++) {
+        if (uiboucle1 < uiSOMNbArcsSommetSortants) {
+            ppARCSOMSortanttmp[uiboucle1] = ppARCSOMSortant[uiboucle1];
+        }
+        else {
+            *ppARCSOMSortanttmp[uiboucle1] = *pARCArc;
+        }
+    }
+
+    for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetSortants; uiboucle1++) {
+        delete ppARCSOMSortant[uiboucle1];
+        ppARCSOMSortant[uiboucle1] = nullptr;
+    }
+    delete[] ppARCSOMSortant;
+    ppARCSOMSortant = ppARCSOMSortanttmp;
+
+    uiSOMNbArcsSommetSortants++;
 }
 
 void CSommet::SOMSupprimerArcSortant(CArc* pARCArc)
 {
-	unsigned int uiboucle, uiArcTrouve = 0;
+    if (uiSOMNbArcsSommetSortants == 0) {
+        throw CException(EXCSuppImpossible);
+    }
+    unsigned int uiboucle, uiArcTrouve = 0;
+    CArc** ppARCSOMSortanttmp = new CArc * [uiSOMNbArcsSommetSortants - 1];
+    for (uiboucle = 0; uiboucle < uiSOMNbArcsSommetSortants - 1; uiboucle++) {
+        ppARCSOMSortanttmp[uiboucle] = new CArc;
+    }
 
-	for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants() - 1; uiboucle++) {
-		if (SOMLireArcsSortants()[uiboucle] == pARCArc) {
-			uiArcTrouve = 1;
-		}
-		ppARCSOMSortant[uiboucle] = ppARCSOMSortant[uiboucle + uiArcTrouve];
-	}
+    for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants() - 1; uiboucle++) {
+        if (SOMLireArcsSortants()[uiboucle] == pARCArc) {
+            uiArcTrouve = 1;
+            delete ppARCSOMSortant[uiboucle];
+        }
 
-	ppARCSOMSortant = (CArc **)realloc(ppARCSOMSortant, (SOMLireNbArcsSortants() - 1) * sizeof(CArc*));
-	uiSOMNbArcsSommetSortants--;
+        ppARCSOMSortant[uiboucle] = ppARCSOMSortant[uiboucle + uiArcTrouve];
+    }
+
+    for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants() - 1; uiboucle++) {
+        ppARCSOMSortanttmp[uiboucle] = ppARCSOMSortant[uiboucle];
+    }
+
+    for (uiboucle = 0; uiboucle < uiSOMNbArcsSommetSortants; uiboucle++) {
+        delete ppARCSOMSortant[uiboucle];
+        ppARCSOMSortant[uiboucle] = nullptr;
+    }
+    delete[] ppARCSOMSortant;
+    ppARCSOMSortant = ppARCSOMSortanttmp;
+    uiSOMNbArcsSommetSortants--;
 }
 
 CArc* CSommet::SOMRechercheArc(int iDestination, int iParam)
@@ -157,4 +231,40 @@ CArc* CSommet::SOMRechercheArc(int iDestination, int iParam)
     else {
         return nullptr;
     }
+}
+
+CSommet& CSommet::operator=(CSommet SOMSommet)
+{
+    unsigned int uiboucle;
+
+    iSOMNumero = SOMSommet.SOMLireNumero();
+    
+    CArc** ppARCSOMEntrantTMP = new CArc * [SOMSommet.SOMLireNbArcsEntrants()];
+    CArc** ppARCSOMSortantTMP = new CArc * [SOMSommet.SOMLireNbArcsSortants()];
+
+    for (uiboucle = 0; uiboucle < uiSOMNbArcsSommetEntrants; uiboucle++) {
+        ppARCSOMEntrant[uiboucle] = new CArc(*SOMSommet.SOMLireArcsEntrants()[uiboucle]);
+    }
+    for (uiboucle = 0; uiboucle < uiSOMNbArcsSommetSortants; uiboucle++) {
+        ppARCSOMSortant[uiboucle] = new CArc(*SOMSommet.SOMLireArcsSortants()[uiboucle]);
+    }
+
+    for (uiboucle = 0; uiboucle < uiSOMNbArcsSommetEntrants; uiboucle++) {
+        delete ppARCSOMEntrant[uiboucle];
+        ppARCSOMEntrant[uiboucle] = nullptr;
+    }
+    for (uiboucle = 0; uiboucle < uiSOMNbArcsSommetSortants; uiboucle++) {
+        delete ppARCSOMSortant[uiboucle];
+        ppARCSOMSortant[uiboucle] = nullptr;
+    }
+    delete[] ppARCSOMEntrant;
+    delete[] ppARCSOMSortant;
+
+    uiSOMNbArcsSommetEntrants = SOMSommet.SOMLireNbArcsEntrants();
+    uiSOMNbArcsSommetSortants = SOMSommet.SOMLireNbArcsSortants();
+
+    ppARCSOMEntrant = ppARCSOMEntrantTMP;
+    ppARCSOMSortant = ppARCSOMSortantTMP;
+
+    return *this;
 }

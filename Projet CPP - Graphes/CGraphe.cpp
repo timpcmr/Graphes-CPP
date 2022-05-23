@@ -15,6 +15,20 @@ CGraphe::CGraphe()
 	ppSOMGRAListeSommet = nullptr;
 }
 
+CGraphe::CGraphe(CGraphe& GRAGraphe)
+{
+	unsigned int uiboucle;
+
+	uiGRANbArcs = GRAGraphe.GRALireNbArcs();
+	uiGRANbSommet = GRAGraphe.GRALireNbSommet();
+	bGRAOriente = GRAGraphe.GRALireType();
+
+	ppSOMGRAListeSommet = new CSommet * [GRAGraphe.GRALireNbSommet()];
+	for (uiboucle = 0; uiboucle < GRAGraphe.GRALireNbSommet(); uiboucle++) {
+		ppSOMGRAListeSommet[uiboucle] = new CSommet(*GRAGraphe.GRALireSommets()[uiboucle]);
+	}
+}
+
 CGraphe::~CGraphe()
 {
 	unsigned int uiboucle;
@@ -54,6 +68,7 @@ void CGraphe::GRAAjouterArc(CSommet* SOMDepart, CSommet* SOMArrivee)
 	CArc * pARCNouvelArc = new CArc(SOMArrivee->SOMLireNumero());
 	SOMDepart->SOMAjouterArcSortant(pARCNouvelArc);
 	SOMArrivee->SOMAjouterArcEntrant(pARCNouvelArc);
+	delete pARCNouvelArc;
 	uiGRANbArcs++;
 }
 
@@ -62,28 +77,39 @@ void CGraphe::GRAAjouterArc(int iDepart, int iArrivee)
 	CArc* pARCNouvelArc = new CArc(iArrivee);
 	GRARechercheSommet(iDepart)->SOMAjouterArcSortant(pARCNouvelArc);
 	GRARechercheSommet(iArrivee)->SOMAjouterArcEntrant(pARCNouvelArc);
+	delete pARCNouvelArc;
 	uiGRANbArcs++;
 }
 
 void CGraphe::GRASupprimerArc(CArc* pARCParam)
 {
-	CSommet* SOMEntrant = GRARechercheSommetAvecArc(pARCParam, entrant);
-	CSommet* SOMSortant = GRARechercheSommetAvecArc(pARCParam, sortant);
+	CSommet* SOMEntrant, * SOMSortant;
+	try {
+		SOMEntrant = GRARechercheSommetAvecArc(pARCParam, entrant);
+		SOMSortant = GRARechercheSommetAvecArc(pARCParam, sortant);
+	}
+	catch (CException EXCException) {
+		if (EXCException.EXCLireErreur() == EXCSuppImpossible) {
+			cout << "Erreur : Suppression d'arc Impossible : La liste des arcs est vide !" << endl;
+			throw CException(EXCArretProgramme);
+		}
+	}
+
 
 	SOMEntrant->SOMSupprimerArcEntrant(pARCParam);
 	SOMSortant->SOMSupprimerArcSortant(pARCParam);
 
-	delete[] pARCParam;
+	delete pARCParam;
 	uiGRANbArcs--;
 }
 
-void CGraphe::GRAAjouterSommet(CSommet* pSOMSommet)
+void CGraphe::GRAAjouterSommet(CSommet& SOMSommet)
 {
 	int iNum;
 	unsigned int uiBoucle;
 	char pcEntree[1024];
-	ppSOMGRAListeSommet = (CSommet **)realloc(ppSOMGRAListeSommet, (GRALireNbSommet() + 1) * sizeof(CSommet**));
-	while (!GRANumeroSommetUnique(pSOMSommet->SOMLireNumero())) {
+
+	while (!GRANumeroSommetUnique(SOMSommet.SOMLireNumero())) {
 		cout << "Les numeros de sommets utilises sont :" << endl;
 		for (uiBoucle = 0; uiBoucle < GRALireNbSommet(); uiBoucle++) {
 			cout << GRALireSommets()[uiBoucle]->SOMLireNumero() << "  ";
@@ -91,9 +117,25 @@ void CGraphe::GRAAjouterSommet(CSommet* pSOMSommet)
 		cout << endl;
 		cin >> pcEntree;
 		iNum = atoi(pcEntree);
-		pSOMSommet->SOMModifierNumero(iNum);
+		SOMSommet.SOMModifierNumero(iNum);
+		}
+
+	CSommet** ppSOMGRAListeSommetTMP = new CSommet * [uiGRANbSommet + 1];
+	for (uiBoucle = 0; uiBoucle < uiGRANbSommet + 1; uiBoucle++) {
+		if (uiBoucle < uiGRANbSommet) {
+			ppSOMGRAListeSommetTMP[uiBoucle] = new CSommet(*ppSOMGRAListeSommet[uiBoucle]);
+		}
+		else {
+			ppSOMGRAListeSommetTMP[uiBoucle] = new CSommet(SOMSommet);
+		}
 	}
-	ppSOMGRAListeSommet[GRALireNbSommet()] = pSOMSommet;
+
+	for (uiBoucle = 0; uiBoucle < uiGRANbSommet; uiBoucle++) {
+		delete ppSOMGRAListeSommet[uiBoucle];
+	}
+	delete[] ppSOMGRAListeSommet;
+	
+	ppSOMGRAListeSommet = ppSOMGRAListeSommetTMP;
 
 	uiGRANbSommet++;
 }
@@ -103,7 +145,7 @@ void CGraphe::GRAAjouterSommet(int iNum)
 	unsigned int uiBoucle;
 	char pcEntree[1024];
 	CSommet* pSOMSommet = new CSommet(iNum);
-	ppSOMGRAListeSommet = (CSommet**)realloc(ppSOMGRAListeSommet, (GRALireNbSommet() + 1) * sizeof(CSommet**));
+	
 	while (!GRANumeroSommetUnique(pSOMSommet->SOMLireNumero())) {
 		cout << "Les numeros de sommets utilises sont :" << endl;
 		for (uiBoucle = 0; uiBoucle < GRALireNbSommet(); uiBoucle++) {
@@ -114,20 +156,38 @@ void CGraphe::GRAAjouterSommet(int iNum)
 		iNum = atoi(pcEntree);
 		pSOMSommet->SOMModifierNumero(iNum);
 	}
-	ppSOMGRAListeSommet[GRALireNbSommet()] = pSOMSommet;
+
+	CSommet** ppSOMGRAListeSommetTMP = new CSommet * [uiGRANbSommet + 1];
+	for (uiBoucle = 0; uiBoucle < uiGRANbSommet + 1; uiBoucle++) {
+		if (uiBoucle < uiGRANbSommet) {
+			ppSOMGRAListeSommetTMP[uiBoucle] = new CSommet(*ppSOMGRAListeSommet[uiBoucle]);
+		}
+		else {
+			ppSOMGRAListeSommetTMP[uiBoucle] = new CSommet(*pSOMSommet);
+		}
+	}
+
+	for (uiBoucle = 0; uiBoucle < uiGRANbSommet; uiBoucle++) {
+		delete ppSOMGRAListeSommet[uiBoucle];
+	}
+	delete[] ppSOMGRAListeSommet;
+	delete pSOMSommet;
+
+	ppSOMGRAListeSommet = ppSOMGRAListeSommetTMP;
 
 	uiGRANbSommet++;
 }
 
 void CGraphe::GRASupprimerSommet(int iNumSommet)
 {
-	unsigned int uiboucle;
+	unsigned int uiboucle, uiSommetTrouve = 0;
 	int iNumeroSommetDestination;
 	CArc* pARCArcASupprimer;
 
 	for (uiboucle = 0; uiboucle < GRARechercheSommet(iNumSommet)->SOMLireNbArcsEntrants(); uiboucle++) {
 		iNumeroSommetDestination = GRARechercheSommet(iNumSommet)->SOMLireArcsEntrants()[uiboucle]->ARCLireDestination();
 		pARCArcASupprimer = GRARechercheSommet(iNumeroSommetDestination)->SOMRechercheArc(iNumSommet, entrant);
+
 		GRARechercheSommet(iNumeroSommetDestination)->SOMSupprimerArcSortant(pARCArcASupprimer);
 		GRARechercheSommet(iNumSommet)->SOMSupprimerArcEntrant(pARCArcASupprimer);
 	}
@@ -135,11 +195,33 @@ void CGraphe::GRASupprimerSommet(int iNumSommet)
 	for (uiboucle = 0; uiboucle < GRARechercheSommet(iNumSommet)->SOMLireNbArcsSortants(); uiboucle++) {
 		iNumeroSommetDestination = GRARechercheSommet(iNumSommet)->SOMLireArcsSortants()[uiboucle]->ARCLireDestination();
 		pARCArcASupprimer = GRARechercheSommet(iNumeroSommetDestination)->SOMRechercheArc(iNumSommet, entrant);
+
 		GRARechercheSommet(iNumeroSommetDestination)->SOMSupprimerArcEntrant(pARCArcASupprimer);
 		GRARechercheSommet(iNumSommet)->SOMSupprimerArcSortant(pARCArcASupprimer);
 	}
 
-	ppSOMGRAListeSommet = (CSommet**)realloc(ppSOMGRAListeSommet, (GRALireNbSommet() - 1) * sizeof(CSommet**));
+
+	for (uiboucle = 0; uiboucle < GRALireNbSommet() - 1; uiboucle++) {
+		if (GRALireSommets()[uiboucle]->SOMLireNumero() == iNumSommet) {
+			uiSommetTrouve = 1;
+			delete ppSOMGRAListeSommet[uiboucle];
+		}
+
+		ppSOMGRAListeSommet[uiboucle] = ppSOMGRAListeSommet[uiboucle + uiSommetTrouve];
+	}
+
+	CSommet** ppSOMGRAListeSommetTMP = new CSommet * [uiGRANbSommet - 1];
+	for (uiboucle = 0; uiboucle < uiGRANbSommet - 1; uiboucle++) {
+		ppSOMGRAListeSommetTMP[uiboucle] = new CSommet(*ppSOMGRAListeSommet[uiboucle]);
+	}
+
+
+	for (uiboucle = 0; uiboucle < uiGRANbSommet; uiboucle++) {
+		delete ppSOMGRAListeSommet[uiboucle];
+		ppSOMGRAListeSommet[uiboucle] = nullptr;
+	}
+	delete[] ppSOMGRAListeSommet;
+
 
 	uiGRANbSommet--;
 
@@ -186,7 +268,7 @@ CSommet* CGraphe::GRARechercheSommet(int iVal)
 			return GRALireSommets()[uiboucle];
 		}
 	}
-	throw CException(EXCValeurSommetIntrouvable);
+	return nullptr
 }
 
 int CGraphe::GRARechercheIndexSommet(int iSommet)

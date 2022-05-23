@@ -10,23 +10,72 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 
-	cout << "1\n";
-	CControleurParseur* pFichierLu = new CControleurParseur(argv[1]);
-	cout << "2\n";
-	pFichierLu->CONLireFichierGraphe();
-	cout << "3\n";
-	CGraphe* pGRAGraphe = pFichierLu->CONLireGraphe();
-	pGRAGraphe->GRAAffichage();
-	cout << "inversion" << endl;
-	CGraphe* pGRAGrapheInverse = pGRAGraphe->GRAInversion();
-	pGRAGrapheInverse->GRAAffichage();
+	if (argc > 1) {
 
-	CGraphe* pGRAGrapheNonOriente = pGRAGraphe->GRANonOriente();
-	pGRAGrapheNonOriente->GRAAffichage();
-	cout << "Avant destruct\n";
-	//delete pGRAGraphe;
-	//delete pGRAGrapheInverse;
-	//delete pFichierLu;
-	cout << "Apres destruct\n";
+		//Déclaration des variables du main
+		CControleurParseur* pCONFichierLu = nullptr;
+		CGraphe* pGRAGraphe = nullptr, * pGRAGrapheInverse = nullptr;
+
+		//Lecture du fichier passé en paramètre
+		try {
+			pCONFichierLu = new CControleurParseur(argv[1]);
+			pCONFichierLu->CONLireFichierGraphe();
+		}
+		catch (CException EXCException) {
+			if (EXCException.EXCLireErreur() == EXCArretProgramme) {
+				return 1;
+			}
+			else if (EXCException.EXCLireErreur() == EXCCheminVideCtrlParseur) {
+				cout << "Erreur : Chemin de fichier passé en paramètre vide ou nul !" << endl;
+				return 1;
+			}
+		}
+
+		//Récupération du graphe lu et affichage
+		try {
+			cout << endl << "-----Graphe lu depuis le fichier :-----" << endl << endl;
+			pGRAGraphe = new CGraphe(*pCONFichierLu->CONLireGraphe());
+			pGRAGraphe->GRAAffichage();
+		}
+		catch (CException EXCException) {
+			if (EXCException.EXCLireErreur() == EXCArretProgramme) {
+				return 1;
+			}
+			else if (EXCException.EXCLireErreur() == EXCArretProgramme) {
+
+			}
+		
+		
+		}
+
+		//Récupération du graphe inversé puis affichage
+		try{
+			cout << endl << "-----Graphe Inverse-----" << endl << endl;
+			pGRAGrapheInverse = pGRAGraphe->GRAInversion();
+			pGRAGrapheInverse->GRAAffichage();
+
+		
+			delete pGRAGraphe;
+			delete pGRAGrapheInverse;
+			delete pCONFichierLu;
+		}
+		catch (CException EXCException) {
+			if (EXCException.EXCLireErreur() == EXCArretProgramme) {
+				return 1;
+			}
+			else if (EXCException.EXCLireErreur() == EXCListeSommetInexistante) {
+				cout << "Erreur Affichage : La liste des sommets du graphe a afficher est vide !" << endl;
+				return 1;
+			}
+			else {
+				cout << "Erreur non-specifiee !" << endl;
+			}
+		}
+	}
+	else {
+		cout << "Erreur : Aucun chemin de fichier passe en argument !" << endl;
+		return 1;
+	}
+
 	return 0;
 }

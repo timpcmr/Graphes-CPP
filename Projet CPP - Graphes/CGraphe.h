@@ -1,6 +1,7 @@
 #ifndef GRAPHE
 #define GRAPHE
 
+#pragma warning(disable : 6386)
 
 #include "CSommet.h"
 #include "CException.h"
@@ -29,6 +30,7 @@ public :
 
 	//Constructeur & Destructeur
 	CGraphe();
+	CGraphe(CGraphe& GRAGraphe);
 	~CGraphe();
 
 	//Accesseurs
@@ -41,7 +43,7 @@ public :
 	void GRAAjouterArc(CSommet* SOMDepart, CSommet* SOMArrivee);
 	void GRAAjouterArc(int iDepart, int iArrivee);
 	void GRASupprimerArc(CArc* pARCParam);
-	void GRAAjouterSommet(CSommet* pSOMSommet);
+	void GRAAjouterSommet(CSommet& pSOMSommet);
 	void GRAAjouterSommet(int iNum);
 	void GRASupprimerSommet(int iNumSommet);
 	void GRAModifierType(bool bParam);

@@ -7,7 +7,7 @@ CArc::CArc()
 
 CArc::CArc(CArc& ARCParam)
 {
-	iARCNumeroSommet = ARCParam.iARCNumeroSommet;
+	iARCNumeroSommet = ARCParam.ARCLireDestination();
 }
 
 CArc::CArc(int iParam)
@@ -28,4 +28,10 @@ int CArc::ARCLireDestination()
 void CArc::ARCChangerDestination(int iDestination)
 {
 	iARCNumeroSommet= iDestination;
+}
+
+CArc& CArc::operator=(CArc ARCparam)
+{
+	iARCNumeroSommet = ARCparam.ARCLireDestination();
+	return *this;
 }

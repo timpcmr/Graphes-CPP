@@ -3,6 +3,7 @@
 
 #define entrant 0
 #define sortant 1
+#define EXCArretProgramme 50
 
 class CArc {
 private :
@@ -23,7 +24,8 @@ public :
 	//Modifieur
 	void ARCChangerDestination(int iDestination);
 
-	//Méthodes
+	//Surcharge
+	CArc& operator=(CArc ARCparam);
 };
 
 #endif
