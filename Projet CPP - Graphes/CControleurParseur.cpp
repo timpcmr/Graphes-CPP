@@ -199,6 +199,6 @@ void CControleurParseur::CONLireFichierGraphe()
 	for (uiBoucle = 0; uiBoucle < uiNbArcs; uiBoucle++) {
 		delete[] ppuiArcs[uiBoucle];
 	}
-	delete ppuiArcs;
+	delete[] ppuiArcs;
 	
 }
