@@ -13,19 +13,14 @@
 
 #define EXCCheminNul 1
 #define EXCFichierNonOuvert 2
-#define EXCErrTypeMat 3
-#define EXCNbSommetsNeg 4
-#define EXCNbArcsNeg 5
-#define EXCParserPointeurNul 6
-#define EXCTokenNulMinuscule 7
-#define EXCTokenNulSuppChar 8
-#define EXCColonneDimSup 9
-#define EXCColonneDimInf 10
-#define EXCLigneDimSup 11
-#define EXCLigneDimInf 12
-#define EXCBoucleInfinie 13
-#define EXCLigneNulle 14
-#define EXCBaliseIncorrecte 15
+#define EXCParserPointeurNul 3
+#define EXCTokenNulMinuscule 4
+#define EXCTokenNulSuppChar 5
+#define EXCBoucleInfinie 6
+#define EXCLigneNulle 7
+#define EXCBaliseIncorrecte 8
+#define EXCMiseEnFormeIncorecte 9
+#define EXCValeurNeg 10
 
 using namespace std;
 

@@ -268,7 +268,7 @@ CSommet* CGraphe::GRARechercheSommet(int iVal)
 			return GRALireSommets()[uiboucle];
 		}
 	}
-	return nullptr
+	return nullptr;
 }
 
 int CGraphe::GRARechercheIndexSommet(int iSommet)

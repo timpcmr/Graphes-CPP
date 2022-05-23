@@ -39,13 +39,11 @@ int main(int argc, char* argv[]) {
 		}
 		catch (CException EXCException) {
 			if (EXCException.EXCLireErreur() == EXCArretProgramme) {
-				return 1;
 			}
-			else if (EXCException.EXCLireErreur() == EXCArretProgramme) {
-
+			else if (EXCException.EXCLireErreur() == EXCListeSommetInexistante) {
+				cout << "Erreur : Liste des sommets du graphes vide, Affichage impossible : Rien à afficher !" << endl;
 			}
-		
-		
+			return 1;
 		}
 
 		//Récupération du graphe inversé puis affichage
@@ -53,24 +51,22 @@ int main(int argc, char* argv[]) {
 			cout << endl << "-----Graphe Inverse-----" << endl << endl;
 			pGRAGrapheInverse = pGRAGraphe->GRAInversion();
 			pGRAGrapheInverse->GRAAffichage();
-
-		
-			delete pGRAGraphe;
-			delete pGRAGrapheInverse;
-			delete pCONFichierLu;
 		}
 		catch (CException EXCException) {
 			if (EXCException.EXCLireErreur() == EXCArretProgramme) {
 				return 1;
 			}
 			else if (EXCException.EXCLireErreur() == EXCListeSommetInexistante) {
-				cout << "Erreur Affichage : La liste des sommets du graphe a afficher est vide !" << endl;
+				cout << "Erreur : Liste des sommets du graphes vide, Affichage impossible : Rien à afficher !" << endl;
 				return 1;
 			}
 			else {
 				cout << "Erreur non-specifiee !" << endl;
 			}
 		}
+		delete pGRAGraphe;
+		delete pGRAGrapheInverse;
+		delete pCONFichierLu;
 	}
 	else {
 		cout << "Erreur : Aucun chemin de fichier passe en argument !" << endl;

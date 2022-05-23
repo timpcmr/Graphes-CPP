@@ -71,6 +71,13 @@ void CControleurParseur::CONLireFichierGraphe()
 		if (EXCException.EXCLireErreur() == EXCLigneNulle) {
 			cout << "Le pointeur passe en parametre de FICLigneSuivante est nul !" << endl;
 		}
+		if (EXCException.EXCLireErreur() == EXCValeurNeg) {
+			cout << "Valeur parsee negative ou nulle !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCMiseEnFormeIncorecte) {
+			cout << "Mise en forme incorrecte ou valeur manquante !" << endl;
+		}
+
 		throw CException(EXCArretProgramme);
 	}
 	
@@ -98,6 +105,12 @@ void CControleurParseur::CONLireFichierGraphe()
 		}
 		if (EXCException.EXCLireErreur() == EXCLigneNulle) {
 			cout << "Le pointeur passe en parametre de FICLigneSuivante est nul !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCValeurNeg) {
+			cout << "Valeur parsee negative ou nulle !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCMiseEnFormeIncorecte) {
+			cout << "Mise en forme incorrecte ou valeur manquante !" << endl;
 		}
 		throw CException(EXCArretProgramme);
 	}
@@ -128,6 +141,12 @@ void CControleurParseur::CONLireFichierGraphe()
 		if (EXCException.EXCLireErreur() == EXCLigneNulle) {
 			cout << "Le pointeur passe en parametre de FICLigneSuivante est nul !" << endl;
 		}
+		if (EXCException.EXCLireErreur() == EXCValeurNeg) {
+			cout << "Valeur parsee negative ou nulle !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCMiseEnFormeIncorecte) {
+			cout << "Mise en forme incorrecte ou valeur manquante !" << endl;
+		}
 		throw CException(EXCArretProgramme);
 	}
 	
@@ -155,6 +174,12 @@ void CControleurParseur::CONLireFichierGraphe()
 		}
 		if (EXCException.EXCLireErreur() == EXCLigneNulle) {
 			cout << "Le pointeur passe en parametre de FICLigneSuivante est nul !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCValeurNeg) {
+			cout << "Valeur parsee negative ou nulle !" << endl;
+		}
+		if (EXCException.EXCLireErreur() == EXCMiseEnFormeIncorecte) {
+			cout << "Mise en forme incorrecte ou valeur manquante !" << endl;
 		}
 		throw CException(EXCArretProgramme);
 	}

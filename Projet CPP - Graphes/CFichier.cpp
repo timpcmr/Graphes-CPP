@@ -50,7 +50,14 @@ unsigned int Cfichier::FICLireChiffre(char* pcTag)
 		}
 		
 		pcToken = strtok(NULL, "=");
-		uiValeurRetournee = (unsigned int)atoi(pcToken);
+		if (pcToken == nullptr || pcToken[0] == '\0') {
+			throw CException(EXCMiseEnFormeIncorecte);
+		}
+		int iValeurParsee = atoi(pcToken);
+		if (iValeurParsee <= 0) {
+			throw CException(EXCValeurNeg);
+		}
+		uiValeurRetournee = (unsigned int)iValeurParsee;
 
 		//Retour en haut du fichier pour les prochaines utilisations du flot
 		IFSFICFichier.clear();
@@ -84,7 +91,14 @@ unsigned int* Cfichier::FICLireTabSansVirgule(const unsigned int iNbLignes, char
 			pcToken = strtok(pcLigne, "=");
 			if (FICVerifBalise(pcToken, pcTag2) == true) {
 				pcToken = strtok(NULL, "=");
-				puiValeursRetour[uiBoucle] = (unsigned int)atoi(pcToken);
+				if (pcToken == nullptr || pcToken[0] == '\0') {
+					throw CException(EXCMiseEnFormeIncorecte);
+				}
+				int iValeurParsee = atoi(pcToken);
+				if (iValeurParsee <= 0) {
+					throw CException(EXCValeurNeg);
+				}
+				puiValeursRetour[uiBoucle] = (unsigned int)iValeurParsee;
 			}
 			else {
 				delete[] pcLigne;
@@ -136,7 +150,14 @@ unsigned int** Cfichier::FICLireTabAvecVirgule(const unsigned int iNbLignes, cha
 			char* pcToken3 = strtok(pcToken, "=");
 			if (FICVerifBalise(pcToken3, pcTag2) == true) {
 				pcToken3 = strtok(NULL, "=");
-				ppuiValeursRetour[uiBoucle1][0] = (unsigned int)atoi(pcToken3);
+				if (pcToken3 == nullptr || pcToken3[0] == '\0') {
+					throw CException(EXCMiseEnFormeIncorecte);
+				}
+				int iValeurParsee = atoi(pcToken3);
+				if (iValeurParsee <= 0) {
+					throw CException(EXCValeurNeg);
+				}
+				ppuiValeursRetour[uiBoucle1][0] = (unsigned int)iValeurParsee;
 			}
 			else {
 				delete[] pcLigne;
@@ -148,7 +169,14 @@ unsigned int** Cfichier::FICLireTabAvecVirgule(const unsigned int iNbLignes, cha
 			pcToken3 = strtok(pcToken2, "=");
 			if (FICVerifBalise(pcToken3, pcTag3) == true) {
 				pcToken3 = strtok(NULL, "=");
-				ppuiValeursRetour[uiBoucle1][1] = (unsigned int)atoi(pcToken3);
+				if (pcToken3 == nullptr || pcToken3[0] == '\0') {
+					throw CException(EXCMiseEnFormeIncorecte);
+				}
+				int iValeurParsee = atoi(pcToken3);
+				if (iValeurParsee <= 0) {
+					throw CException(EXCValeurNeg);
+				}
+				ppuiValeursRetour[uiBoucle1][1] = (unsigned int)iValeurParsee;
 			}
 			else {
 				delete[] pcLigne;
