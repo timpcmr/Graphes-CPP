@@ -64,9 +64,9 @@ public:
 	******************************************************************************************************/
 	unsigned int FICLireChiffre(char* pcTag);
 
-	unsigned int* FICLireTabSansVirgule(const unsigned int iNbLignes, char* pcTag1, char* pcTag2);
+	unsigned int* FICLireTabSansVirgule(const unsigned int uiNbLignes, char* pcTag1, char* pcTag2);
 
-	unsigned int** FICLireTabAvecVirgule(const unsigned int iNbLignes, char* pcTag1, char* pcTag2, char* pcTag3);
+	unsigned int** FICLireTabAvecVirgule(const unsigned int uiNbLignes, char* pcTag1, char* pcTag2, char* pcTag3);
 	/***********************************************************************************************************************
 	**** Entrées : char* pcChaine, ifstream& fichier																    ****
 	**** Nécessite : Un fichier ouvert et une chaine non nulle								  							****
