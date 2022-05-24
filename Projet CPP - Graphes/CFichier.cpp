@@ -73,10 +73,10 @@ unsigned int CFichier::FICLireChiffre(char* pcTag)
 	return uiValeurRetournee;
 }
 
-unsigned int* CFichier::FICLireTabSansVirgule(const unsigned int iNbLignes, char* pcTag1, char* pcTag2)
+unsigned int* CFichier::FICLireTabSansVirgule(const unsigned int uiNbLignes, char* pcTag1, char* pcTag2)
 {
 	char* pcLigne = new char[STR_LENGTH];
-	unsigned int* puiValeursRetour = new unsigned int[iNbLignes];
+	unsigned int* puiValeursRetour = new unsigned int[uiNbLignes];
 	unsigned int uiBoucle;
 
 	if (IFSFICFichier.is_open()) {
@@ -88,7 +88,7 @@ unsigned int* CFichier::FICLireTabSansVirgule(const unsigned int iNbLignes, char
 			pcToken = strtok(pcLigne, "=");
 		}
 
-		for (uiBoucle = 0; uiBoucle < iNbLignes; uiBoucle++) {
+		for (uiBoucle = 0; uiBoucle < uiNbLignes; uiBoucle++) {
 			FICLigneSuivante(pcLigne);
 			pcToken = strtok(pcLigne, "=");
 			if (FICVerifBalise(pcToken, pcTag2) == true) {
@@ -126,13 +126,13 @@ unsigned int* CFichier::FICLireTabSansVirgule(const unsigned int iNbLignes, char
 	return puiValeursRetour;
 }
 
-unsigned int** CFichier::FICLireTabAvecVirgule(const unsigned int iNbLignes, char* pcTag1, char* pcTag2, char* pcTag3)
+unsigned int** CFichier::FICLireTabAvecVirgule(const unsigned int uiNbLignes, char* pcTag1, char* pcTag2, char* pcTag3)
 {
 	unsigned int uiBoucle1;
 
 	char* pcLigne = new char[STR_LENGTH];
-	unsigned int** ppuiValeursRetour = new unsigned int* [iNbLignes];
-	for (uiBoucle1 = 0; uiBoucle1 < iNbLignes; uiBoucle1++) {
+	unsigned int** ppuiValeursRetour = new unsigned int* [uiNbLignes];
+	for (uiBoucle1 = 0; uiBoucle1 < uiNbLignes; uiBoucle1++) {
 		ppuiValeursRetour[uiBoucle1] = new unsigned int[2];
 	}
 	
@@ -145,7 +145,7 @@ unsigned int** CFichier::FICLireTabAvecVirgule(const unsigned int iNbLignes, cha
 			pcToken = strtok(pcLigne, "=");
 		}
 
-		for (uiBoucle1 = 0; uiBoucle1 < iNbLignes; uiBoucle1++) {
+		for (uiBoucle1 = 0; uiBoucle1 < uiNbLignes; uiBoucle1++) {
 			FICLigneSuivante(pcLigne);
 
 			//Récupération des 2 elements de la ligne
