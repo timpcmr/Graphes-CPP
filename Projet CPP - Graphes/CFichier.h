@@ -91,7 +91,7 @@ public:
 	**** Sorties :																								   ****
 	**** Entraîne : Supprime un charactère c d'une chaine de caractère pcChaine passée en paramètre				   ****
 	******************************************************************************************************************/
-	void FICSupp_char(char* pcChaine, const char cCharactere);
+	void FICSupp_char(char* pcChaine, const char cCaractere);
 
 	bool FICVerifBalise(char* pcToken, const char* pcNomBalise);
 };

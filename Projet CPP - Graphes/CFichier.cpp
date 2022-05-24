@@ -265,7 +265,7 @@ char * CFichier::FICMinuscule(char* pcChaineMin)
 **** Sorties :																								   ****
 **** Entraîne : Supprime un charactère c d'une chaine de caractère pcChaine passée en paramètre				   ****
 ******************************************************************************************************************/
-void CFichier::FICSupp_char(char* pcChaine, const char cCharactere)
+void CFichier::FICSupp_char(char* pcChaine, const char cCaractere)
 {
 	if (pcChaine == nullptr) {
 		throw CException(EXCTokenNulSuppChar);
@@ -273,7 +273,7 @@ void CFichier::FICSupp_char(char* pcChaine, const char cCharactere)
 	unsigned int uiboucle1, uiboucle2;
 
 	for (uiboucle1 = 0; pcChaine[uiboucle1] != '\0'; uiboucle1++) {
-		if (pcChaine[uiboucle1] == cCharactere) {
+		if (pcChaine[uiboucle1] == cCaractere) {
 			for (uiboucle2 = uiboucle1; pcChaine[uiboucle2] != '\0'; uiboucle2++) {
 				pcChaine[uiboucle2] = pcChaine[uiboucle2 + 1];
 			}
