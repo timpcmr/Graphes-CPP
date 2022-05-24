@@ -16,12 +16,12 @@ CGraphe * CGrapheOperations::GRAInversion(const CGraphe* GRAParam) const
 	return pGRARetour;
 }
 
-CGraphe * CGrapheOperations::GRANonOriente(const CGraphe* GRAParam) const
+CGraphe * CGrapheOperations::GRANonOriente(const CGraphe* pGRAParam) const
 {
-	CGraphe* pGRAGrapheRetour = new CGraphe();
-	unsigned int uiboucle, uiboucle2;
+	CGraphe* pGRAGrapheRetour = new CGraphe(*pGRAParam);
+	//unsigned int uiboucle, uiboucle2;
 	pGRAGrapheRetour->GRAModifierType(false);
-
+	/*
 	for (uiboucle = 0; uiboucle < GRAParam->GRALireNbSommet(); uiboucle++) {
 		pGRAGrapheRetour->GRAAjouterSommet(GRAParam->GRALireSommets()[uiboucle]->SOMLireNumero());
 	}
@@ -31,6 +31,6 @@ CGraphe * CGrapheOperations::GRANonOriente(const CGraphe* GRAParam) const
 			pGRAGrapheRetour->GRAAjouterArc(GRAParam->GRALireSommets()[uiboucle]->SOMLireArcsSortants()[uiboucle2]->ARCLireDestination(), GRAParam->GRALireSommets()[uiboucle]->SOMLireNumero());
 		}
 	}
-
+	*/
 	return pGRAGrapheRetour;
 }

@@ -308,9 +308,15 @@ void CGraphe::GRAAffichage() const
 		cout << "Type de Graphe : Non-Oriente" << endl;
 		for (uiboucleSommet = 0; uiboucleSommet < uiGRANbSommet; uiboucleSommet++) {
 			cout << "Sommet " << GRALireSommets()[uiboucleSommet]->SOMLireNumero() << " : " << endl;
+
+			for (uiboucleArc = 0; uiboucleArc < GRALireSommets()[uiboucleSommet]->SOMLireNbArcsEntrants(); uiboucleArc++) {
+				cout << "<--> " << GRALireSommets()[uiboucleSommet]->SOMLireArcsEntrants()[uiboucleArc]->ARCLireDestination() << endl;
+			}
+
 			for (uiboucleArc = 0; uiboucleArc < GRALireSommets()[uiboucleSommet]->SOMLireNbArcsSortants(); uiboucleArc++) {
 				cout << "<--> " << GRALireSommets()[uiboucleSommet]->SOMLireArcsSortants()[uiboucleArc]->ARCLireDestination() << endl;
 			}
+			
 			cout << endl;
 		}
 	}

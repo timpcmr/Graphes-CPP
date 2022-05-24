@@ -6,8 +6,8 @@
 
 class CGrapheOperations {
 public:
-	CGraphe* GRAInversion(const CGraphe* GRAParam) const;
-	CGraphe* GRANonOriente(const CGraphe* GRAParam) const;
+	CGraphe* GRAInversion(const CGraphe* pGRAParam) const;
+	CGraphe* GRANonOriente(const CGraphe* pGRAParam) const;
 };
 
 #endif
