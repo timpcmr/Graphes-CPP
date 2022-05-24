@@ -24,7 +24,7 @@
 
 using namespace std;
 
-class Cfichier {
+class CFichier {
 private:
 	//Flot de lecture du fichier
 	ifstream IFSFICFichier;
@@ -38,7 +38,7 @@ public:
 	**** Sorties :																					   ****
 	**** Entraîne : Construction d'un object Cfichier par défaut									   ****
 	******************************************************************************************************/
-	Cfichier();
+	CFichier();
 
 	/******************************************************************************************************
 	**** Entrées : 	char * pcChemin																	   ****
@@ -46,9 +46,9 @@ public:
 	**** Sorties :																					   ****
 	**** Entraîne : Construction d'un object Cfichier par défaut									   ****
 	******************************************************************************************************/
-	Cfichier(char* pcChemin);
+	CFichier(char* pcChemin);
 
-	~Cfichier();
+	~CFichier();
 
 	//Modifieur
 

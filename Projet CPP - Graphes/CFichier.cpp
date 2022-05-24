@@ -2,11 +2,11 @@
 #pragma warning(disable : 4996)
 
 
-Cfichier::Cfichier()
+CFichier::CFichier()
 {
 }
 
-Cfichier::Cfichier(char * pcChemin)
+CFichier::CFichier(char * pcChemin)
 {
 	IFSFICFichier = ifstream(pcChemin);
 	if (!IFSFICFichier.is_open()) {
@@ -14,12 +14,12 @@ Cfichier::Cfichier(char * pcChemin)
 	}
 }
 
-Cfichier::~Cfichier()
+CFichier::~CFichier()
 {
 	IFSFICFichier.close();
 }
 
-void Cfichier::FICInitialiserFlot(char * pcChemin)
+void CFichier::FICInitialiserFlot(char * pcChemin)
 {
 	IFSFICFichier = ifstream(pcChemin);
 }
@@ -30,7 +30,7 @@ void Cfichier::FICInitialiserFlot(char * pcChemin)
 **** Sorties :	CMatrice MATretour																   ****
 **** Entraîne : Renvoie la matrice du fichier texte dont le chemin pcChemin est passé en paramètre ****
 ******************************************************************************************************/
-unsigned int Cfichier::FICLireChiffre(char* pcTag)
+unsigned int CFichier::FICLireChiffre(char* pcTag)
 {
 	unsigned int uiValeurRetournee = 0;
 	char* pcLigne = new char[STR_LENGTH];
@@ -73,7 +73,7 @@ unsigned int Cfichier::FICLireChiffre(char* pcTag)
 	return uiValeurRetournee;
 }
 
-unsigned int* Cfichier::FICLireTabSansVirgule(const unsigned int iNbLignes, char* pcTag1, char* pcTag2)
+unsigned int* CFichier::FICLireTabSansVirgule(const unsigned int iNbLignes, char* pcTag1, char* pcTag2)
 {
 	char* pcLigne = new char[STR_LENGTH];
 	unsigned int* puiValeursRetour = new unsigned int[iNbLignes];
@@ -126,7 +126,7 @@ unsigned int* Cfichier::FICLireTabSansVirgule(const unsigned int iNbLignes, char
 	return puiValeursRetour;
 }
 
-unsigned int** Cfichier::FICLireTabAvecVirgule(const unsigned int iNbLignes, char* pcTag1, char* pcTag2, char* pcTag3)
+unsigned int** CFichier::FICLireTabAvecVirgule(const unsigned int iNbLignes, char* pcTag1, char* pcTag2, char* pcTag3)
 {
 	unsigned int uiBoucle1;
 
@@ -214,7 +214,7 @@ unsigned int** Cfichier::FICLireTabAvecVirgule(const unsigned int iNbLignes, cha
 	return ppuiValeursRetour;
 }
 
-void Cfichier::FICLigneSuivante(char* pcLigne)
+void CFichier::FICLigneSuivante(char* pcLigne)
 {
 	unsigned int uiBoucle = 0;
 
@@ -245,7 +245,7 @@ void Cfichier::FICLigneSuivante(char* pcLigne)
 **** Sorties :	char* pcChaine																						****
 **** Entraîne : Renvoie la chaine pcChaine passée en paramètre et dont toutes les lettres sont passées en minuscule ****
 ***********************************************************************************************************************/
-char * Cfichier::FICMinuscule(char* pcChaineMin)
+char * CFichier::FICMinuscule(char* pcChaineMin)
 {
 	if (pcChaineMin == nullptr) {
 		throw CException(EXCTokenNulMinuscule);
@@ -265,7 +265,7 @@ char * Cfichier::FICMinuscule(char* pcChaineMin)
 **** Sorties :																								   ****
 **** Entraîne : Supprime un charactère c d'une chaine de caractère pcChaine passée en paramètre				   ****
 ******************************************************************************************************************/
-void Cfichier::FICSupp_char(char* pcChaine, const char cCharactere)
+void CFichier::FICSupp_char(char* pcChaine, const char cCharactere)
 {
 	if (pcChaine == nullptr) {
 		throw CException(EXCTokenNulSuppChar);
@@ -283,7 +283,7 @@ void Cfichier::FICSupp_char(char* pcChaine, const char cCharactere)
 	pcChaine[uiboucle1] = '\0';
 }
 
-bool Cfichier::FICVerifBalise(char* pcToken,const char* pcNomBalise)
+bool CFichier::FICVerifBalise(char* pcToken,const char* pcNomBalise)
 {
 	if (strcmp(FICMinuscule(pcToken), pcNomBalise) != 0) {
 		return false;

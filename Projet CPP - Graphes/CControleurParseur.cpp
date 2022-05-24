@@ -39,7 +39,7 @@ void CControleurParseur::CONLireFichierGraphe()
 	if (pcCONChemin == nullptr) {
 		throw CException(EXCCheminVideCtrlParseur);
 	}
-	Cfichier FICParseur(pcCONChemin);
+	CFichier FICParseur(pcCONChemin);
 	unsigned int uiNbArcs = 0, uiNbSommets = 0;
 	unsigned int uiBoucle;
 	unsigned int* puiSommets = nullptr;
