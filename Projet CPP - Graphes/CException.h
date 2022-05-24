@@ -36,7 +36,7 @@ public:
 	**** Sorties : iEXCValeur : int                                         ****
 	**** Entraîne : Renvoie la valeur de l'exception                        ****
 	****************************************************************************/
-	int EXCLireErreur(void);
+	int EXCLireErreur();
 
 	//Modifieur
 
@@ -46,7 +46,7 @@ public:
 	**** Sorties :	                                         	            ****
 	**** Entraîne : Modifie la valeur de l'exception                        ****
 	****************************************************************************/
-	void EXCChangerValeur(const int iparam);
+	void EXCChangerValeur(const int iParam);
 
 };
 #endif
