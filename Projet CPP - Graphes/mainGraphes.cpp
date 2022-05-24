@@ -1,6 +1,7 @@
 #include "CGraphe.h"
 #include "CException.h"
 #include "CControleurParseur.h"
+#include "CGrapheOperations.h"
 #include <cstdio>
 #include <cstdlib>
 
@@ -15,6 +16,7 @@ int main(int argc, char* argv[]) {
 		//Déclaration des variables du main
 		CControleurParseur* pCONFichierLu = nullptr;
 		CGraphe* pGRAGraphe = nullptr, * pGRAGrapheInverse = nullptr;
+		CGrapheOperations COPBoiteAOutils;
 
 		//Lecture du fichier passé en paramètre
 		try {
@@ -49,7 +51,7 @@ int main(int argc, char* argv[]) {
 		//Récupération du graphe inversé puis affichage
 		try{
 			cout << endl << "-----Graphe Inverse-----" << endl << endl;
-			pGRAGrapheInverse = pGRAGraphe->GRAInversion();
+			pGRAGrapheInverse = COPBoiteAOutils.GRAInversion(pGRAGraphe);
 			pGRAGrapheInverse->GRAAffichage();
 		}
 		catch (CException EXCException) {

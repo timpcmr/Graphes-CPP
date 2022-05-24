@@ -54,9 +54,6 @@ public :
 	int GRARechercheIndexSommet(int iSommet) const;
 	bool GRANumeroSommetUnique(int iVal);
 	void GRAAffichage() const;
-	CGraphe* GRAInversion() const;
-	CGraphe* GRANonOriente() const;
-	
 
 };
 

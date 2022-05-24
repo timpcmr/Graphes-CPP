@@ -324,38 +324,3 @@ void CGraphe::GRAAffichage() const
 		}
 	}
 }
-
-CGraphe* CGraphe::GRAInversion() const
-{
-	CGraphe* pGRARetour = new CGraphe();
-	unsigned int uiboucle, uiboucle2;
-	for (uiboucle = 0; uiboucle < GRALireNbSommet(); uiboucle++) {
-		pGRARetour->GRAAjouterSommet(GRALireSommets()[uiboucle]->SOMLireNumero());
-	}
-
-	for (uiboucle = 0; uiboucle < GRALireNbSommet(); uiboucle++) {
-		for (uiboucle2 = 0; uiboucle2 < GRALireSommets()[uiboucle]->SOMLireNbArcsSortants(); uiboucle2++) {
-			pGRARetour->GRAAjouterArc(GRALireSommets()[uiboucle]->SOMLireArcsSortants()[uiboucle2]->ARCLireDestination(), GRALireSommets()[uiboucle]->SOMLireNumero());
-		}
-	}
-	return pGRARetour;
-}
-
-CGraphe* CGraphe::GRANonOriente() const
-{
-	CGraphe* pGRAGrapheRetour = new CGraphe();
-	unsigned int uiboucle, uiboucle2;
-	pGRAGrapheRetour->GRAModifierType(false);
-
-	for (uiboucle = 0; uiboucle < GRALireNbSommet(); uiboucle++) {
-		pGRAGrapheRetour->GRAAjouterSommet(GRALireSommets()[uiboucle]->SOMLireNumero());
-	}
-	for (uiboucle = 0; uiboucle < GRALireNbSommet(); uiboucle++) {
-		for (uiboucle2 = 0; uiboucle2 < GRALireSommets()[uiboucle]->SOMLireNbArcsSortants(); uiboucle2++) {
-			pGRAGrapheRetour->GRAAjouterArc(GRALireSommets()[uiboucle]->SOMLireNumero(), GRALireSommets()[uiboucle]->SOMLireArcsSortants()[uiboucle2]->ARCLireDestination());
-			pGRAGrapheRetour->GRAAjouterArc(GRALireSommets()[uiboucle]->SOMLireArcsSortants()[uiboucle2]->ARCLireDestination(), GRALireSommets()[uiboucle]->SOMLireNumero());
-		}
-	}
-	
-	return pGRAGrapheRetour;
-}
