@@ -5,7 +5,7 @@ CArc::CArc()
 	iARCNumeroSommet = -1;
 }
 
-CArc::CArc(CArc& ARCParam)
+CArc::CArc(const CArc& ARCParam)
 {
 	iARCNumeroSommet = ARCParam.ARCLireDestination();
 }
@@ -20,7 +20,7 @@ CArc::~CArc()
 
 }
 
-int CArc::ARCLireDestination()
+int CArc::ARCLireDestination() const
 {
 	return iARCNumeroSommet;
 }
@@ -30,8 +30,8 @@ void CArc::ARCChangerDestination(int iDestination)
 	iARCNumeroSommet= iDestination;
 }
 
-CArc& CArc::operator=(CArc ARCparam)
+CArc& CArc::operator=(const CArc ARCparam)
 {
-	iARCNumeroSommet = ARCparam.ARCLireDestination();
+	iARCNumeroSommet = (int)ARCparam.ARCLireDestination();
 	return *this;
 }

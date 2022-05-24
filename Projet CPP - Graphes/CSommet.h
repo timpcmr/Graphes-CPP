@@ -25,16 +25,16 @@ public :
 
 	//Constructeurs & Destructeurs
 	CSommet() = delete;
-	CSommet(CSommet &SOMParam);
+	CSommet(const CSommet &SOMParam);
 	CSommet(int iNumero);
 	~CSommet();
 
 	//Accesseurs
-	int SOMLireNumero();
-	unsigned int SOMLireNbArcsEntrants();
-	unsigned int SOMLireNbArcsSortants();
-	CArc ** SOMLireArcsSortants();
-	CArc ** SOMLireArcsEntrants();
+	int SOMLireNumero() const;
+	unsigned int SOMLireNbArcsEntrants() const;
+	unsigned int SOMLireNbArcsSortants() const;
+	const CArc * const* SOMLireArcsSortants() const;
+	const CArc * const* SOMLireArcsEntrants() const;
 
 	//Modifieurs
 	void SOMModifierNumero(int iNumero);
@@ -44,10 +44,10 @@ public :
 	void SOMSupprimerArcSortant(CArc* pARCArc);
 
 	//Méthodes
-	CArc* SOMRechercheArc(int iDestination, int iParam);
+	const CArc* SOMRechercheArc(int iDestination, int iParam) const;
 
 	//Surcharge
-	CSommet& operator=(CSommet SOMSommet);
+	CSommet& operator=(const CSommet SOMSommet);
 
 };
 

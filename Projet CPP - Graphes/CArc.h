@@ -14,18 +14,18 @@ public :
 
 	//Constructeurs & Destructeurs
 	CArc();
-	CArc(CArc& ARCParam);
+	CArc(const CArc& ARCParam);
 	CArc(int iParam);
 	~CArc();
 
 	//Accesseur
-	int ARCLireDestination();
+	int ARCLireDestination() const;
 
 	//Modifieur
 	void ARCChangerDestination(int iDestination);
 
 	//Surcharge
-	CArc& operator=(CArc ARCparam);
+	CArc& operator=(const CArc ARCparam);
 };
 
 #endif

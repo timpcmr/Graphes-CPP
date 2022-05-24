@@ -30,14 +30,14 @@ public :
 
 	//Constructeur & Destructeur
 	CGraphe();
-	CGraphe(CGraphe& GRAGraphe);
+	CGraphe(const CGraphe& GRAGraphe);
 	~CGraphe();
 
 	//Accesseurs
-	CSommet** GRALireSommets();
-	unsigned int GRALireNbSommet();
-	unsigned int GRALireNbArcs();
-	bool GRALireType();
+	const CSommet* const* GRALireSommets() const;
+	unsigned int GRALireNbSommet() const;
+	unsigned int GRALireNbArcs() const;
+	bool GRALireType() const;
 
 	//Modifieurs
 	void GRAAjouterArc(CSommet* SOMDepart, CSommet* SOMArrivee);
@@ -49,13 +49,13 @@ public :
 	void GRAModifierType(bool bParam);
 
 	//Méthodes
-	CSommet* GRARechercheSommetAvecArc(CArc * pARCParam, int iParam);
-	CSommet* GRARechercheSommet(int iVal);
-	int GRARechercheIndexSommet(int iSommet);
+	CSommet* GRARechercheSommetAvecArc(CArc * pARCParam, int iParam) const;
+	CSommet* GRARechercheSommet(int iVal) const;
+	int GRARechercheIndexSommet(int iSommet) const;
 	bool GRANumeroSommetUnique(int iVal);
-	void GRAAffichage();
-	CGraphe* GRAInversion();
-	CGraphe* GRANonOriente();
+	void GRAAffichage() const;
+	CGraphe* GRAInversion() const;
+	CGraphe* GRANonOriente() const;
 	
 
 };

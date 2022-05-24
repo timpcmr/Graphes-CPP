@@ -6,7 +6,7 @@
 using namespace std;
 
 
-CSommet::CSommet(CSommet& SOMParam)
+CSommet::CSommet(const CSommet& SOMParam)
 {
     unsigned int uiboucle1;
 
@@ -59,27 +59,27 @@ CSommet::~CSommet()
 }
 
 
-int CSommet::SOMLireNumero()
+int CSommet::SOMLireNumero() const
 {
     return iSOMNumero;
 }
 
-unsigned int CSommet::SOMLireNbArcsEntrants()
+unsigned int CSommet::SOMLireNbArcsEntrants() const
 {
     return uiSOMNbArcsSommetEntrants;
 }
 
-unsigned int CSommet::SOMLireNbArcsSortants()
+unsigned int CSommet::SOMLireNbArcsSortants() const
 {
     return uiSOMNbArcsSommetSortants;
 }
 
-CArc** CSommet::SOMLireArcsSortants()
+const CArc* const* CSommet::SOMLireArcsSortants() const
 {
     return ppARCSOMSortant;
 }
 
-CArc** CSommet::SOMLireArcsEntrants()
+const CArc* const* CSommet::SOMLireArcsEntrants() const
 {
     return ppARCSOMEntrant;
 }
@@ -210,7 +210,7 @@ void CSommet::SOMSupprimerArcSortant(CArc* pARCArc)
     uiSOMNbArcsSommetSortants--;
 }
 
-CArc* CSommet::SOMRechercheArc(int iDestination, int iParam)
+const CArc* CSommet::SOMRechercheArc(int iDestination, int iParam) const
 {
     unsigned int uiboucle;
 
@@ -231,7 +231,7 @@ CArc* CSommet::SOMRechercheArc(int iDestination, int iParam)
     return nullptr;
 }
 
-CSommet& CSommet::operator=(CSommet SOMSommet)
+CSommet& CSommet::operator=(const CSommet SOMSommet)
 {
     unsigned int uiboucle;
 
