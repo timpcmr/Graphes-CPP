@@ -83,7 +83,7 @@ void CGraphe::GRAAjouterArc(int iDepart, int iArrivee)
 
 void CGraphe::GRASupprimerArc(CArc* pARCParam)
 {
-	CSommet* SOMEntrant, * SOMSortant;
+	CSommet* SOMEntrant = nullptr, * SOMSortant = nullptr;
 	try {
 		SOMEntrant = GRARechercheSommetAvecArc(pARCParam, entrant);
 		SOMSortant = GRARechercheSommetAvecArc(pARCParam, sortant);

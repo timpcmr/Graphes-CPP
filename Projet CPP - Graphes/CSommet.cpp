@@ -228,9 +228,7 @@ CArc* CSommet::SOMRechercheArc(int iDestination, int iParam)
             }
         }
     }
-    else {
-        return nullptr;
-    }
+    return nullptr;
 }
 
 CSommet& CSommet::operator=(CSommet SOMSommet)
