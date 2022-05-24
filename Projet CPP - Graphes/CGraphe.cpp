@@ -65,28 +65,32 @@ bool CGraphe::GRALireType() const
 
 void CGraphe::GRAAjouterArc(CSommet* SOMDepart, CSommet* SOMArrivee)
 {
-	CArc * pARCNouvelArc = new CArc(SOMArrivee->SOMLireNumero());
-	SOMDepart->SOMAjouterArcSortant(pARCNouvelArc);
-	SOMArrivee->SOMAjouterArcEntrant(pARCNouvelArc);
-	delete pARCNouvelArc;
+	CArc * pARCNouvelArcE = new CArc(SOMDepart->SOMLireNumero());
+	CArc * pARCNouvelArcS = new CArc(SOMArrivee->SOMLireNumero());
+	SOMDepart->SOMAjouterArcSortant(pARCNouvelArcS);
+	SOMArrivee->SOMAjouterArcEntrant(pARCNouvelArcE);
+	delete pARCNouvelArcE;
+	delete pARCNouvelArcS;
 	uiGRANbArcs++;
 }
 
 void CGraphe::GRAAjouterArc(int iDepart, int iArrivee)
 {
-	CArc* pARCNouvelArc = new CArc(iArrivee);
-	GRARechercheSommet(iDepart)->SOMAjouterArcSortant(pARCNouvelArc);
-	GRARechercheSommet(iArrivee)->SOMAjouterArcEntrant(pARCNouvelArc);
-	delete pARCNouvelArc;
+	CArc* pARCNouvelArcE = new CArc(iDepart);
+	CArc* pARCNouvelArcS = new CArc(iArrivee);
+	GRARechercheSommet(iDepart)->SOMAjouterArcSortant(pARCNouvelArcS);
+	GRARechercheSommet(iArrivee)->SOMAjouterArcEntrant(pARCNouvelArcE);
+	delete pARCNouvelArcE;
+	delete pARCNouvelArcS;
 	uiGRANbArcs++;
 }
 
-void CGraphe::GRASupprimerArc(CArc* pARCParam)
+void CGraphe::GRASupprimerArc(int iDepart, int iArrivee)
 {
 	CSommet* SOMEntrant = nullptr, * SOMSortant = nullptr;
 	try {
-		SOMEntrant = GRARechercheSommetAvecArc(pARCParam, entrant);
-		SOMSortant = GRARechercheSommetAvecArc(pARCParam, sortant);
+		SOMEntrant = GRARechercheSommet(iDepart);
+		SOMSortant = GRARechercheSommet(iArrivee);
 	}
 	catch (CException EXCException) {
 		if (EXCException.EXCLireErreur() == EXCSuppImpossible) {

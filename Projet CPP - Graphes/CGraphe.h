@@ -42,7 +42,7 @@ public :
 	//Modifieurs
 	void GRAAjouterArc(CSommet* SOMDepart, CSommet* SOMArrivee);
 	void GRAAjouterArc(int iDepart, int iArrivee);
-	void GRASupprimerArc(CArc* pARCParam);
+	void GRASupprimerArc(int iDepart, int iArrivee);
 	void GRAAjouterSommet(CSommet& pSOMSommet);
 	void GRAAjouterSommet(int iNum);
 	void GRASupprimerSommet(int iNumSommet);

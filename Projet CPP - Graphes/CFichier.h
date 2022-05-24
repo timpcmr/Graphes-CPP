@@ -26,12 +26,26 @@ using namespace std;
 
 class Cfichier {
 private:
+	//Flot de lecture du fichier
 	ifstream IFSFICFichier;
 
 public:
 	//Constructeurs et Destructeur
+
+	/******************************************************************************************************
+	**** Entrées : 																					   ****
+	**** Nécessite :																		  	       ****
+	**** Sorties :																					   ****
+	**** Entraîne : Construction d'un object Cfichier par défaut									   ****
+	******************************************************************************************************/
 	Cfichier();
 
+	/******************************************************************************************************
+	**** Entrées : 	char * pcChemin																	   ****
+	**** Nécessite : pcChemin non nul comme chemin du fichier à lire						  	       ****
+	**** Sorties :																					   ****
+	**** Entraîne : Construction d'un object Cfichier par défaut									   ****
+	******************************************************************************************************/
 	Cfichier(char* pcChemin);
 
 	~Cfichier();
