@@ -45,11 +45,10 @@ public :
 	void GRASupprimerArc(int iDepart, int iArrivee);
 	void GRAAjouterSommet(CSommet& pSOMSommet);
 	void GRAAjouterSommet(int iNum);
-	void GRASupprimerSommet(int iNumSommet);
+	void GRASupprimerSommet(CSommet* pSOMParam);
 	void GRAModifierType(bool bParam);
 
 	//Méthodes
-	CSommet* GRARechercheSommetAvecArc(CArc * pARCParam, int iParam) const;
 	CSommet* GRARechercheSommet(int iVal) const;
 	int GRARechercheIndexSommet(int iSommet) const;
 	bool GRANumeroSommetUnique(int iVal);

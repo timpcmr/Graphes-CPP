@@ -11,6 +11,7 @@
 #include <iostream>
 
 #define EXCSuppImpossible 40
+#define EXCPointeurArcNul 41
 
 class CSommet {
 private :

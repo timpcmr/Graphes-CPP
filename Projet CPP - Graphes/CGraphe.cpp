@@ -87,23 +87,32 @@ void CGraphe::GRAAjouterArc(int iDepart, int iArrivee)
 
 void CGraphe::GRASupprimerArc(int iDepart, int iArrivee)
 {
-	CSommet* SOMEntrant = nullptr, * SOMSortant = nullptr;
+	CSommet* pSOMDepart = nullptr, * pSOMArrivee = nullptr;
+
+	pSOMDepart = GRARechercheSommet(iDepart);
+	if (pSOMDepart == nullptr) {
+		throw CException(EXCValeurSommetIntrouvable);
+	}
+	pSOMArrivee = GRARechercheSommet(iArrivee);
+	if (pSOMArrivee == nullptr) {
+		throw CException(EXCValeurSommetIntrouvable);
+	}
+
 	try {
-		SOMEntrant = GRARechercheSommet(iDepart);
-		SOMSortant = GRARechercheSommet(iArrivee);
+		pSOMDepart->SOMSupprimerArcEntrant((CArc*)pSOMDepart->SOMRechercheArc(iArrivee, sortant));
+		pSOMArrivee->SOMSupprimerArcSortant((CArc*)pSOMArrivee->SOMRechercheArc(iDepart, entrant));
 	}
 	catch (CException EXCException) {
 		if (EXCException.EXCLireErreur() == EXCSuppImpossible) {
 			cout << "Erreur : Suppression d'arc Impossible : La liste des arcs est vide !" << endl;
 			throw CException(EXCArretProgramme);
 		}
+		if (EXCException.EXCLireErreur() == EXCPointeurArcNul) {
+			cout << "Erreur : Suppression d'arc Impossible : L'arc n'existe pas !" << endl;
+			throw CException(EXCArretProgramme);
+		}
 	}
 
-
-	SOMEntrant->SOMSupprimerArcEntrant(pARCParam);
-	SOMSortant->SOMSupprimerArcSortant(pARCParam);
-
-	delete pARCParam;
 	uiGRANbArcs--;
 }
 
@@ -182,31 +191,36 @@ void CGraphe::GRAAjouterSommet(int iNum)
 	uiGRANbSommet++;
 }
 
-void CGraphe::GRASupprimerSommet(int iNumSommet)
+void CGraphe::GRASupprimerSommet(CSommet* pSOMParam)
 {
 	unsigned int uiboucle, uiSommetTrouve = 0;
 	int iNumeroSommetDestination;
-	CArc* pARCArcASupprimer;
 
-	for (uiboucle = 0; uiboucle < GRARechercheSommet(iNumSommet)->SOMLireNbArcsEntrants(); uiboucle++) {
-		iNumeroSommetDestination = GRARechercheSommet(iNumSommet)->SOMLireArcsEntrants()[uiboucle]->ARCLireDestination();
-		pARCArcASupprimer = (CArc*)GRARechercheSommet(iNumeroSommetDestination)->SOMRechercheArc(iNumSommet, entrant);
+	for (uiboucle = 0; uiboucle < pSOMParam->SOMLireNbArcsEntrants(); uiboucle++) {
 
-		GRARechercheSommet(iNumeroSommetDestination)->SOMSupprimerArcSortant(pARCArcASupprimer);
-		GRARechercheSommet(iNumSommet)->SOMSupprimerArcEntrant(pARCArcASupprimer);
+		//Suppression de l'arc dans le sommet antérieur
+		CSommet* pSOMSommetPrecedent;
+		pSOMSommetPrecedent = (CSommet*)GRARechercheSommet(pSOMParam->SOMLireArcsEntrants()[uiboucle]->ARCLireDestination());
+		pSOMSommetPrecedent->SOMSupprimerArcSortant((CArc*)pSOMSommetPrecedent->SOMRechercheArc(pSOMParam->SOMLireNumero(), sortant));
+
+		//Suppression de l'arc dans le sommet à supprimer
+		pSOMParam->SOMSupprimerArcEntrant((CArc*)pSOMParam->SOMRechercheArc(pSOMSommetPrecedent->SOMLireNumero(), entrant));
 	}
 
-	for (uiboucle = 0; uiboucle < GRARechercheSommet(iNumSommet)->SOMLireNbArcsSortants(); uiboucle++) {
-		iNumeroSommetDestination = GRARechercheSommet(iNumSommet)->SOMLireArcsSortants()[uiboucle]->ARCLireDestination();
-		pARCArcASupprimer = (CArc*)GRARechercheSommet(iNumeroSommetDestination)->SOMRechercheArc(iNumSommet, entrant);
+	for (uiboucle = 0; uiboucle < pSOMParam->SOMLireNbArcsSortants(); uiboucle++) {
 
-		GRARechercheSommet(iNumeroSommetDestination)->SOMSupprimerArcEntrant(pARCArcASupprimer);
-		GRARechercheSommet(iNumSommet)->SOMSupprimerArcSortant(pARCArcASupprimer);
+		//Suppression de l'arc dans le sommet suivant
+		CSommet* pSOMSommetSuivant;
+		pSOMSommetSuivant = (CSommet*)GRARechercheSommet(pSOMParam->SOMLireArcsSortants()[uiboucle]->ARCLireDestination());
+		pSOMSommetSuivant->SOMSupprimerArcEntrant((CArc*)pSOMSommetSuivant->SOMRechercheArc(pSOMParam->SOMLireNumero(), entrant));
+
+		//Suppression de l'arc dans le sommet à supprimer
+		pSOMParam->SOMSupprimerArcSortant((CArc*)pSOMParam->SOMRechercheArc(pSOMSommetSuivant->SOMLireNumero(), sortant));
 	}
 
 
 	for (uiboucle = 0; uiboucle < GRALireNbSommet() - 1; uiboucle++) {
-		if (GRALireSommets()[uiboucle]->SOMLireNumero() == iNumSommet) {
+		if (GRALireSommets()[uiboucle]->SOMLireNumero() == pSOMParam->SOMLireNumero()) {
 			uiSommetTrouve = 1;
 			delete ppSOMGRAListeSommet[uiboucle];
 		}
@@ -236,33 +250,6 @@ void CGraphe::GRAModifierType(bool bParam)
 	bGRAOriente = bParam;
 }
 
-CSommet* CGraphe::GRARechercheSommetAvecArc(CArc* pARCParam, int iParam) const
-{
-	unsigned int uiboucle, uiboucle2;
-	if (iParam == entrant) {
-		for (uiboucle = 0; uiboucle < GRALireNbSommet(); uiboucle++) {
-			for (uiboucle2 = 0; uiboucle < GRALireSommets()[uiboucle]->SOMLireNbArcsEntrants(); uiboucle2++) {
-				if (GRALireSommets()[uiboucle]->SOMLireArcsEntrants()[uiboucle2] == pARCParam) {
-					return (CSommet*)GRALireSommets()[uiboucle];
-				}
-			}
-		}
-	}
-	else if (iParam == sortant) {
-		for (uiboucle = 0; uiboucle < GRALireNbSommet(); uiboucle++) {
-			for (uiboucle2 = 0; uiboucle < GRALireSommets()[uiboucle]->SOMLireNbArcsSortants(); uiboucle2++) {
-				if (GRALireSommets()[uiboucle]->SOMLireArcsSortants()[uiboucle2] == pARCParam) {
-					return (CSommet*)GRALireSommets()[uiboucle];
-				}
-			}
-		}
-	}
-	else {
-		throw CException(EXCAucunParamRecherche);
-		 
-	}
-	return (CSommet*)GRALireSommets()[0];
-}
 
 CSommet* CGraphe::GRARechercheSommet(int iVal) const
 {

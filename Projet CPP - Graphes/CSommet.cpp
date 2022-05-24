@@ -91,6 +91,9 @@ void CSommet::SOMModifierNumero(int iNumero)
 
 void CSommet::SOMAjouterArcEntrant(CArc* pARCArc)
 {
+	if (pARCArc == nullptr) {
+		throw CException(EXCPointeurArcNul);
+	}
     unsigned int uiboucle1;
     CArc** ppARCSOMEntranttmp = new CArc * [uiSOMNbArcsSommetEntrants + 1];
     for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetEntrants + 1; uiboucle1++) {
@@ -119,6 +122,9 @@ void CSommet::SOMAjouterArcEntrant(CArc* pARCArc)
 
 void CSommet::SOMSupprimerArcEntrant(CArc* pARCArc)
 {
+	if (pARCArc == nullptr) {
+		throw CException(EXCPointeurArcNul);
+	}
     if (uiSOMNbArcsSommetEntrants == 0) {
         throw CException(EXCSuppImpossible);
     }
@@ -153,6 +159,9 @@ void CSommet::SOMSupprimerArcEntrant(CArc* pARCArc)
 
 void CSommet::SOMAjouterArcSortant(CArc* pARCArc)
 {
+	if (pARCArc == nullptr) {
+		throw CException(EXCPointeurArcNul);
+	}
     unsigned int uiboucle1;
     CArc** ppARCSOMSortanttmp = new CArc * [uiSOMNbArcsSommetSortants + 1];
     for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetSortants + 1; uiboucle1++) {
@@ -182,6 +191,9 @@ void CSommet::SOMSupprimerArcSortant(CArc* pARCArc)
     if (uiSOMNbArcsSommetSortants == 0) {
         throw CException(EXCSuppImpossible);
     }
+	if (pARCArc == nullptr) {
+		throw CException(EXCPointeurArcNul);
+	}
     unsigned int uiboucle, uiArcTrouve = 0;
     CArc** ppARCSOMSortanttmp = new CArc * [uiSOMNbArcsSommetSortants - 1];
     for (uiboucle = 0; uiboucle < uiSOMNbArcsSommetSortants - 1; uiboucle++) {
