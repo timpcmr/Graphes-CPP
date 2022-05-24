@@ -54,6 +54,8 @@ public :
 	bool GRANumeroSommetUnique(int iVal);
 	void GRAAffichage() const;
 
+	//Surcharge
+	CGraphe& operator=(const CGraphe GRAparam);
 };
 
 #endif

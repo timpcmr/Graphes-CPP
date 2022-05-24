@@ -194,43 +194,82 @@ void CGraphe::GRAAjouterSommet(int iNum)
 void CGraphe::GRASupprimerSommet(CSommet* pSOMParam)
 {
 	unsigned int uiboucle, uiSommetTrouve = 0;
-	int iNumeroSommetDestination;
 
 	for (uiboucle = 0; uiboucle < pSOMParam->SOMLireNbArcsEntrants(); uiboucle++) {
 
 		//Suppression de l'arc dans le sommet antérieur
 		CSommet* pSOMSommetPrecedent;
-		pSOMSommetPrecedent = (CSommet*)GRARechercheSommet(pSOMParam->SOMLireArcsEntrants()[uiboucle]->ARCLireDestination());
-		pSOMSommetPrecedent->SOMSupprimerArcSortant((CArc*)pSOMSommetPrecedent->SOMRechercheArc(pSOMParam->SOMLireNumero(), sortant));
+		try {
+			pSOMSommetPrecedent = (CSommet*)GRARechercheSommet(pSOMParam->SOMLireArcsEntrants()[uiboucle]->ARCLireDestination());
+			if (pSOMSommetPrecedent == nullptr) {
+				throw  CException(EXCValeurSommetIntrouvable);
+			}
+			pSOMSommetPrecedent->SOMSupprimerArcSortant((CArc*)pSOMSommetPrecedent->SOMRechercheArc(pSOMParam->SOMLireNumero(), sortant));
+		}
+		catch (CException EXCException) {
+			if (EXCException.EXCLireErreur() == EXCValeurSommetIntrouvable) {
+				cout << "Erreur : Suppression du sommet impossible : Le sommet n'existe pas !" << endl;
+			}
+			if (EXCException.EXCLireErreur() == EXCPointeurArcNul) {
+				cout << "Erreur : Suppression d'arc Impossible : L'arc n'existe pas !" << endl;
+			}
+			throw CException(EXCArretProgramme);
+		}
 
 		//Suppression de l'arc dans le sommet à supprimer
-		pSOMParam->SOMSupprimerArcEntrant((CArc*)pSOMParam->SOMRechercheArc(pSOMSommetPrecedent->SOMLireNumero(), entrant));
+		try {
+			pSOMParam->SOMSupprimerArcEntrant((CArc*)pSOMParam->SOMRechercheArc(pSOMSommetPrecedent->SOMLireNumero(), entrant));
+		}
+		catch (CException EXCException) {
+			if (EXCException.EXCLireErreur() == EXCPointeurArcNul) {
+				cout << "Erreur : Suppression d'arc Impossible : L'arc n'existe pas !" << endl;
+			}
+			throw CException(EXCArretProgramme);
+		}
+		uiGRANbArcs--;
 	}
 
 	for (uiboucle = 0; uiboucle < pSOMParam->SOMLireNbArcsSortants(); uiboucle++) {
 
 		//Suppression de l'arc dans le sommet suivant
 		CSommet* pSOMSommetSuivant;
-		pSOMSommetSuivant = (CSommet*)GRARechercheSommet(pSOMParam->SOMLireArcsSortants()[uiboucle]->ARCLireDestination());
-		pSOMSommetSuivant->SOMSupprimerArcEntrant((CArc*)pSOMSommetSuivant->SOMRechercheArc(pSOMParam->SOMLireNumero(), entrant));
+		try {
+			pSOMSommetSuivant = (CSommet*)GRARechercheSommet(pSOMParam->SOMLireArcsSortants()[uiboucle]->ARCLireDestination());
+			if (pSOMSommetSuivant == nullptr) {
+				throw  CException(EXCValeurSommetIntrouvable);
+			}
+			pSOMSommetSuivant->SOMSupprimerArcEntrant((CArc*)pSOMSommetSuivant->SOMRechercheArc(pSOMParam->SOMLireNumero(), entrant));
+		}
+		catch (CException EXCException) {
+			if (EXCException.EXCLireErreur() == EXCValeurSommetIntrouvable) {
+				cout << "Erreur : Suppression du sommet impossible : Le sommet n'existe pas !" << endl;
+			}
+			if (EXCException.EXCLireErreur() == EXCPointeurArcNul) {
+				cout << "Erreur : Suppression d'arc Impossible : L'arc n'existe pas !" << endl;
+			}
+			throw CException(EXCArretProgramme);
+		}
+		
 
 		//Suppression de l'arc dans le sommet à supprimer
-		pSOMParam->SOMSupprimerArcSortant((CArc*)pSOMParam->SOMRechercheArc(pSOMSommetSuivant->SOMLireNumero(), sortant));
-	}
-
-
-	for (uiboucle = 0; uiboucle < GRALireNbSommet() - 1; uiboucle++) {
-		if (GRALireSommets()[uiboucle]->SOMLireNumero() == pSOMParam->SOMLireNumero()) {
-			uiSommetTrouve = 1;
-			delete ppSOMGRAListeSommet[uiboucle];
+		try {
+			pSOMParam->SOMSupprimerArcSortant((CArc*)pSOMParam->SOMRechercheArc(pSOMSommetSuivant->SOMLireNumero(), sortant));
 		}
-
-		ppSOMGRAListeSommet[uiboucle] = ppSOMGRAListeSommet[uiboucle + uiSommetTrouve];
+		catch (CException EXCException) {
+			if (EXCException.EXCLireErreur() == EXCPointeurArcNul) {
+				cout << "Erreur : Suppression d'arc Impossible : L'arc n'existe pas !" << endl;
+			}
+			throw CException(EXCArretProgramme);
+		}
+		uiGRANbArcs--;
 	}
 
 	CSommet** ppSOMGRAListeSommetTMP = new CSommet * [uiGRANbSommet - 1];
-	for (uiboucle = 0; uiboucle < uiGRANbSommet - 1; uiboucle++) {
-		ppSOMGRAListeSommetTMP[uiboucle] = new CSommet(*ppSOMGRAListeSommet[uiboucle]);
+	for (uiboucle = 0; uiboucle < GRALireNbSommet() - 1; uiboucle++) {
+		if (GRALireSommets()[uiboucle]->SOMLireNumero() == pSOMParam->SOMLireNumero()) {
+			uiSommetTrouve = 1;
+		}
+		ppSOMGRAListeSommetTMP[uiboucle] = new CSommet(*ppSOMGRAListeSommet[uiboucle + uiSommetTrouve]);
 	}
 
 
@@ -240,6 +279,7 @@ void CGraphe::GRASupprimerSommet(CSommet* pSOMParam)
 	}
 	delete[] ppSOMGRAListeSommet;
 
+	ppSOMGRAListeSommet = ppSOMGRAListeSommetTMP;
 
 	uiGRANbSommet--;
 
@@ -296,28 +336,59 @@ void CGraphe::GRAAffichage() const
 
 	if (bGRAOriente == true) {
 		cout << "Type de Graphe : Oriente" << endl;
+		cout << "Nombre de sommets : " << GRALireNbSommet() << endl;
+		cout << "Nombre d'arcs : " << GRALireNbArcs() << endl << endl;
 		for (uiboucleSommet = 0; uiboucleSommet < uiGRANbSommet; uiboucleSommet++) {
-			cout << "Sommet " << GRALireSommets()[uiboucleSommet]->SOMLireNumero() << " : " << endl;
-			for (uiboucleArc = 0; uiboucleArc < GRALireSommets()[uiboucleSommet]->SOMLireNbArcsSortants(); uiboucleArc++) {
-				cout << "--> " << GRALireSommets()[uiboucleSommet]->SOMLireArcsSortants()[uiboucleArc]->ARCLireDestination() << endl;
+			if (GRALireSommets()[uiboucleSommet]->SOMLireNbArcsSortants() > 0) {
+				cout << "Sommet " << GRALireSommets()[uiboucleSommet]->SOMLireNumero() << " : " << endl;
+				for (uiboucleArc = 0; uiboucleArc < GRALireSommets()[uiboucleSommet]->SOMLireNbArcsSortants(); uiboucleArc++) {
+					cout << "--> " << GRALireSommets()[uiboucleSommet]->SOMLireArcsSortants()[uiboucleArc]->ARCLireDestination() << endl;
+				}
+				cout << endl;
 			}
-			cout << endl;
 		}
 	}
 	else {
 		cout << "Type de Graphe : Non-Oriente" << endl;
+		cout << "Nombre de sommets : " << GRALireNbSommet() << endl;
+		cout << "Nombre d'arcs : " << GRALireNbArcs() << endl << endl;
 		for (uiboucleSommet = 0; uiboucleSommet < uiGRANbSommet; uiboucleSommet++) {
 			cout << "Sommet " << GRALireSommets()[uiboucleSommet]->SOMLireNumero() << " : " << endl;
-
-			for (uiboucleArc = 0; uiboucleArc < GRALireSommets()[uiboucleSommet]->SOMLireNbArcsEntrants(); uiboucleArc++) {
-				cout << "<--> " << GRALireSommets()[uiboucleSommet]->SOMLireArcsEntrants()[uiboucleArc]->ARCLireDestination() << endl;
+			if (GRALireSommets()[uiboucleSommet]->SOMLireNbArcsEntrants() > 0) {
+				for (uiboucleArc = 0; uiboucleArc < GRALireSommets()[uiboucleSommet]->SOMLireNbArcsEntrants(); uiboucleArc++) {
+					cout << "<--> " << GRALireSommets()[uiboucleSommet]->SOMLireArcsEntrants()[uiboucleArc]->ARCLireDestination() << endl;
+				}
 			}
-
-			for (uiboucleArc = 0; uiboucleArc < GRALireSommets()[uiboucleSommet]->SOMLireNbArcsSortants(); uiboucleArc++) {
-				cout << "<--> " << GRALireSommets()[uiboucleSommet]->SOMLireArcsSortants()[uiboucleArc]->ARCLireDestination() << endl;
+			if (GRALireSommets()[uiboucleSommet]->SOMLireNbArcsSortants() > 0) {
+				for (uiboucleArc = 0; uiboucleArc < GRALireSommets()[uiboucleSommet]->SOMLireNbArcsSortants(); uiboucleArc++) {
+					cout << "<--> " << GRALireSommets()[uiboucleSommet]->SOMLireArcsSortants()[uiboucleArc]->ARCLireDestination() << endl;
+				}
 			}
-			
 			cout << endl;
 		}
 	}
+}
+
+CGraphe& CGraphe::operator=(const CGraphe GRAparam)
+{
+	unsigned int uiboucle;
+	bGRAOriente = GRAparam.GRALireType();
+
+	CSommet** ppSOMGRAListeSommetTMP = new CSommet * [GRAparam.GRALireNbSommet()];
+	for (uiboucle = 0; uiboucle < GRAparam.GRALireNbSommet(); uiboucle++) {
+		ppSOMGRAListeSommetTMP[uiboucle] = new CSommet(*GRAparam.GRALireSommets()[uiboucle]);
+	}
+
+	for (uiboucle = 0; uiboucle < uiGRANbSommet; uiboucle++) {
+		delete ppSOMGRAListeSommet[uiboucle];
+		ppSOMGRAListeSommet[uiboucle] = nullptr;
+	}
+	delete[] ppSOMGRAListeSommet;
+
+	uiGRANbArcs = GRAparam.GRALireNbArcs();
+	uiGRANbSommet = GRAparam.GRALireNbSommet();
+
+	ppSOMGRAListeSommet = ppSOMGRAListeSommetTMP;
+
+	return *this;
 }

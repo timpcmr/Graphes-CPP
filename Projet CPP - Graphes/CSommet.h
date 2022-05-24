@@ -12,6 +12,7 @@
 
 #define EXCSuppImpossible 40
 #define EXCPointeurArcNul 41
+#define EXCValeurArcIntrouvable 424222
 
 class CSommet {
 private :

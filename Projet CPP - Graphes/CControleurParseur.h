@@ -8,7 +8,6 @@
 
 #define EXCCheminVideCtrlParseur 30
 
-
 class CControleurParseur {
 private:
 	char* pcCONChemin;
@@ -24,14 +23,5 @@ public:
 	CGraphe* CONLireGraphe();
 	void CONLireFichierGraphe();
 };
-
-
-
-
-
-
-
-
-
 
 #endif // !CONTROL_PARSER

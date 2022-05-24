@@ -11,7 +11,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 
-	if (argc > 1) {
+	if (argc == 2) {
 
 		//Déclaration des variables du main
 		CControleurParseur* pCONFichierLu = nullptr;
@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 
 		//Récupération du graphe lu et affichage
 		try {
-			cout << endl << "-----Graphe lu depuis le fichier :-----" << endl << endl;
+			cout << "-----Graphe lu depuis le fichier :-----" << endl << endl;
 			pGRAGraphe = new CGraphe(*pCONFichierLu->CONLireGraphe());
 			pGRAGraphe->GRAAffichage();
 		}
@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
 		}
 
 		//Récupération du graphe inversé puis affichage
-		try{
+		try {
 			cout << endl << "-----Graphe Inverse-----" << endl << endl;
 			pGRAGrapheInverse = COPBoiteAOutils.GRAInversion(pGRAGraphe);
 			pGRAGrapheInverse->GRAAffichage();
@@ -69,6 +69,11 @@ int main(int argc, char* argv[]) {
 		delete pGRAGraphe;
 		delete pGRAGrapheInverse;
 		delete pCONFichierLu;
+
+	}
+	else if (argc > 2) {
+		cout << "Erreur : Ne passez qu'un fichier en argument !" << endl;
+		return 1;
 	}
 	else {
 		cout << "Erreur : Aucun chemin de fichier passe en argument !" << endl;
