@@ -13,6 +13,7 @@
 #define EXCAucunParamRecherche 20
 #define EXCValeurSommetIntrouvable 21
 #define EXCListeSommetInexistante 22
+#define EXCPointeurSommetNul 23
 
 class CSommet;
 class CArc;
@@ -40,7 +41,7 @@ public :
 	bool GRALireType() const;
 
 	//Modifieurs
-	void GRAAjouterArc(CSommet* SOMDepart, CSommet* SOMArrivee);
+	void GRAAjouterArc(CSommet* pSOMDepart, CSommet* pSOMArrivee);
 	void GRAAjouterArc(int iDepart, int iArrivee);
 	void GRASupprimerArc(int iDepart, int iArrivee);
 	void GRAAjouterSommet(CSommet& pSOMSommet);

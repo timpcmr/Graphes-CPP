@@ -192,7 +192,15 @@ void CControleurParseur::CONLireFichierGraphe()
 
 		//Arcs
 	for (uiBoucle = 0; uiBoucle < uiNbArcs; uiBoucle++) {
-		pGRACONGraphe->GRAAjouterArc(ppuiArcs[uiBoucle][0], ppuiArcs[uiBoucle][1]);
+		try {
+			pGRACONGraphe->GRAAjouterArc(ppuiArcs[uiBoucle][0], ppuiArcs[uiBoucle][1]);
+		}
+		catch (CException EXCException) {
+			if (EXCException.EXCLireErreur() == EXCPointeurSommetNul) {
+				cout << "Erreur Interne (GRAAjouterArc) : Le ou les pointeur(s) de sommet passe(s) en parametre est/sont nul(s) !" << endl;
+			}
+			throw CException(EXCArretProgramme);
+		}
 	}
 	
 	delete[] puiSommets;

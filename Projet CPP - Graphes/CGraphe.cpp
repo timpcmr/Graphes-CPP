@@ -63,12 +63,24 @@ bool CGraphe::GRALireType() const
 	return bGRAOriente;
 }
 
-void CGraphe::GRAAjouterArc(CSommet* SOMDepart, CSommet* SOMArrivee)
+void CGraphe::GRAAjouterArc(CSommet* pSOMDepart, CSommet* pSOMArrivee)
 {
-	CArc * pARCNouvelArcE = new CArc(SOMDepart->SOMLireNumero());
-	CArc * pARCNouvelArcS = new CArc(SOMArrivee->SOMLireNumero());
-	SOMDepart->SOMAjouterArcSortant(pARCNouvelArcS);
-	SOMArrivee->SOMAjouterArcEntrant(pARCNouvelArcE);
+	if (pSOMDepart == nullptr || pSOMArrivee == nullptr) {
+		throw CException(EXCPointeurSommetNul);
+	}
+	CArc * pARCNouvelArcE = new CArc(pSOMDepart->SOMLireNumero());
+	CArc * pARCNouvelArcS = new CArc(pSOMArrivee->SOMLireNumero());
+	try {
+		pSOMDepart->SOMAjouterArcSortant(pARCNouvelArcS);
+		pSOMArrivee->SOMAjouterArcEntrant(pARCNouvelArcE);
+	}
+	catch (CException EXCException) {
+		if (EXCException.EXCLireErreur() == EXCPointeurArcNul) {
+			cout << "Erreur interne (GRAAjouterArc) : Le pointeur d'arc est nul !" << endl;
+		}
+		throw CException(EXCArretProgramme);
+	}
+	
 	delete pARCNouvelArcE;
 	delete pARCNouvelArcS;
 	uiGRANbArcs++;
