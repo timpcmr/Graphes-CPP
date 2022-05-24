@@ -66,7 +66,6 @@ int main(int argc, char* argv[]) {
 				cout << "Erreur non-specifiee !" << endl;
 			}
 		}
-		COPBoiteAOutils.GRANonOriente(pGRAGraphe)->GRAAffichage();
 		delete pGRAGraphe;
 		delete pGRAGrapheInverse;
 		delete pCONFichierLu;
