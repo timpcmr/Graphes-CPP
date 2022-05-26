@@ -297,6 +297,18 @@ void CGraphe::GRASupprimerSommet(CSommet* pSOMParam)
 
 }
 
+void CGraphe::GRAModifierNumSommet(CSommet* pSOMParam, int iNum)
+{
+	if (pSOMParam == nullptr) {
+		throw CException(EXCPointeurSommetNul);
+	}
+	if (GRANumeroSommetUnique(iNum) == false) {
+		throw CException(EXCNumeroIndisponible);
+	}
+	pSOMParam->SOMModifierNumero(iNum);
+
+}
+
 void CGraphe::GRAModifierType(bool bParam)
 {
 	bGRAOriente = bParam;

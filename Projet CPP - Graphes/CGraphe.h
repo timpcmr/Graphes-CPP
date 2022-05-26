@@ -14,6 +14,7 @@
 #define EXCValeurSommetIntrouvable 21
 #define EXCListeSommetInexistante 22
 #define EXCPointeurSommetNul 23
+#define EXCNumeroIndisponible 24
 
 class CSommet;
 class CArc;
@@ -47,6 +48,7 @@ public :
 	void GRAAjouterSommet(CSommet& pSOMSommet);
 	void GRAAjouterSommet(int iNum);
 	void GRASupprimerSommet(CSommet* pSOMParam);
+	void GRAModifierNumSommet(CSommet* pSOMParam, int iNum);
 	void GRAModifierType(bool bParam);
 
 	//Méthodes

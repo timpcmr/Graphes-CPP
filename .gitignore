@@ -15,6 +15,7 @@
 Aide/
 Docs/
 enc_temp_folder/
+*.docx
 
 # Mono auto generated files
 mono_crash.*
