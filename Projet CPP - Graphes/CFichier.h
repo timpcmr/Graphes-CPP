@@ -107,6 +107,7 @@ public:
 	******************************************************************************************************************/
 	void FICSupp_char(char* pcChaine, const char cCaractere);
 
+
 	bool FICVerifBalise(char* pcToken, const char* pcNomBalise);
 };
 

@@ -5,7 +5,12 @@
 
 using namespace std;
 
-
+/******************************************************************************************************
+**** Entrées :	SOMParam : CSommet&																   ****
+**** Nécessite :																		  	       ****
+**** Sorties : CSommet																			   ****
+**** Entraîne : Crée un nouvel objet CSommet par copie de SOMParam								   ****
+******************************************************************************************************/
 CSommet::CSommet(const CSommet& SOMParam)
 {
     unsigned int uiboucle1;
@@ -25,6 +30,13 @@ CSommet::CSommet(const CSommet& SOMParam)
     }
 }
 
+
+/******************************************************************************************************
+**** Entrées : iNumero : int																	   ****
+**** Nécessite :																		  	       ****
+**** Sorties : CSommet																			   ****
+**** Entraîne : Crée un nouvel objet CSommet possédant le numéro iNumero						   ****
+******************************************************************************************************/
 CSommet::CSommet(int iNumero)
 {
     iSOMNumero = iNumero;
@@ -36,6 +48,12 @@ CSommet::CSommet(int iNumero)
     ppARCSOMSortant = nullptr;
 }
 
+/******************************************************************************************************
+**** Entrées :																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties : 																					   ****
+**** Entraîne : Destruction de l'objet CSommet par défaut										   ****
+******************************************************************************************************/
 CSommet::~CSommet()
 {
     unsigned int uiboucle;
@@ -58,37 +76,79 @@ CSommet::~CSommet()
     }
 }
 
-
+/******************************************************************************************************
+**** Entrées :																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties : iSOMNumero : int																	   ****
+**** Entraîne : Renvoie le numéro du sommet														   ****
+******************************************************************************************************/
 int CSommet::SOMLireNumero() const
 {
     return iSOMNumero;
 }
 
+
+/******************************************************************************************************
+**** Entrées :																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties : uiSOMNbArcsSommetEntrants : unsigned int											   ****
+**** Entraîne : Renvoie le nombre d'arcs entrants du sommet										   ****
+******************************************************************************************************/
 unsigned int CSommet::SOMLireNbArcsEntrants() const
 {
     return uiSOMNbArcsSommetEntrants;
 }
 
+/******************************************************************************************************
+**** Entrées :																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties : uiSOMNbArcsSommetSortants : unsigned int											   ****
+**** Entraîne : Renvoie le nombre d'arcs sortants du sommet										   ****
+******************************************************************************************************/
 unsigned int CSommet::SOMLireNbArcsSortants() const
 {
     return uiSOMNbArcsSommetSortants;
 }
 
+/******************************************************************************************************
+**** Entrées :																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties : ppARCSOMSortants : CArc**														   ****
+**** Entraîne : Renvoie la liste des arcs sortants												   ****
+******************************************************************************************************/
 const CArc* const* CSommet::SOMLireArcsSortants() const
 {
     return ppARCSOMSortant;
 }
 
+/******************************************************************************************************
+**** Entrées :																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties : ppARCSOMEntrants : CArc**														   ****
+**** Entraîne : Renvoie la liste des arcs entrants												   ****
+******************************************************************************************************/
 const CArc* const* CSommet::SOMLireArcsEntrants() const
 {
     return ppARCSOMEntrant;
 }
 
+/******************************************************************************************************
+**** Entrées : iNumero : int																	   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Modifie le numéro du sommet														   ****
+******************************************************************************************************/
 void CSommet::SOMModifierNumero(int iNumero)
 {
     iSOMNumero = iNumero;
 }
 
+/******************************************************************************************************
+**** Entrées : pARCArc : CArc*																	   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Ajoute CArc dans la liste des arcs entrants du sommet							   ****
+******************************************************************************************************/
 void CSommet::SOMAjouterArcEntrant(CArc* pARCArc)
 {
 	if (pARCArc == nullptr) {
@@ -120,6 +180,12 @@ void CSommet::SOMAjouterArcEntrant(CArc* pARCArc)
 
 }
 
+/******************************************************************************************************
+**** Entrées : pARCArc : CArc*																	   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Supprime CArc dans la liste des arcs entrants du sommet							   ****
+******************************************************************************************************/
 void CSommet::SOMSupprimerArcEntrant(CArc* pARCArc)
 {
 	if (pARCArc == nullptr) {
@@ -157,6 +223,12 @@ void CSommet::SOMSupprimerArcEntrant(CArc* pARCArc)
     
 }
 
+/******************************************************************************************************
+**** Entrées : pARCArc : CArc*																	   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Ajoute CArc dans la liste des arcs sortants du sommet							   ****
+******************************************************************************************************/
 void CSommet::SOMAjouterArcSortant(CArc* pARCArc)
 {
 	if (pARCArc == nullptr) {
@@ -186,6 +258,12 @@ void CSommet::SOMAjouterArcSortant(CArc* pARCArc)
     uiSOMNbArcsSommetSortants++;
 }
 
+/******************************************************************************************************
+**** Entrées : pARCArc : CArc*																	   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Supprime CArc dans la liste des arcs sortants du sommet							   ****
+******************************************************************************************************/
 void CSommet::SOMSupprimerArcSortant(CArc* pARCArc)
 {
     if (uiSOMNbArcsSommetSortants == 0) {
@@ -222,6 +300,12 @@ void CSommet::SOMSupprimerArcSortant(CArc* pARCArc)
     uiSOMNbArcsSommetSortants--;
 }
 
+/***************************************************************************************************************************
+**** Entrées : iDestination : int, iParam : int																			****
+**** Nécessite :																		  								****
+**** Sorties :																											****
+**** Entraîne : Recherche et renvoie l'arc désiré à partir de sa destination et du fait qu'il soit entrant ou sortant	****
+***************************************************************************************************************************/
 const CArc* CSommet::SOMRechercheArc(int iDestination, int iParam) const
 {
     unsigned int uiboucle;
@@ -243,6 +327,12 @@ const CArc* CSommet::SOMRechercheArc(int iDestination, int iParam) const
     return nullptr;
 }
 
+/******************************************************************************************************
+**** Entrées : SOMSommet : CSommet																   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Crée un nouvel objet CSommet par copie de SOMSommet								   ****
+******************************************************************************************************/
 CSommet& CSommet::operator=(const CSommet SOMSommet)
 {
     unsigned int uiboucle;
