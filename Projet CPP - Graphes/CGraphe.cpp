@@ -90,8 +90,22 @@ void CGraphe::GRAAjouterArc(int iDepart, int iArrivee)
 {
 	CArc* pARCNouvelArcE = new CArc(iDepart);
 	CArc* pARCNouvelArcS = new CArc(iArrivee);
-	GRARechercheSommet(iDepart)->SOMAjouterArcSortant(pARCNouvelArcS);
-	GRARechercheSommet(iArrivee)->SOMAjouterArcEntrant(pARCNouvelArcE);
+	CSommet* pSOMDepart = nullptr, * pSOMArrivee = nullptr;
+	pSOMDepart = GRARechercheSommet(iDepart);
+	pSOMArrivee = GRARechercheSommet(iArrivee);
+	if(pSOMDepart == nullptr || pSOMArrivee == nullptr) {
+		throw CException(EXCPointeurSommetNul);
+	}
+	try {
+		pSOMDepart->SOMAjouterArcSortant(pARCNouvelArcS);
+		pSOMArrivee->SOMAjouterArcEntrant(pARCNouvelArcE);
+	}
+	catch (CException EXCException) {
+		if (EXCException.EXCLireErreur() == EXCPointeurArcNul) {
+			cout << "Erreur interne (GRAAjouterArc) : Le pointeur d'arc est nul !" << endl;
+		}
+		throw CException(EXCArretProgramme);
+	}
 	delete pARCNouvelArcE;
 	delete pARCNouvelArcS;
 	uiGRANbArcs++;
@@ -143,7 +157,7 @@ void CGraphe::GRAAjouterSommet(CSommet& SOMSommet)
 		cin >> pcEntree;
 		iNum = atoi(pcEntree);
 		SOMSommet.SOMModifierNumero(iNum);
-		}
+	}
 
 	CSommet** ppSOMGRAListeSommetTMP = new CSommet * [uiGRANbSommet + 1];
 	for (uiBoucle = 0; uiBoucle < uiGRANbSommet + 1; uiBoucle++) {
