@@ -26,13 +26,55 @@ private :
 public :
 
 	//Constructeurs & Destructeurs
+
+	/******************************************************************************************************
+	**** Entrées :																					   ****
+	**** Nécessite :																		  	       ****
+	**** Sorties : CSommet																			   ****
+	**** Entraîne : Crée un nouvel objet CSommet par défaut											   ****
+	******************************************************************************************************/
 	CSommet() = delete;
+
+	/******************************************************************************************************
+	**** Entrées :	SOMParam : CSommet&																   ****
+	**** Nécessite :																		  	       ****
+	**** Sorties : CSommet																			   ****
+	**** Entraîne : Crée un nouvel objet CSommet par copie de SOMParam								   ****
+	******************************************************************************************************/
 	CSommet(const CSommet &SOMParam);
+
+	/******************************************************************************************************
+	**** Entrées : iNumero : int																	   ****
+	**** Nécessite :																		  	       ****
+	**** Sorties : CSommet																			   ****
+	**** Entraîne : Crée un nouvel objet CSommet possédant le numéro iNumero						   ****
+	******************************************************************************************************/
 	CSommet(int iNumero);
+
+	/******************************************************************************************************
+	**** Entrées :																					   ****
+	**** Nécessite :																		  	       ****
+	**** Sorties : 																					   ****
+	**** Entraîne : Destruction de l'objet CSommet par défaut										   ****
+	******************************************************************************************************/
 	~CSommet();
 
 	//Accesseurs
+
+	/******************************************************************************************************
+	**** Entrées :																					   ****
+	**** Nécessite :																		  	       ****
+	**** Sorties : iSOMNumero : int																	   ****
+	**** Entraîne : Renvoie le numéro du sommet														   ****
+	******************************************************************************************************/
 	int SOMLireNumero() const;
+
+	/******************************************************************************************************
+	**** Entrées :																					   ****
+	**** Nécessite :																		  	       ****
+	**** Sorties : uiSOMNbArcsSommetEntrants : unsigned int											   ****
+	**** Entraîne : Renvoie le nombre d'arcs entrants du sommet										   ****
+	******************************************************************************************************/
 	unsigned int SOMLireNbArcsEntrants() const;
 	unsigned int SOMLireNbArcsSortants() const;
 	const CArc * const* SOMLireArcsSortants() const;

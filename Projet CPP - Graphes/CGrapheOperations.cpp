@@ -1,5 +1,11 @@
 #include "CGrapheOperations.h"
 
+/******************************************************************************************************
+**** Entrées : pGRAParam : CGraphe*																   ****
+**** Nécessite :																		  	       ****
+**** Sorties : pGRARetour : CGraphe*															   ****
+**** Entraîne : Crée un nouvel objet CGraphe inverse à pGRAParam								   ****
+******************************************************************************************************/
 CGraphe * CGrapheOperations::GRAInversion(const CGraphe* GRAParam) const
 {
 	CGraphe* pGRARetour = new CGraphe();
@@ -16,6 +22,12 @@ CGraphe * CGrapheOperations::GRAInversion(const CGraphe* GRAParam) const
 	return pGRARetour;
 }
 
+/******************************************************************************************************
+**** Entrées : pGRAParam : CGraphe*																   ****
+**** Nécessite :																		  	       ****
+**** Sorties : pGRARetour : CGraphe*															   ****
+**** Entraîne : Crée un nouvel objet CGraphe en copiant pGRAParam mais étant non-orienté		   ****
+******************************************************************************************************/
 CGraphe * CGrapheOperations::GRANonOriente(const CGraphe* pGRAParam) const
 {
 	CGraphe* pGRAGrapheRetour = new CGraphe(*pGRAParam);

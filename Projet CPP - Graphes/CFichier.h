@@ -48,21 +48,35 @@ public:
 	******************************************************************************************************/
 	CFichier(char* pcChemin);
 
+	/******************************************************************************************************
+	**** Entrées : 																					   ****
+	**** Nécessite :																		  	       ****
+	**** Sorties :																					   ****
+	**** Entraîne : Destruction de l'objet CFichier par défaut										   ****
+	******************************************************************************************************/
 	~CFichier();
 
 	//Modifieur
 
+	/******************************************************************************************************
+	**** Entrées : pcChemin : char*																	   ****
+	**** Nécessite :																		  	       ****
+	**** Sorties :																					   ****
+	**** Entraîne : Initialise le flot de lecture du fichier										   ****
+	******************************************************************************************************/
 	void FICInitialiserFlot(char* pcChemin);
 
 	//Parseur
 
 	/******************************************************************************************************
-	**** Entrées : char* pcChemin																	   ****
+	**** Entrées : pcTag : char*																	   ****
 	**** Nécessite :																		  	       ****
-	**** Sorties :	CMatrice MATretour																   ****
-	**** Entraîne : Renvoie la matrice du fichier texte dont le chemin pcChemin est passé en paramètre ****
+	**** Sorties :	uiValeurRetournee : unsigned int												   ****
+	**** Entraîne : Renvoie le chiffre lu dans le fichier											   ****
 	******************************************************************************************************/
 	unsigned int FICLireChiffre(char* pcTag);
+
+
 
 	unsigned int* FICLireTabSansVirgule(const unsigned int uiNbLignes, char* pcTag1, char* pcTag2);
 

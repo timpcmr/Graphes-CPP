@@ -393,7 +393,7 @@ void CGraphe::GRAAffichage() const
 	}
 }
 
-CGraphe& CGraphe::operator=(const CGraphe GRAparam)
+CGraphe& CGraphe::operator=(const CGraphe &GRAparam)
 {
 	unsigned int uiboucle;
 	bGRAOriente = GRAparam.GRALireType();

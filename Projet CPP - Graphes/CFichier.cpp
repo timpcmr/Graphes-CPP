@@ -1,11 +1,22 @@
 #include "CFichier.h"
 #pragma warning(disable : 4996)
 
-
+/******************************************************************************************************
+**** Entrées : 																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Construction d'un object Cfichier par défaut									   ****
+******************************************************************************************************/
 CFichier::CFichier()
 {
 }
 
+/******************************************************************************************************
+**** Entrées : 	char * pcChemin																	   ****
+**** Nécessite : pcChemin non nul comme chemin du fichier à lire						  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Construction d'un object Cfichier par défaut									   ****
+******************************************************************************************************/
 CFichier::CFichier(char * pcChemin)
 {
 	IFSFICFichier = ifstream(pcChemin);
@@ -14,21 +25,33 @@ CFichier::CFichier(char * pcChemin)
 	}
 }
 
+/******************************************************************************************************
+**** Entrées : 																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Destruction de l'objet CFichier par défaut										   ****
+******************************************************************************************************/
 CFichier::~CFichier()
 {
 	IFSFICFichier.close();
 }
 
+/******************************************************************************************************
+**** Entrées : pcChemin : char*																	   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Initialise le flot de lecture du fichier										   ****
+******************************************************************************************************/
 void CFichier::FICInitialiserFlot(char * pcChemin)
 {
 	IFSFICFichier = ifstream(pcChemin);
 }
 
 /******************************************************************************************************
-**** Entrées : char* pcChemin																	   ****
+**** Entrées : pcTag : char*																	   ****
 **** Nécessite :																		  	       ****
-**** Sorties :	CMatrice MATretour																   ****
-**** Entraîne : Renvoie la matrice du fichier texte dont le chemin pcChemin est passé en paramètre ****
+**** Sorties :	uiValeurRetournee : unsigned int												   ****
+**** Entraîne : Renvoie le chiffre lu dans le fichier											   ****
 ******************************************************************************************************/
 unsigned int CFichier::FICLireChiffre(char* pcTag)
 {

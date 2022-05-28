@@ -45,7 +45,7 @@ public :
 	void GRAAjouterArc(CSommet* pSOMDepart, CSommet* pSOMArrivee);
 	void GRAAjouterArc(int iDepart, int iArrivee);
 	void GRASupprimerArc(int iDepart, int iArrivee);
-	void GRAAjouterSommet(CSommet& pSOMSommet);
+	void GRAAjouterSommet(CSommet& SOMSommet);
 	void GRAAjouterSommet(int iNum);
 	void GRASupprimerSommet(CSommet* pSOMParam);
 	void GRAModifierNumSommet(CSommet* pSOMParam, int iNum);
@@ -58,7 +58,7 @@ public :
 	void GRAAffichage() const;
 
 	//Surcharge
-	CGraphe& operator=(const CGraphe GRAparam);
+	CGraphe& operator=(const CGraphe &GRAparam);
 };
 
 #endif

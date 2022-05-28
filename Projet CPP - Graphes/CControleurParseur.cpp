@@ -1,17 +1,36 @@
 #include "CControleurParseur.h"
 
+
+/******************************************************************************************************
+**** Entrées :																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties :	CControleurParseur																   ****
+**** Entraîne : La construction d'un objet CControleurParseur par défaut						   ****
+******************************************************************************************************/
 CControleurParseur::CControleurParseur()
 {
 	pcCONChemin = nullptr;
 	pGRACONGraphe = new CGraphe();
 }
 
+/***********************************************************************************************************************
+**** Entrées : pcChemin : char*																						****
+**** Nécessite :																		  							****
+**** Sorties :	CControleurParseur																					****
+**** Entraîne : La construction d'un objet CControleurParseur possédant un chemin d'accès à un fichier de lecture	****
+***********************************************************************************************************************/
 CControleurParseur::CControleurParseur(char* pcChemin)
 {
 	pcCONChemin = pcChemin;
 	pGRACONGraphe = new CGraphe();
 }
 
+/******************************************************************************************************
+**** Entrées :																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : La destruction de l'objet CControleurParseur									   ****
+******************************************************************************************************/
 CControleurParseur::~CControleurParseur()
 {
 	pcCONChemin = nullptr;
@@ -19,21 +38,45 @@ CControleurParseur::~CControleurParseur()
 	pGRACONGraphe = nullptr;
 }
 
+/******************************************************************************************************
+**** Entrées :																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties :	pcConChemin : char*																   ****
+**** Entraîne : Renvoie le chemin d'accès au fichier de lecture									   ****
+******************************************************************************************************/
 char* CControleurParseur::CONLireChemin()
 {
 	return pcCONChemin;
 }
 
+/******************************************************************************************************
+**** Entrées : pcChemin : char*																	   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Modifie le chemin d'accès au fichier de lecture									   ****
+******************************************************************************************************/
 void CControleurParseur::CONModifierChemin(char* pcChemin)
 {
 	pcCONChemin = pcChemin;
 }
 
+/******************************************************************************************************
+**** Entrées :																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties :	pcConChemin : char*																   ****
+**** Entraîne : Renvoie le chemin d'accès au fichier de lecture									   ****
+******************************************************************************************************/
 CGraphe* CControleurParseur::CONLireGraphe()
 {
 	return pGRACONGraphe;
 }
 
+/******************************************************************************************************
+**** Entrées :																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Lis le fichier de lecture														   ****
+******************************************************************************************************/
 void CControleurParseur::CONLireFichierGraphe()
 {
 	if (pcCONChemin == nullptr) {
