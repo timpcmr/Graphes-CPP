@@ -110,13 +110,13 @@ unsigned int CFichier::FICLireChiffre(char* pcTag)
 /******************************************************************************************************
 **** Entrées : uiNbLignes : unsigned int, pcTag1 : char*, pcTag2 : char*						   ****
 **** Nécessite :																		  	       ****
-**** Sorties :	puiValeursRetour : unsigned int*												   ****
-**** Entraîne : Parse les éléments d'une ligne (1 seul élément sur la ligne)					   ****
+**** Sorties :	piValeursRetour : int*															   ****
+**** Entraîne : Parse les éléments de plusieurs lignes (1 seul élément sur la ligne)			   ****
 ******************************************************************************************************/
-unsigned int* CFichier::FICLireTabSansVirgule(const unsigned int uiNbLignes, char* pcTag1, char* pcTag2)
+int* CFichier::FICLireTabSansVirgule(const unsigned int uiNbLignes, char* pcTag1, char* pcTag2)
 {
 	char* pcLigne = new char[STR_LENGTH];
-	unsigned int* puiValeursRetour = new unsigned int[uiNbLignes];
+	int* piValeursRetour = new int[uiNbLignes];
 	unsigned int uiBoucle;
 
 	if (IFSFICFichier.is_open()) {
@@ -138,23 +138,18 @@ unsigned int* CFichier::FICLireTabSansVirgule(const unsigned int uiNbLignes, cha
 			if (FICVerifBalise(pcToken, pcTag2) == true) {
 				pcToken = strtok(NULL, "=");
 				if (pcToken == nullptr || pcToken[0] == '\0') {
-					delete[] puiValeursRetour;
+					delete[] piValeursRetour;
 					delete[] pcLigne;
 					throw CException(EXCMiseEnFormeIncorecte);
 				}
 
 				// On convertit la valeur en entier
 				int iValeurParsee = atoi(pcToken);
-				if (iValeurParsee <= 0) {
-					delete[] puiValeursRetour;
-					delete[] pcLigne;
-					throw CException(EXCValeurNeg);
-				}
-				puiValeursRetour[uiBoucle] = (unsigned int)iValeurParsee;
+				piValeursRetour[uiBoucle] = iValeurParsee;
 			}
 			else {
 				delete[] pcLigne;
-				delete[] puiValeursRetour;
+				delete[] piValeursRetour;
 				throw CException(EXCBaliseIncorrecte);
 			}
 		}
@@ -164,28 +159,28 @@ unsigned int* CFichier::FICLireTabSansVirgule(const unsigned int uiNbLignes, cha
 		IFSFICFichier.seekg(IFSFICFichier.beg);
 	}
 	else {
-		delete[] puiValeursRetour;
+		delete[] piValeursRetour;
 		delete[] pcLigne;
 		throw CException(EXCFichierNonOuvert);
 	}
 	delete[] pcLigne;
-	return puiValeursRetour;
+	return piValeursRetour;
 }
 
-/*************************************************************************************************************
-**** Entrées : uiNbLignes : unsigned int, pcTag1 : char*, pcTag2 : char*, pcTag3 : char*				  ****
-**** Nécessite :																		  				  ****
-**** Sorties :	ppuiValeursRetour : unsigned int**														  ****
-**** Entraîne : Parse les éléments d'une ligne (plusieurs éléments sur la ligne séparés par des virgules) ****
-*************************************************************************************************************/
-unsigned int** CFichier::FICLireTabAvecVirgule(const unsigned int uiNbLignes, char* pcTag1, char* pcTag2, char* pcTag3)
+	/*************************************************************************************************************
+	**** Entrées : uiNbLignes : unsigned int, pcTag1 : char*, pcTag2 : char*, pcTag3 : char*				  ****
+	**** Nécessite :																		  				  ****
+	**** Sorties :	ppiValeursRetour : int**																  ****
+	**** Entraîne : Parse les éléments de plusieurs lignes (plusieurs éléments séparés par des virgules)	  ****
+	*************************************************************************************************************/
+int** CFichier::FICLireTabAvecVirgule(const unsigned int uiNbLignes, char* pcTag1, char* pcTag2, char* pcTag3)
 {
 	unsigned int uiBoucle1;
 
 	char* pcLigne = new char[STR_LENGTH];
-	unsigned int** ppuiValeursRetour = new unsigned int* [uiNbLignes];
+	int** ppiValeursRetour = new int* [uiNbLignes];
 	for (uiBoucle1 = 0; uiBoucle1 < uiNbLignes; uiBoucle1++) {
-		ppuiValeursRetour[uiBoucle1] = new unsigned int[2];
+		ppiValeursRetour[uiBoucle1] = new int[2];
 	}
 	
 	if (IFSFICFichier.is_open()) {
@@ -216,21 +211,16 @@ unsigned int** CFichier::FICLireTabAvecVirgule(const unsigned int uiNbLignes, ch
 				pcToken3 = strtok(NULL, "=");
 				if (pcToken3 == nullptr || pcToken3[0] == '\0') {
 					delete[] pcLigne;
-					delete[] ppuiValeursRetour;
+					delete[] ppiValeursRetour;
 					throw CException(EXCMiseEnFormeIncorecte);
 				}
 				// On convertit la valeur en entier
 				int iValeurParsee = atoi(pcToken3);
-				if (iValeurParsee <= 0) {
-					delete[] pcLigne;
-					delete[] ppuiValeursRetour;
-					throw CException(EXCValeurNeg);
-				}
-				ppuiValeursRetour[uiBoucle1][0] = (unsigned int)iValeurParsee;
+				ppiValeursRetour[uiBoucle1][0] = iValeurParsee;
 			}
 			else {
 				delete[] pcLigne;
-				delete[] ppuiValeursRetour;
+				delete[] ppiValeursRetour;
 				throw CException(EXCBaliseIncorrecte);
 			}
 
@@ -241,21 +231,16 @@ unsigned int** CFichier::FICLireTabAvecVirgule(const unsigned int uiNbLignes, ch
 				pcToken3 = strtok(NULL, "=");
 				if (pcToken3 == nullptr || pcToken3[0] == '\0') {
 					delete[] pcLigne;
-					delete[] ppuiValeursRetour;
+					delete[] ppiValeursRetour;
 					throw CException(EXCMiseEnFormeIncorecte);
 				}
 				// On convertit la valeur en entier
 				int iValeurParsee = atoi(pcToken3);
-				if (iValeurParsee <= 0) {
-					delete[] pcLigne;
-					delete[] ppuiValeursRetour;
-					throw CException(EXCValeurNeg);
-				}
-				ppuiValeursRetour[uiBoucle1][1] = (unsigned int)iValeurParsee;
+				ppiValeursRetour[uiBoucle1][1] = iValeurParsee;
 			}
 			else {
 				delete[] pcLigne;
-				delete[] ppuiValeursRetour;
+				delete[] ppiValeursRetour;
 				throw CException(EXCBaliseIncorrecte);
 			}
 			
@@ -267,12 +252,12 @@ unsigned int** CFichier::FICLireTabAvecVirgule(const unsigned int uiNbLignes, ch
 	}
 	else {
 		delete[] pcLigne;
-		delete[] ppuiValeursRetour;
+		delete[] ppiValeursRetour;
 		throw CException(EXCFichierNonOuvert);
 	}
 
 	delete[] pcLigne;
-	return ppuiValeursRetour;
+	return ppiValeursRetour;
 }
 
 void CFichier::FICLigneSuivante(char* pcLigne)

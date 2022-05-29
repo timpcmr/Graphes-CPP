@@ -87,8 +87,8 @@ void CControleurParseur::CONLireFichierGraphe()
 	CFichier FICParseur(pcCONChemin);
 	unsigned int uiNbArcs = 0, uiNbSommets = 0;
 	unsigned int uiBoucle;
-	unsigned int* puiSommets = nullptr;
-	unsigned int** ppuiArcs = nullptr;
+	int* piSommets = nullptr;
+	int** ppiArcs = nullptr;
 
 	//Récupération du nombre d'arcs
 	try {
@@ -164,7 +164,7 @@ void CControleurParseur::CONLireFichierGraphe()
 	//Récupération des sommets
 	try
 	{
-		puiSommets = FICParseur.FICLireTabSansVirgule(uiNbSommets, (char*)"sommets", (char*)"numero");
+		piSommets = FICParseur.FICLireTabSansVirgule(uiNbSommets, (char*)"sommets", (char*)"numero");
 	}
 	catch (CException EXCException)
 	{
@@ -199,7 +199,7 @@ void CControleurParseur::CONLireFichierGraphe()
 	
 	//Récupération des arcs
 	try {
-		ppuiArcs = FICParseur.FICLireTabAvecVirgule(uiNbSommets, (char*)"arcs", (char*)"debut", (char*)"fin");
+		ppiArcs = FICParseur.FICLireTabAvecVirgule(uiNbSommets, (char*)"arcs", (char*)"debut", (char*)"fin");
 	}
 	catch (CException EXCException)
 	{
@@ -235,13 +235,13 @@ void CControleurParseur::CONLireFichierGraphe()
 	//Affectation Graphe
 		//Sommets
 	for (uiBoucle = 0; uiBoucle < uiNbSommets; uiBoucle++) {
-		pGRACONGraphe->GRAAjouterSommet(puiSommets[uiBoucle]);
+		pGRACONGraphe->GRAAjouterSommet(piSommets[uiBoucle]);
 	}
 
 		//Arcs
 	for (uiBoucle = 0; uiBoucle < uiNbArcs; uiBoucle++) {
 		try {
-			pGRACONGraphe->GRAAjouterArc(ppuiArcs[uiBoucle][0], ppuiArcs[uiBoucle][1]);
+			pGRACONGraphe->GRAAjouterArc(ppiArcs[uiBoucle][0], ppiArcs[uiBoucle][1]);
 		}
 		catch (CException EXCException) {
 			if (EXCException.EXCLireErreur() == EXCPointeurSommetNul) {
@@ -252,10 +252,10 @@ void CControleurParseur::CONLireFichierGraphe()
 	}
 	
 	//Libération de la mémoire
-	delete[] puiSommets;
+	delete[] piSommets;
 	for (uiBoucle = 0; uiBoucle < uiNbArcs; uiBoucle++) {
-		delete[] ppuiArcs[uiBoucle];
+		delete[] ppiArcs[uiBoucle];
 	}
-	delete[] ppuiArcs;
+	delete[] ppiArcs;
 	
 }

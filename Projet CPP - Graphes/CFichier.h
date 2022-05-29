@@ -72,25 +72,25 @@ public:
 	**** Entrées : pcTag : char*																	   ****
 	**** Nécessite :																		  	       ****
 	**** Sorties :	uiValeurRetournee : unsigned int												   ****
-	**** Entraîne : Renvoie le chiffre lu dans le fichier											   ****
+	**** Entraîne : Renvoie le chiffre lu dans le fichier correspondant au tag						   ****
 	******************************************************************************************************/
 	unsigned int FICLireChiffre(char* pcTag);
 
 	/******************************************************************************************************
 	**** Entrées : uiNbLignes : unsigned int, pcTag1 : char*, pcTag2 : char*						   ****
 	**** Nécessite :																		  	       ****
-	**** Sorties :	puiValeursRetour : unsigned int*												   ****
-	**** Entraîne : Parse les éléments d'une ligne (1 seul élément sur la ligne)					   ****
+	**** Sorties :	piValeursRetour : int*															   ****
+	**** Entraîne : Parse les éléments de plusieurs lignes (1 seul élément sur la ligne)			   ****
 	******************************************************************************************************/
-	unsigned int* FICLireTabSansVirgule(const unsigned int uiNbLignes, char* pcTag1, char* pcTag2);
+	int* FICLireTabSansVirgule(const unsigned int uiNbLignes, char* pcTag1, char* pcTag2);
 
 	/*************************************************************************************************************
 	**** Entrées : uiNbLignes : unsigned int, pcTag1 : char*, pcTag2 : char*, pcTag3 : char*				  ****
 	**** Nécessite :																		  				  ****
-	**** Sorties :	ppuiValeursRetour : unsigned int**														  ****
-	**** Entraîne : Parse les éléments d'une ligne (plusieurs éléments sur la ligne séparés par des virgules) ****
+	**** Sorties :	ppiValeursRetour : int**																  ****
+	**** Entraîne : Parse les éléments de plusieurs lignes (plusieurs éléments séparés par des virgules)	  ****
 	*************************************************************************************************************/
-	unsigned int** FICLireTabAvecVirgule(const unsigned int uiNbLignes, char* pcTag1, char* pcTag2, char* pcTag3);
+	int** FICLireTabAvecVirgule(const unsigned int uiNbLignes, char* pcTag1, char* pcTag2, char* pcTag3);
 
 	/***********************************************************************************************************************
 	**** Entrées : char* pcChaine, ifstream& fichier																    ****
