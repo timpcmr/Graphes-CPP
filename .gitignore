@@ -17,6 +17,7 @@ Docs/
 Rendu Projet C++ Graphes - AUFFRET Timothée & SENLECQUE Lucas/
 enc_temp_folder/
 *.docx
+*.zip
 
 # Mono auto generated files
 mono_crash.*
