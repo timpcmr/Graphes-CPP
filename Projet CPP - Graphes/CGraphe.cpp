@@ -23,6 +23,7 @@ CGraphe::CGraphe(const CGraphe& GRAGraphe)
 	uiGRANbSommet = GRAGraphe.GRALireNbSommet();
 	bGRAOriente = GRAGraphe.GRALireType();
 
+	//Allocation de la liste de sommets
 	ppSOMGRAListeSommet = new CSommet * [GRAGraphe.GRALireNbSommet()];
 	for (uiboucle = 0; uiboucle < GRAGraphe.GRALireNbSommet(); uiboucle++) {
 		ppSOMGRAListeSommet[uiboucle] = new CSommet(*GRAGraphe.GRALireSommets()[uiboucle]);
@@ -32,6 +33,8 @@ CGraphe::CGraphe(const CGraphe& GRAGraphe)
 CGraphe::~CGraphe()
 {
 	unsigned int uiboucle;
+	
+	//Libération de la mémoire allouée pour la liste de sommets
 	if (ppSOMGRAListeSommet != nullptr) {
 		for (uiboucle = 0; uiboucle < uiGRANbSommet; uiboucle++) {
 			delete ppSOMGRAListeSommet[uiboucle];
@@ -68,6 +71,8 @@ void CGraphe::GRAAjouterArc(CSommet* pSOMDepart, CSommet* pSOMArrivee)
 	if (pSOMDepart == nullptr || pSOMArrivee == nullptr) {
 		throw CException(EXCPointeurSommetNul);
 	}
+	
+	//Création d'arcs entre les deux sommets sur base du nuéro de sommet à relier
 	CArc * pARCNouvelArcE = new CArc(pSOMDepart->SOMLireNumero());
 	CArc * pARCNouvelArcS = new CArc(pSOMArrivee->SOMLireNumero());
 	try {
@@ -88,11 +93,16 @@ void CGraphe::GRAAjouterArc(CSommet* pSOMDepart, CSommet* pSOMArrivee)
 
 void CGraphe::GRAAjouterArc(int iDepart, int iArrivee)
 {
+	//Création d'arcs entre les deux sommets sur base du nuéro de sommet à relier
 	CArc* pARCNouvelArcE = new CArc(iDepart);
 	CArc* pARCNouvelArcS = new CArc(iArrivee);
+	
 	CSommet* pSOMDepart = nullptr, * pSOMArrivee = nullptr;
+	
+	//Obtention des pointeurs de sommets (+vérification de leur existence)
 	pSOMDepart = GRARechercheSommet(iDepart);
 	pSOMArrivee = GRARechercheSommet(iArrivee);
+	
 	if(pSOMDepart == nullptr || pSOMArrivee == nullptr) {
 		throw CException(EXCPointeurSommetNul);
 	}
@@ -115,6 +125,7 @@ void CGraphe::GRASupprimerArc(int iDepart, int iArrivee)
 {
 	CSommet* pSOMDepart = nullptr, * pSOMArrivee = nullptr;
 
+	//Obtention des pointeurs de sommets (+vérification de leur existence)
 	pSOMDepart = GRARechercheSommet(iDepart);
 	if (pSOMDepart == nullptr) {
 		throw CException(EXCValeurSommetIntrouvable);
@@ -148,6 +159,7 @@ void CGraphe::GRAAjouterSommet(CSommet& SOMSommet)
 	unsigned int uiBoucle;
 	char pcEntree[1024];
 
+	//Vérification de l'unicité du numéro de sommet et changement de la valeur si besoin
 	while (!GRANumeroSommetUnique(SOMSommet.SOMLireNumero())) {
 		cout << "Les numeros de sommets utilises sont :" << endl;
 		for (uiBoucle = 0; uiBoucle < GRALireNbSommet(); uiBoucle++) {
@@ -159,6 +171,7 @@ void CGraphe::GRAAjouterSommet(CSommet& SOMSommet)
 		SOMSommet.SOMModifierNumero(iNum);
 	}
 
+	//Equivalent de realloc pour les sommets en passant par un tableau temporaire pour la copie des valeurs
 	CSommet** ppSOMGRAListeSommetTMP = new CSommet * [uiGRANbSommet + 1];
 	for (uiBoucle = 0; uiBoucle < uiGRANbSommet + 1; uiBoucle++) {
 		if (uiBoucle < uiGRANbSommet) {
@@ -185,6 +198,7 @@ void CGraphe::GRAAjouterSommet(int iNum)
 	char pcEntree[1024];
 	CSommet* pSOMSommet = new CSommet(iNum);
 	
+	//Verificvation unicité du numéro de sommet et changement si besoin
 	while (!GRANumeroSommetUnique(pSOMSommet->SOMLireNumero())) {
 		cout << "Les numeros de sommets utilises sont :" << endl;
 		for (uiBoucle = 0; uiBoucle < GRALireNbSommet(); uiBoucle++) {
@@ -196,6 +210,7 @@ void CGraphe::GRAAjouterSommet(int iNum)
 		pSOMSommet->SOMModifierNumero(iNum);
 	}
 
+	//Equivalent de realloc pour la liste des sommets en passant par un tableau temporaire pour la copie des valeurs
 	CSommet** ppSOMGRAListeSommetTMP = new CSommet * [uiGRANbSommet + 1];
 	for (uiBoucle = 0; uiBoucle < uiGRANbSommet + 1; uiBoucle++) {
 		if (uiBoucle < uiGRANbSommet) {
@@ -290,6 +305,7 @@ void CGraphe::GRASupprimerSommet(CSommet* pSOMParam)
 		uiGRANbArcs--;
 	}
 
+	//Suppression du sommet dans la liste et realloc par tableau temporaire
 	CSommet** ppSOMGRAListeSommetTMP = new CSommet * [uiGRANbSommet - 1];
 	for (uiboucle = 0; uiboucle < GRALireNbSommet() - 1; uiboucle++) {
 		if (GRALireSommets()[uiboucle]->SOMLireNumero() == pSOMParam->SOMLireNumero()) {
@@ -376,6 +392,8 @@ void CGraphe::GRAAffichage() const
 		cout << "Type de Graphe : Oriente" << endl;
 		cout << "Nombre de sommets : " << GRALireNbSommet() << endl;
 		cout << "Nombre d'arcs : " << GRALireNbArcs() << endl << endl;
+		
+		//Lecture des sommets sortants uniquement pour le graphe orienté
 		for (uiboucleSommet = 0; uiboucleSommet < uiGRANbSommet; uiboucleSommet++) {
 			if (GRALireSommets()[uiboucleSommet]->SOMLireNbArcsSortants() > 0) {
 				cout << "Sommet " << GRALireSommets()[uiboucleSommet]->SOMLireNumero() << " : " << endl;
@@ -390,6 +408,8 @@ void CGraphe::GRAAffichage() const
 		cout << "Type de Graphe : Non-Oriente" << endl;
 		cout << "Nombre de sommets : " << GRALireNbSommet() << endl;
 		cout << "Nombre d'arcs : " << GRALireNbArcs() << endl << endl;
+
+		//Lecture des sommets sortants et entrants pour le graphe non-orienté
 		for (uiboucleSommet = 0; uiboucleSommet < uiGRANbSommet; uiboucleSommet++) {
 			cout << "Sommet " << GRALireSommets()[uiboucleSommet]->SOMLireNumero() << " : " << endl;
 			if (GRALireSommets()[uiboucleSommet]->SOMLireNbArcsEntrants() > 0) {
@@ -412,6 +432,7 @@ CGraphe& CGraphe::operator=(const CGraphe &GRAparam)
 	unsigned int uiboucle;
 	bGRAOriente = GRAparam.GRALireType();
 
+	//Copie par duplication des objets
 	CSommet** ppSOMGRAListeSommetTMP = new CSommet * [GRAparam.GRALireNbSommet()];
 	for (uiboucle = 0; uiboucle < GRAparam.GRALireNbSommet(); uiboucle++) {
 		ppSOMGRAListeSommetTMP[uiboucle] = new CSommet(*GRAparam.GRALireSommets()[uiboucle]);

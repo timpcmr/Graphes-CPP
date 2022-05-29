@@ -20,6 +20,8 @@ CFichier::CFichier()
 CFichier::CFichier(char * pcChemin)
 {
 	IFSFICFichier = ifstream(pcChemin);
+	
+	//Si echec de l'ouverture du fichier
 	if (!IFSFICFichier.is_open()) {
 		throw CException(EXCFichierNonOuvert);
 	}
@@ -59,7 +61,11 @@ unsigned int CFichier::FICLireChiffre(char* pcTag)
 	char* pcLigne = new char[STR_LENGTH];
 
 	if (IFSFICFichier.is_open()){
+		
+		//Récupération de la ligne
 		FICLigneSuivante(pcLigne);
+
+		//On récupère la valeur du tag
 		char * pcToken = strtok(pcLigne, "=");
 
 		if (pcToken == nullptr) {
@@ -67,16 +73,21 @@ unsigned int CFichier::FICLireChiffre(char* pcTag)
 			throw CException(EXCParserPointeurNul);
 		}
 
+		// On compare le tag jusqu'a trouver le bon
 		while (FICVerifBalise(pcToken, pcTag) == false) {
 			FICLigneSuivante(pcLigne);
 			pcToken = strtok(pcLigne, "=");
 		}
 		
+		// On récupère la valeur associée
 		pcToken = strtok(NULL, "=");
+		
 		if (pcToken == nullptr || pcToken[0] == '\0') {
 			delete[] pcLigne;
 			throw CException(EXCMiseEnFormeIncorecte);
 		}
+		
+		// On convertit la valeur en entier
 		int iValeurParsee = atoi(pcToken);
 		if (iValeurParsee <= 0) {
 			delete[] pcLigne;
@@ -103,14 +114,18 @@ unsigned int* CFichier::FICLireTabSansVirgule(const unsigned int uiNbLignes, cha
 	unsigned int uiBoucle;
 
 	if (IFSFICFichier.is_open()) {
+		//Récupération de la ligne
 		FICLigneSuivante(pcLigne);
+		// On récupère la valeur du tag
 		char* pcToken = strtok(pcLigne, "=");
 
+		// On compare le tag jusqu'a trouver le bon
 		while (FICVerifBalise(pcToken, pcTag1) == false) {
 			FICLigneSuivante(pcLigne);
 			pcToken = strtok(pcLigne, "=");
 		}
 
+		// On récupère les valeurs associées en cherchant le tag2
 		for (uiBoucle = 0; uiBoucle < uiNbLignes; uiBoucle++) {
 			FICLigneSuivante(pcLigne);
 			pcToken = strtok(pcLigne, "=");
@@ -121,6 +136,8 @@ unsigned int* CFichier::FICLireTabSansVirgule(const unsigned int uiNbLignes, cha
 					delete[] pcLigne;
 					throw CException(EXCMiseEnFormeIncorecte);
 				}
+
+				// On convertit la valeur en entier
 				int iValeurParsee = atoi(pcToken);
 				if (iValeurParsee <= 0) {
 					delete[] puiValeursRetour;
@@ -160,14 +177,18 @@ unsigned int** CFichier::FICLireTabAvecVirgule(const unsigned int uiNbLignes, ch
 	}
 	
 	if (IFSFICFichier.is_open()) {
+		//Récupération de la ligne
 		FICLigneSuivante(pcLigne);
+		// On récupère la valeur du tag
 		char* pcToken = strtok(pcLigne, "=");
 
+		// On compare le tag jusqu'a trouver le bon
 		while (FICVerifBalise(pcToken, pcTag1) == false) {
 			FICLigneSuivante(pcLigne);
 			pcToken = strtok(pcLigne, "=");
 		}
 
+		// On récupère les valeurs associées
 		for (uiBoucle1 = 0; uiBoucle1 < uiNbLignes; uiBoucle1++) {
 			FICLigneSuivante(pcLigne);
 
@@ -177,6 +198,8 @@ unsigned int** CFichier::FICLireTabAvecVirgule(const unsigned int uiNbLignes, ch
 
 			//Recuperation du numero de debut
 			char* pcToken3 = strtok(pcToken, "=");
+
+			//On vérifier que le tag est correct (tag2)
 			if (FICVerifBalise(pcToken3, pcTag2) == true) {
 				pcToken3 = strtok(NULL, "=");
 				if (pcToken3 == nullptr || pcToken3[0] == '\0') {
@@ -184,6 +207,7 @@ unsigned int** CFichier::FICLireTabAvecVirgule(const unsigned int uiNbLignes, ch
 					delete[] ppuiValeursRetour;
 					throw CException(EXCMiseEnFormeIncorecte);
 				}
+				// On convertit la valeur en entier
 				int iValeurParsee = atoi(pcToken3);
 				if (iValeurParsee <= 0) {
 					delete[] pcLigne;
@@ -200,6 +224,7 @@ unsigned int** CFichier::FICLireTabAvecVirgule(const unsigned int uiNbLignes, ch
 
 			//Recuperation numero de fin
 			pcToken3 = strtok(pcToken2, "=");
+			//On vérifie que le tag est correct (tag3)
 			if (FICVerifBalise(pcToken3, pcTag3) == true) {
 				pcToken3 = strtok(NULL, "=");
 				if (pcToken3 == nullptr || pcToken3[0] == '\0') {
@@ -207,6 +232,7 @@ unsigned int** CFichier::FICLireTabAvecVirgule(const unsigned int uiNbLignes, ch
 					delete[] ppuiValeursRetour;
 					throw CException(EXCMiseEnFormeIncorecte);
 				}
+				// On convertit la valeur en entier
 				int iValeurParsee = atoi(pcToken3);
 				if (iValeurParsee <= 0) {
 					delete[] pcLigne;
@@ -248,11 +274,17 @@ void CFichier::FICLigneSuivante(char* pcLigne)
 		throw CException(EXCFichierNonOuvert);
 	}
 
+	// Tant que la ligne n'est pas vide
 	do
 	{
+		// On récupère la ligne
 		IFSFICFichier.getline(pcLigne, STR_LENGTH);
+		
+		// On supprime les epsaces et les tabulations de la ligne
 		FICSupp_char(pcLigne, ' ');
 		FICSupp_char(pcLigne, '\t');
+
+		//On met à jour un compteur pour ne pas déclencher de boucle infinie
 		uiBoucle++;
 		if (uiBoucle == MAX_LOOPING) {
 			throw CException(EXCBoucleInfinie);
@@ -275,6 +307,7 @@ char * CFichier::FICMinuscule(char* pcChaineMin)
 	}
 	unsigned int uiboucle;
 
+	// Mise en minuscule de la chaine
 	for (uiboucle = 0; pcChaineMin[uiboucle] != '\0'; uiboucle++) {
 		pcChaineMin[uiboucle] = tolower(pcChaineMin[uiboucle]);
 	}
@@ -295,6 +328,7 @@ void CFichier::FICSupp_char(char* pcChaine, const char cCaractere)
 	}
 	unsigned int uiboucle1, uiboucle2;
 
+	// Suppression du caratère passé en paramètre de la chaine
 	for (uiboucle1 = 0; pcChaine[uiboucle1] != '\0'; uiboucle1++) {
 		if (pcChaine[uiboucle1] == cCaractere) {
 			for (uiboucle2 = uiboucle1; pcChaine[uiboucle2] != '\0'; uiboucle2++) {

@@ -82,13 +82,15 @@ void CControleurParseur::CONLireFichierGraphe()
 	if (pcCONChemin == nullptr) {
 		throw CException(EXCCheminVideCtrlParseur);
 	}
+	
+	//Initilisations
 	CFichier FICParseur(pcCONChemin);
 	unsigned int uiNbArcs = 0, uiNbSommets = 0;
 	unsigned int uiBoucle;
 	unsigned int* puiSommets = nullptr;
 	unsigned int** ppuiArcs = nullptr;
 
-
+	//Récupération du nombre d'arcs
 	try {
 		uiNbArcs = FICParseur.FICLireChiffre((char*)"nbarcs");
 	}
@@ -124,6 +126,7 @@ void CControleurParseur::CONLireFichierGraphe()
 		throw CException(EXCArretProgramme);
 	}
 	
+	//Récupération du nombre de sommets
 	try {
 		uiNbSommets = FICParseur.FICLireChiffre((char*)"nbsommets");
 	}
@@ -158,6 +161,7 @@ void CControleurParseur::CONLireFichierGraphe()
 		throw CException(EXCArretProgramme);
 	}
 
+	//Récupération des sommets
 	try
 	{
 		puiSommets = FICParseur.FICLireTabSansVirgule(uiNbSommets, (char*)"sommets", (char*)"numero");
@@ -193,6 +197,7 @@ void CControleurParseur::CONLireFichierGraphe()
 		throw CException(EXCArretProgramme);
 	}
 	
+	//Récupération des arcs
 	try {
 		ppuiArcs = FICParseur.FICLireTabAvecVirgule(uiNbSommets, (char*)"arcs", (char*)"debut", (char*)"fin");
 	}
@@ -246,6 +251,7 @@ void CControleurParseur::CONLireFichierGraphe()
 		}
 	}
 	
+	//Libération de la mémoire
 	delete[] puiSommets;
 	for (uiBoucle = 0; uiBoucle < uiNbArcs; uiBoucle++) {
 		delete[] ppuiArcs[uiBoucle];
