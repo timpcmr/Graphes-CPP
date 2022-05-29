@@ -66,6 +66,8 @@ int main(int argc, char* argv[]) {
 				cout << "Erreur non-specifiee !" << endl;
 			}
 		}
+		
+		//Libération de la mémoire allouée dans le main
 		delete pGRAGraphe;
 		delete pGRAGrapheInverse;
 		delete pCONFichierLu;

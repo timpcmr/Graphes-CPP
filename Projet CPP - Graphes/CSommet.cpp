@@ -14,9 +14,11 @@ CSommet::CSommet(const CSommet& SOMParam)
     uiSOMNbArcsSommetEntrants = SOMParam.SOMLireNbArcsEntrants();
     uiSOMNbArcsSommetSortants = SOMParam.SOMLireNbArcsSortants();
     
+	//Allocation de la memoire pour les arcs entrants et sortants
     ppARCSOMEntrant = new CArc * [uiSOMNbArcsSommetEntrants];
     ppARCSOMSortant = new CArc * [uiSOMNbArcsSommetSortants];
 
+	//Allocation du sous-tableau de sommets avec les valeurs par recopie
     for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetEntrants; uiboucle1++) {
         ppARCSOMEntrant[uiboucle1] = new CArc(*SOMParam.SOMLireArcsEntrants()[uiboucle1]);
     }
@@ -39,6 +41,8 @@ CSommet::CSommet(int iNumero)
 CSommet::~CSommet()
 {
     unsigned int uiboucle;
+	
+	//Libération de la memoire des arcs entrants
     if (ppARCSOMEntrant != nullptr) {
         for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants(); uiboucle++) {
             delete ppARCSOMEntrant[uiboucle];
@@ -48,6 +52,7 @@ CSommet::~CSommet()
         ppARCSOMEntrant = nullptr;
     }
 
+	//Libération de la memoire des arcs sortants
     if (ppARCSOMSortant != nullptr) {
         for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants(); uiboucle++) {
             delete ppARCSOMSortant[uiboucle];
@@ -95,11 +100,14 @@ void CSommet::SOMAjouterArcEntrant(CArc* pARCArc)
 		throw CException(EXCPointeurArcNul);
 	}
     unsigned int uiboucle1;
+	
+	//Allocation d'un nouveau tableau de pointeurs de arcs temporaire
     CArc** ppARCSOMEntranttmp = new CArc * [uiSOMNbArcsSommetEntrants + 1];
     for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetEntrants + 1; uiboucle1++) {
         ppARCSOMEntranttmp[uiboucle1] = new CArc;
     }
 
+	//Copie des arcs entrants dans le nouveau tableau et ajout de l'arc à ajouter à la fin de ce tableau
     for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetEntrants + 1; uiboucle1++) {
         if (uiboucle1 < uiSOMNbArcsSommetEntrants) {
             *ppARCSOMEntranttmp[uiboucle1] = *ppARCSOMEntrant[uiboucle1];
@@ -109,6 +117,7 @@ void CSommet::SOMAjouterArcEntrant(CArc* pARCArc)
         }
     }
 
+	//Libération de la mémoire des arcs entrants (Ancien tableau)
     for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetEntrants; uiboucle1++) {
         delete ppARCSOMEntrant[uiboucle1];
         ppARCSOMEntrant[uiboucle1] = nullptr;
@@ -128,12 +137,16 @@ void CSommet::SOMSupprimerArcEntrant(CArc* pARCArc)
     if (uiSOMNbArcsSommetEntrants == 0) {
         throw CException(EXCSuppImpossible);
     }
+	
     unsigned int uiboucle, uiArcTrouve = 0;
+	
+	//Allocation d'un nouveau tableau de pointeurs de arcs temporaire
     CArc** ppARCSOMEntranttmp = new CArc * [uiSOMNbArcsSommetEntrants - 1];
     for (uiboucle = 0; uiboucle < uiSOMNbArcsSommetEntrants - 1; uiboucle++) {
         ppARCSOMEntranttmp[uiboucle] = new CArc;
     }
 
+	//Suppression de l'arc à supprimer
 	for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants() - 1; uiboucle++) {
 		if (SOMLireArcsEntrants()[uiboucle] == pARCArc) {
 			uiArcTrouve = 1;
@@ -143,10 +156,12 @@ void CSommet::SOMSupprimerArcEntrant(CArc* pARCArc)
 		ppARCSOMEntrant[uiboucle] = ppARCSOMEntrant[uiboucle + uiArcTrouve];
 	}
 
+	//Copie des arcs entrants dans le nouveau tableau
     for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants() - 1; uiboucle++) {
         *ppARCSOMEntranttmp[uiboucle] = *ppARCSOMEntrant[uiboucle];
     }
 
+	//Libération de la mémoire des arcs entrants (Ancien tableau)
     for (uiboucle = 0; uiboucle < uiSOMNbArcsSommetEntrants; uiboucle++) {
         delete ppARCSOMEntrant[uiboucle];
         ppARCSOMEntrant[uiboucle] = nullptr;
@@ -162,11 +177,16 @@ void CSommet::SOMAjouterArcSortant(CArc* pARCArc)
 	if (pARCArc == nullptr) {
 		throw CException(EXCPointeurArcNul);
 	}
+	
     unsigned int uiboucle1;
+	
+	//Allocation d'un nouveau tableau de pointeurs de arcs temporaire
     CArc** ppARCSOMSortanttmp = new CArc * [uiSOMNbArcsSommetSortants + 1];
     for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetSortants + 1; uiboucle1++) {
         ppARCSOMSortanttmp[uiboucle1] = new CArc;
     }
+
+	//Copie des arcs sortants dans le nouveau tableau et ajout de l'arc à ajouter à la fin de ce tableau
     for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetSortants + 1; uiboucle1++) {
         if (uiboucle1 < uiSOMNbArcsSommetSortants) {
             ppARCSOMSortanttmp[uiboucle1] = ppARCSOMSortant[uiboucle1];
@@ -176,6 +196,7 @@ void CSommet::SOMAjouterArcSortant(CArc* pARCArc)
         }
     }
 
+	//Libération de la mémoire des arcs sortants (Ancien tableau)
     for (uiboucle1 = 0; uiboucle1 < uiSOMNbArcsSommetSortants; uiboucle1++) {
         delete ppARCSOMSortant[uiboucle1];
         ppARCSOMSortant[uiboucle1] = nullptr;
@@ -194,12 +215,16 @@ void CSommet::SOMSupprimerArcSortant(CArc* pARCArc)
 	if (pARCArc == nullptr) {
 		throw CException(EXCPointeurArcNul);
 	}
+	
     unsigned int uiboucle, uiArcTrouve = 0;
+
+	//Allocation d'un nouveau tableau de pointeurs de arcs temporaire
     CArc** ppARCSOMSortanttmp = new CArc * [uiSOMNbArcsSommetSortants - 1];
     for (uiboucle = 0; uiboucle < uiSOMNbArcsSommetSortants - 1; uiboucle++) {
         ppARCSOMSortanttmp[uiboucle] = new CArc;
     }
 
+	//Suppression de l'arc à supprimer
     for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants() - 1; uiboucle++) {
         if (SOMLireArcsSortants()[uiboucle] == pARCArc) {
             uiArcTrouve = 1;
@@ -209,10 +234,12 @@ void CSommet::SOMSupprimerArcSortant(CArc* pARCArc)
         ppARCSOMSortant[uiboucle] = ppARCSOMSortant[uiboucle + uiArcTrouve];
     }
 
+	//Copie des arcs sortants dans le nouveau tableau
     for (uiboucle = 0; uiboucle < SOMLireNbArcsSortants() - 1; uiboucle++) {
         ppARCSOMSortanttmp[uiboucle] = ppARCSOMSortant[uiboucle];
     }
 
+	//Libération de la mémoire des arcs sortants (Ancien tableau)
     for (uiboucle = 0; uiboucle < uiSOMNbArcsSommetSortants; uiboucle++) {
         delete ppARCSOMSortant[uiboucle];
         ppARCSOMSortant[uiboucle] = nullptr;
@@ -226,6 +253,7 @@ const CArc* CSommet::SOMRechercheArc(int iDestination, int iParam) const
 {
     unsigned int uiboucle;
 
+	//Spécification de si l'arc à trouver est dans le tableau des arcs entrants ou sortants
     if (iParam == entrant) {
         for (uiboucle = 0; uiboucle < SOMLireNbArcsEntrants(); uiboucle++) {
             if (SOMLireArcsEntrants()[uiboucle]->ARCLireDestination() == iDestination) {
@@ -251,7 +279,8 @@ CSommet& CSommet::operator=(const CSommet SOMSommet)
     
     CArc** ppARCSOMEntrantTMP = new CArc * [SOMSommet.SOMLireNbArcsEntrants()];
     CArc** ppARCSOMSortantTMP = new CArc * [SOMSommet.SOMLireNbArcsSortants()];
-
+	
+    //Copie par duplication des objets
     for (uiboucle = 0; uiboucle < uiSOMNbArcsSommetEntrants; uiboucle++) {
         ppARCSOMEntrant[uiboucle] = new CArc(*SOMSommet.SOMLireArcsEntrants()[uiboucle]);
     }
@@ -259,6 +288,7 @@ CSommet& CSommet::operator=(const CSommet SOMSommet)
         ppARCSOMSortant[uiboucle] = new CArc(*SOMSommet.SOMLireArcsSortants()[uiboucle]);
     }
 
+	//Libération de la mémoire des arcs (Ancien tableau)
     for (uiboucle = 0; uiboucle < uiSOMNbArcsSommetEntrants; uiboucle++) {
         delete ppARCSOMEntrant[uiboucle];
         ppARCSOMEntrant[uiboucle] = nullptr;
