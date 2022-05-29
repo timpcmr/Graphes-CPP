@@ -13,7 +13,6 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 Aide/
-Docs/
 enc_temp_folder/
 *.docx
 
