@@ -7,6 +7,12 @@
 
 using namespace std;
 
+/******************************************************************************************************
+**** Entrées :																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Construction d'un objet CGraphe par défaut										   ****
+******************************************************************************************************/
 CGraphe::CGraphe()
 {
 	uiGRANbArcs = 0;
@@ -15,6 +21,12 @@ CGraphe::CGraphe()
 	ppSOMGRAListeSommet = nullptr;
 }
 
+/******************************************************************************************************
+**** Entrées : GRAGraphe : CGraphe&																   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Construction d'un objet CGraphe par recopie de GRAGraphe						   ****
+******************************************************************************************************/
 CGraphe::CGraphe(const CGraphe& GRAGraphe)
 {
 	unsigned int uiboucle;
@@ -30,6 +42,12 @@ CGraphe::CGraphe(const CGraphe& GRAGraphe)
 	}
 }
 
+/******************************************************************************************************
+**** Entrées :																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Destruction de l'objet CGraphe													   ****
+******************************************************************************************************/
 CGraphe::~CGraphe()
 {
 	unsigned int uiboucle;
@@ -46,26 +64,56 @@ CGraphe::~CGraphe()
 	
 }
 
+/******************************************************************************************************
+**** Entrées :																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties : ppSOMGRAListeSommet : CSommet**													   ****
+**** Entraîne : Renvoie la liste des sommets de l'objet CGraphe									   ****
+******************************************************************************************************/
 const CSommet* const* CGraphe::GRALireSommets() const
 {
 	return ppSOMGRAListeSommet;
 }
 
+/******************************************************************************************************
+**** Entrées :																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties : uiGRANbSommet : unsigned int														   ****
+**** Entraîne : Renvoie le nombre de sommet de l'objet CGraphe									   ****
+******************************************************************************************************/
 unsigned int CGraphe::GRALireNbSommet() const
 {
 	return uiGRANbSommet;
 }
 
+/******************************************************************************************************
+**** Entrées :																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties : uiGRANbArcs : unsigned int														   ****
+**** Entraîne : Renvoie le nombre d'arcs de l'objet CGraphe										   ****
+******************************************************************************************************/
 unsigned int CGraphe::GRALireNbArcs() const
 {
 	return uiGRANbArcs;
 }
 
+/******************************************************************************************************
+**** Entrées :																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties : bGRAOriente : bool																   ****
+**** Entraîne : Renvoie le type de l'objet CGraphe (1 si oriente, 0 si non-oriente)				   ****
+******************************************************************************************************/
 bool CGraphe::GRALireType() const
 {
 	return bGRAOriente;
 }
 
+/******************************************************************************************************
+**** Entrées : pSomDepart : CSommet*, pSOMArrivee : CSommet*									   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Crée un arc partant du sommet pSOMDepart allant vers le sommet pSOMArrivee		   ****
+******************************************************************************************************/
 void CGraphe::GRAAjouterArc(CSommet* pSOMDepart, CSommet* pSOMArrivee)
 {
 	if (pSOMDepart == nullptr || pSOMArrivee == nullptr) {
@@ -91,6 +139,12 @@ void CGraphe::GRAAjouterArc(CSommet* pSOMDepart, CSommet* pSOMArrivee)
 	uiGRANbArcs++;
 }
 
+/*****************************************************************************************************************
+**** Entrées : iDepart : int, iArrivee : int															      ****
+**** Nécessite :																		  				      ****
+**** Sorties :																								  ****
+**** Entraîne : Crée un arc partant du sommet ayant le numero iDepart vers le sommet ayant le numéro iArrivee ****
+*****************************************************************************************************************/
 void CGraphe::GRAAjouterArc(int iDepart, int iArrivee)
 {
 	//Création d'arcs entre les deux sommets sur base du nuéro de sommet à relier
@@ -121,6 +175,12 @@ void CGraphe::GRAAjouterArc(int iDepart, int iArrivee)
 	uiGRANbArcs++;
 }
 
+/*********************************************************************************************************
+**** Entrées : iDepart : int, iArrivee : int														  ****
+**** Nécessite :																		  			  ****
+**** Sorties :																						  ****
+**** Entraîne : Supprime l'arc partant du sommet numéro iDepart allant vers le sommet numéro iArrivee ****
+*********************************************************************************************************/
 void CGraphe::GRASupprimerArc(int iDepart, int iArrivee)
 {
 	CSommet* pSOMDepart = nullptr, * pSOMArrivee = nullptr;
@@ -153,6 +213,12 @@ void CGraphe::GRASupprimerArc(int iDepart, int iArrivee)
 	uiGRANbArcs--;
 }
 
+/******************************************************************************************************
+**** Entrées : SOMSommet CSommet&																   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Ajoute le sommet SOMSommet au graphe											   ****
+******************************************************************************************************/
 void CGraphe::GRAAjouterSommet(CSommet& SOMSommet)
 {
 	int iNum;
@@ -192,6 +258,12 @@ void CGraphe::GRAAjouterSommet(CSommet& SOMSommet)
 	uiGRANbSommet++;
 }
 
+/******************************************************************************************************
+**** Entrées : iNum : int																		   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Ajoute le sommet numero iNum au graphe											   ****
+******************************************************************************************************/
 void CGraphe::GRAAjouterSommet(int iNum)
 {
 	unsigned int uiBoucle;
@@ -232,6 +304,12 @@ void CGraphe::GRAAjouterSommet(int iNum)
 	uiGRANbSommet++;
 }
 
+/******************************************************************************************************
+**** Entrées : pSOMParam : CSommet*																   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Supprime le sommet pSOMParam du graphe											   ****
+******************************************************************************************************/
 void CGraphe::GRASupprimerSommet(CSommet* pSOMParam)
 {
 	unsigned int uiboucle, uiSommetTrouve = 0;
@@ -327,6 +405,12 @@ void CGraphe::GRASupprimerSommet(CSommet* pSOMParam)
 
 }
 
+/******************************************************************************************************
+**** Entrées : pSOMParam : CSommet*, iNum : int													   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Modifie le numéro du sommet pSOMParam par le numero iNum						   ****
+******************************************************************************************************/
 void CGraphe::GRAModifierNumSommet(CSommet* pSOMParam, int iNum)
 {
 	if (pSOMParam == nullptr) {
@@ -339,12 +423,23 @@ void CGraphe::GRAModifierNumSommet(CSommet* pSOMParam, int iNum)
 
 }
 
+/******************************************************************************************************
+**** Entrées : bParam : bool																	   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Modifie le type du graphe (0 = non-orienté, 1 = orienté)						   ****
+******************************************************************************************************/
 void CGraphe::GRAModifierType(bool bParam)
 {
 	bGRAOriente = bParam;
 }
 
-
+/*************************************************************************************************************
+**** Entrées : iVal : int																				  ****
+**** Nécessite :																		  				  ****
+**** Sorties : CSommet*																					  ****
+**** Entraîne : Renvoie un pointeur sur le sommet numéro iVal s'il existe, renvoie un pointeur null sinon ****
+*************************************************************************************************************/
 CSommet* CGraphe::GRARechercheSommet(int iVal) const
 {
 	unsigned int uiboucle;
@@ -356,6 +451,12 @@ CSommet* CGraphe::GRARechercheSommet(int iVal) const
 	return nullptr;
 }
 
+/******************************************************************************************************
+**** Entrées : iSommet : int																	   ****
+**** Nécessite :																		  	       ****
+**** Sorties : int																				   ****
+**** Entraîne : Renvoie la position du sommet numéro iSommet s'il existe, -1 sinon				   ****
+******************************************************************************************************/
 int CGraphe::GRARechercheIndexSommet(int iSommet) const
 {
 	unsigned int uiboucle;
@@ -368,6 +469,12 @@ int CGraphe::GRARechercheIndexSommet(int iSommet) const
 	return -1;
 }
 
+/******************************************************************************************************
+**** Entrées : iVal	: int																		   ****
+**** Nécessite :																		  	       ****
+**** Sorties : bool																				   ****
+**** Entraîne : Renvoie true si le sommet numéro iVal n'existe pas, false sinon					   ****
+******************************************************************************************************/
 bool CGraphe::GRANumeroSommetUnique(int iVal)
 {
 	unsigned int uiboucle;
@@ -380,6 +487,12 @@ bool CGraphe::GRANumeroSommetUnique(int iVal)
 	return true;
 }
 
+/******************************************************************************************************
+**** Entrées :																					   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : Fonction d'affichage du graphe													   ****
+******************************************************************************************************/
 void CGraphe::GRAAffichage() const
 {
 	if (ppSOMGRAListeSommet == nullptr) {
@@ -427,15 +540,21 @@ void CGraphe::GRAAffichage() const
 	}
 }
 
-CGraphe& CGraphe::operator=(const CGraphe &GRAparam)
+/******************************************************************************************************
+**** Entrées : GRAParam : CGraphe&																   ****
+**** Nécessite :																		  	       ****
+**** Sorties :																					   ****
+**** Entraîne : La copie de l'objet CGraphe en paramètre										   ****
+******************************************************************************************************/
+CGraphe& CGraphe::operator=(const CGraphe &GRAParam)
 {
 	unsigned int uiboucle;
-	bGRAOriente = GRAparam.GRALireType();
+	bGRAOriente = GRAParam.GRALireType();
 
 	//Copie par duplication des objets
-	CSommet** ppSOMGRAListeSommetTMP = new CSommet * [GRAparam.GRALireNbSommet()];
-	for (uiboucle = 0; uiboucle < GRAparam.GRALireNbSommet(); uiboucle++) {
-		ppSOMGRAListeSommetTMP[uiboucle] = new CSommet(*GRAparam.GRALireSommets()[uiboucle]);
+	CSommet** ppSOMGRAListeSommetTMP = new CSommet * [GRAParam.GRALireNbSommet()];
+	for (uiboucle = 0; uiboucle < GRAParam.GRALireNbSommet(); uiboucle++) {
+		ppSOMGRAListeSommetTMP[uiboucle] = new CSommet(*GRAParam.GRALireSommets()[uiboucle]);
 	}
 
 	for (uiboucle = 0; uiboucle < uiGRANbSommet; uiboucle++) {
@@ -444,8 +563,8 @@ CGraphe& CGraphe::operator=(const CGraphe &GRAparam)
 	}
 	delete[] ppSOMGRAListeSommet;
 
-	uiGRANbArcs = GRAparam.GRALireNbArcs();
-	uiGRANbSommet = GRAparam.GRALireNbSommet();
+	uiGRANbArcs = GRAParam.GRALireNbArcs();
+	uiGRANbSommet = GRAParam.GRALireNbSommet();
 
 	ppSOMGRAListeSommet = ppSOMGRAListeSommetTMP;
 

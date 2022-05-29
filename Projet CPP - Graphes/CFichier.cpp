@@ -107,6 +107,12 @@ unsigned int CFichier::FICLireChiffre(char* pcTag)
 	return uiValeurRetournee;
 }
 
+/******************************************************************************************************
+**** Entrées : uiNbLignes : unsigned int, pcTag1 : char*, pcTag2 : char*						   ****
+**** Nécessite :																		  	       ****
+**** Sorties :	puiValeursRetour : unsigned int*												   ****
+**** Entraîne : Parse les éléments d'une ligne (1 seul élément sur la ligne)					   ****
+******************************************************************************************************/
 unsigned int* CFichier::FICLireTabSansVirgule(const unsigned int uiNbLignes, char* pcTag1, char* pcTag2)
 {
 	char* pcLigne = new char[STR_LENGTH];
@@ -166,6 +172,12 @@ unsigned int* CFichier::FICLireTabSansVirgule(const unsigned int uiNbLignes, cha
 	return puiValeursRetour;
 }
 
+/*************************************************************************************************************
+**** Entrées : uiNbLignes : unsigned int, pcTag1 : char*, pcTag2 : char*, pcTag3 : char*				  ****
+**** Nécessite :																		  				  ****
+**** Sorties :	ppuiValeursRetour : unsigned int**														  ****
+**** Entraîne : Parse les éléments d'une ligne (plusieurs éléments sur la ligne séparés par des virgules) ****
+*************************************************************************************************************/
 unsigned int** CFichier::FICLireTabAvecVirgule(const unsigned int uiNbLignes, char* pcTag1, char* pcTag2, char* pcTag3)
 {
 	unsigned int uiBoucle1;
@@ -340,6 +352,12 @@ void CFichier::FICSupp_char(char* pcChaine, const char cCaractere)
 	pcChaine[uiboucle1] = '\0';
 }
 
+/******************************************************************************************************************
+**** Entrées : pcToken : char*, pcNomBalise : char*															   ****
+**** Nécessite :																		  					   ****
+**** Sorties : bool																							   ****
+**** Entraîne : Renvoie true si pcToken = pcNomBalise, false sinon											   ****
+******************************************************************************************************************/
 bool CFichier::FICVerifBalise(char* pcToken,const char* pcNomBalise)
 {
 	if (strcmp(FICMinuscule(pcToken), pcNomBalise) != 0) {

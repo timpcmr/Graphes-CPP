@@ -76,11 +76,22 @@ public:
 	******************************************************************************************************/
 	unsigned int FICLireChiffre(char* pcTag);
 
-
-
+	/******************************************************************************************************
+	**** Entrées : uiNbLignes : unsigned int, pcTag1 : char*, pcTag2 : char*						   ****
+	**** Nécessite :																		  	       ****
+	**** Sorties :	puiValeursRetour : unsigned int*												   ****
+	**** Entraîne : Parse les éléments d'une ligne (1 seul élément sur la ligne)					   ****
+	******************************************************************************************************/
 	unsigned int* FICLireTabSansVirgule(const unsigned int uiNbLignes, char* pcTag1, char* pcTag2);
 
+	/*************************************************************************************************************
+	**** Entrées : uiNbLignes : unsigned int, pcTag1 : char*, pcTag2 : char*, pcTag3 : char*				  ****
+	**** Nécessite :																		  				  ****
+	**** Sorties :	ppuiValeursRetour : unsigned int**														  ****
+	**** Entraîne : Parse les éléments d'une ligne (plusieurs éléments sur la ligne séparés par des virgules) ****
+	*************************************************************************************************************/
 	unsigned int** FICLireTabAvecVirgule(const unsigned int uiNbLignes, char* pcTag1, char* pcTag2, char* pcTag3);
+
 	/***********************************************************************************************************************
 	**** Entrées : char* pcChaine, ifstream& fichier																    ****
 	**** Nécessite : Un fichier ouvert et une chaine non nulle								  							****
@@ -107,7 +118,12 @@ public:
 	******************************************************************************************************************/
 	void FICSupp_char(char* pcChaine, const char cCaractere);
 
-
+	/******************************************************************************************************************
+	**** Entrées : pcToken : char*, pcNomBalise : char*															   ****
+	**** Nécessite :																		  					   ****
+	**** Sorties : bool																							   ****
+	**** Entraîne : Renvoie true si pcToken = pcNomBalise, false sinon											   ****
+	******************************************************************************************************************/
 	bool FICVerifBalise(char* pcToken, const char* pcNomBalise);
 };
 
