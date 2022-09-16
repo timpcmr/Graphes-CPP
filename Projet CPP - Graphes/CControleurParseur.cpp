@@ -2,10 +2,10 @@
 
 
 /******************************************************************************************************
-**** Entrées :																					   ****
-**** Nécessite :																		  	       ****
+**** Entrï¿½es :																					   ****
+**** Nï¿½cessite :																		  	       ****
 **** Sorties :	CControleurParseur																   ****
-**** Entraîne : La construction d'un objet CControleurParseur par défaut						   ****
+**** Entraï¿½ne : La construction d'un objet CControleurParseur par dï¿½faut						   ****
 ******************************************************************************************************/
 CControleurParseur::CControleurParseur()
 {
@@ -14,10 +14,10 @@ CControleurParseur::CControleurParseur()
 }
 
 /***********************************************************************************************************************
-**** Entrées : pcChemin : char*																						****
-**** Nécessite :																		  							****
+**** Entrï¿½es : pcChemin : char*																						****
+**** Nï¿½cessite :																		  							****
 **** Sorties :	CControleurParseur																					****
-**** Entraîne : La construction d'un objet CControleurParseur possédant un chemin d'accès à un fichier de lecture	****
+**** Entraï¿½ne : La construction d'un objet CControleurParseur possï¿½dant un chemin d'accï¿½s ï¿½ un fichier de lecture	****
 ***********************************************************************************************************************/
 CControleurParseur::CControleurParseur(char* pcChemin)
 {
@@ -26,10 +26,10 @@ CControleurParseur::CControleurParseur(char* pcChemin)
 }
 
 /******************************************************************************************************
-**** Entrées :																					   ****
-**** Nécessite :																		  	       ****
+**** Entrï¿½es :																					   ****
+**** Nï¿½cessite :																		  	       ****
 **** Sorties :																					   ****
-**** Entraîne : La destruction de l'objet CControleurParseur									   ****
+**** Entraï¿½ne : La destruction de l'objet CControleurParseur									   ****
 ******************************************************************************************************/
 CControleurParseur::~CControleurParseur()
 {
@@ -39,10 +39,10 @@ CControleurParseur::~CControleurParseur()
 }
 
 /******************************************************************************************************
-**** Entrées :																					   ****
-**** Nécessite :																		  	       ****
+**** Entrï¿½es :																					   ****
+**** Nï¿½cessite :																		  	       ****
 **** Sorties :	pcConChemin : char*																   ****
-**** Entraîne : Renvoie le chemin d'accès au fichier de lecture									   ****
+**** Entraï¿½ne : Renvoie le chemin d'accï¿½s au fichier de lecture									   ****
 ******************************************************************************************************/
 char* CControleurParseur::CONLireChemin()
 {
@@ -50,10 +50,10 @@ char* CControleurParseur::CONLireChemin()
 }
 
 /******************************************************************************************************
-**** Entrées : pcChemin : char*																	   ****
-**** Nécessite :																		  	       ****
+**** Entrï¿½es : pcChemin : char*																	   ****
+**** Nï¿½cessite :																		  	       ****
 **** Sorties :																					   ****
-**** Entraîne : Modifie le chemin d'accès au fichier de lecture									   ****
+**** Entraï¿½ne : Modifie le chemin d'accï¿½s au fichier de lecture									   ****
 ******************************************************************************************************/
 void CControleurParseur::CONModifierChemin(char* pcChemin)
 {
@@ -61,10 +61,10 @@ void CControleurParseur::CONModifierChemin(char* pcChemin)
 }
 
 /******************************************************************************************************
-**** Entrées :																					   ****
-**** Nécessite :																		  	       ****
+**** Entrï¿½es :																					   ****
+**** Nï¿½cessite :																		  	       ****
 **** Sorties :	pcConChemin : char*																   ****
-**** Entraîne : Renvoie le chemin d'accès au fichier de lecture									   ****
+**** Entraï¿½ne : Renvoie le chemin d'accï¿½s au fichier de lecture									   ****
 ******************************************************************************************************/
 CGraphe* CControleurParseur::CONLireGraphe()
 {
@@ -72,10 +72,10 @@ CGraphe* CControleurParseur::CONLireGraphe()
 }
 
 /******************************************************************************************************
-**** Entrées :																					   ****
-**** Nécessite :																		  	       ****
+**** Entrï¿½es :																					   ****
+**** Nï¿½cessite :																		  	       ****
 **** Sorties :																					   ****
-**** Entraîne : Lis le fichier de lecture														   ****
+**** Entraï¿½ne : Lis le fichier de lecture														   ****
 ******************************************************************************************************/
 void CControleurParseur::CONLireFichierGraphe()
 {
@@ -90,7 +90,7 @@ void CControleurParseur::CONLireFichierGraphe()
 	int* piSommets = nullptr;
 	int** ppiArcs = nullptr;
 
-	//Récupération du nombre d'arcs
+	//Rï¿½cupï¿½ration du nombre d'arcs
 	try {
 		uiNbArcs = FICParseur.FICLireChiffre((char*)"nbarcs");
 	}
@@ -126,7 +126,7 @@ void CControleurParseur::CONLireFichierGraphe()
 		throw CException(EXCArretProgramme);
 	}
 	
-	//Récupération du nombre de sommets
+	//Rï¿½cupï¿½ration du nombre de sommets
 	try {
 		uiNbSommets = FICParseur.FICLireChiffre((char*)"nbsommets");
 	}
@@ -161,7 +161,7 @@ void CControleurParseur::CONLireFichierGraphe()
 		throw CException(EXCArretProgramme);
 	}
 
-	//Récupération des sommets
+	//Rï¿½cupï¿½ration des sommets
 	try
 	{
 		piSommets = FICParseur.FICLireTabSansVirgule(uiNbSommets, (char*)"sommets", (char*)"numero");
@@ -197,9 +197,9 @@ void CControleurParseur::CONLireFichierGraphe()
 		throw CException(EXCArretProgramme);
 	}
 	
-	//Récupération des arcs
+	//Rï¿½cupï¿½ration des arcs
 	try {
-		ppiArcs = FICParseur.FICLireTabAvecVirgule(uiNbSommets, (char*)"arcs", (char*)"debut", (char*)"fin");
+		ppiArcs = FICParseur.FICLireTabAvecVirgule(uiNbArcs, (char*)"arcs", (char*)"debut", (char*)"fin");
 	}
 	catch (CException EXCException)
 	{
@@ -251,7 +251,7 @@ void CControleurParseur::CONLireFichierGraphe()
 		}
 	}
 	
-	//Libération de la mémoire
+	//Libï¿½ration de la mï¿½moire
 	delete[] piSommets;
 	for (uiBoucle = 0; uiBoucle < uiNbArcs; uiBoucle++) {
 		delete[] ppiArcs[uiBoucle];
